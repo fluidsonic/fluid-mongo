@@ -1,0 +1,14 @@
+/.gradle
+/.idea/*
+!/.idea/codeStyles
+!/.idea/encodings.xml
+!/.idea/gradle.xml
+!/.idea/inspectionProfiles
+!/.idea/kotlinc.xml
+!/.idea/misc.xml
+!/.idea/runConfigurations
+!/.idea/saveactions_settings.xml
+!/.idea/vcs.xml
+/build
+/out
+.DS_Store
