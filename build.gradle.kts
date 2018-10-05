@@ -4,9 +4,9 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
-description = "TBD"
+description = "Kotlin coroutine support for MongoDB built on top of the official MongoDB Asynchronous Java Driver"
 group = "com.github.fluidsonic"
-version = "0.9.0"
+version = "0.9.1"
 
 
 plugins {

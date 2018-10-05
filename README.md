@@ -16,7 +16,7 @@ This library is [available in Maven Central](https://search.maven.org/#search%7C
 `build.gradle.kts`:
 ```kotlin
 dependencies {
-    implementation("com.github.fluidsonic:fluid-mongo:0.9.0")
+    implementation("com.github.fluidsonic:fluid-mongo:0.9.1")
 }
 ```
 
