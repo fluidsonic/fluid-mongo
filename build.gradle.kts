@@ -6,11 +6,11 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 description = "Kotlin coroutine support for MongoDB built on top of the official MongoDB Asynchronous Java Driver"
 group = "com.github.fluidsonic"
-version = "0.9.1"
+version = "0.9.2"
 
 
 plugins {
-	kotlin("jvm") version "1.3.0-rc-131"
+	kotlin("jvm") version "1.3.0"
 	`java-library`
 	maven
 	`maven-publish`
@@ -40,10 +40,11 @@ tasks {
 }
 
 dependencies {
+	api(kotlin("stdlib-jdk8"))
+
 	implementation("org.mongodb:mongodb-driver-async:3.8.2")
 
-	api(kotlin("stdlib"))
-	api("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.30.1-eap13")
+	api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.0")
 	api("org.mongodb:mongodb-driver-core:3.8.2")
 }
 
@@ -56,7 +57,6 @@ configurations {
 }
 
 repositories {
-	maven("http://dl.bintray.com/kotlin/kotlin-eap")
 	mavenCentral()
 	jcenter()
 }
@@ -96,7 +96,7 @@ if (ossrhUserName != null && ossrhPassword != null) {
 	}
 
 	signing {
-		sign(configurations.archives)
+		sign(configurations.archives.get())
 	}
 
 	tasks {

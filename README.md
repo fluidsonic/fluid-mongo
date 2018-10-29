@@ -1,7 +1,7 @@
 fluid-mongo
 ===========
 
-[![Kotlin 1.3.0-rc-131](https://img.shields.io/badge/Kotlin-1.3.0--rc--131-blue.svg)](http://kotlinlang.org)
+[![Kotlin 1.3.0](https://img.shields.io/badge/Kotlin-1.3.0-blue.svg)](http://kotlinlang.org)
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.fluidsonic/fluid-mongo.svg)](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.github.fluidsonic%22%20a%3A%22fluid-mongo%22)
 [![#fluid-mongo Slack Channel](https://img.shields.io/badge/slack-%23fluid--mongo-543951.svg)](https://kotlinlang.slack.com/messages/CD93D0KBR/)
 [![Awesome Kotlin](https://kotlin.link/awesome-kotlin.svg)](https://github.com/KotlinBy/awesome-kotlin)
@@ -18,7 +18,7 @@ This library is [available in Maven Central](https://search.maven.org/#search%7C
 `build.gradle.kts`:
 ```kotlin
 dependencies {
-    implementation("com.github.fluidsonic:fluid-mongo:0.9.1")
+    implementation("com.github.fluidsonic:fluid-mongo:0.9.2")
 }
 ```
 
