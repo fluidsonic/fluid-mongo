@@ -1,10 +1,8 @@
 pluginManagement {
 	repositories {
 		gradlePluginPortal()
-		mavenCentral()
+		maven("https://dl.bintray.com/fluidsonic/maven")
 	}
 }
 
 rootProject.name = "fluid-mongo"
-
-enableFeaturePreview("STABLE_PUBLISHING")
