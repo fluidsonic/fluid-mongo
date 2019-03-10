@@ -1,7 +1,7 @@
 import com.github.fluidsonic.fluid.library.*
 
 plugins {
-	id("com.github.fluidsonic.fluid-library") version "0.9.0"
+	id("com.github.fluidsonic.fluid-library") version "0.9.3"
 }
 
 fluidLibrary {
@@ -23,5 +23,5 @@ dependencies {
 
 
 @Suppress("unused")
-fun DependencyHandler.mongodb(name: String, version: String = "3.9.1") =
+fun DependencyHandler.mongodb(name: String, version: String = "3.10.1") =
 	"org.mongodb:mongodb-$name:$version"
