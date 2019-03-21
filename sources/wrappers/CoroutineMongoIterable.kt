@@ -18,20 +18,14 @@ package com.github.fluidsonic.fluid.mongo
 
 import com.mongodb.async.AsyncBatchCursor
 import com.mongodb.async.SingleResultCallback
-import kotlinx.coroutines.channels.ReceiveChannel
 
 
 internal open class CoroutineMongoIterable<out TResult>(
 	override val async: com.mongodb.async.client.MongoIterable<out TResult>
-) : MongoIterable<TResult>, ReceiveChannel<TResult> by async.toReceiveChannel() {
+) : MongoIterable<TResult> {
 
 	override val batchSize: Int?
 		get() = async.batchSize
-
-
-	@Suppress("UNCHECKED_CAST")
-	override suspend fun first(): TResult? =
-		withCallback<TResult> { (async as com.mongodb.async.client.MongoIterable<TResult>).first(it) }
 
 
 	override fun batchSize(batchSize: Int): MongoIterable<TResult> {

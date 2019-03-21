@@ -16,11 +16,7 @@
 
 package com.github.fluidsonic.fluid.mongo
 
-import com.mongodb.async.AsyncBatchCursor
 import com.mongodb.async.SingleResultCallback
-import com.mongodb.async.client.MongoIterable
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.channels.produce
 import kotlin.coroutines.suspendCoroutine
 
 
@@ -32,16 +28,4 @@ internal suspend inline fun <T> withCallback(crossinline callback: (SingleResult
 				else Result.success(result)
 			)
 		})
-	}
-
-
-internal fun <TResult> MongoIterable<TResult>.toReceiveChannel() =
-	GlobalScope.produce {
-		val cursor = withCallback<AsyncBatchCursor<TResult>?> { batchCursor(it) } ?: return@produce
-		while (true) {
-			val elements = withCallback<List<TResult>?> { cursor.next(it) } ?: break
-			for (element in elements) {
-				send(element)
-			}
-		}
 	}

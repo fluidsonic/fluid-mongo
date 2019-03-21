@@ -17,7 +17,11 @@
 package com.github.fluidsonic.fluid.mongo
 
 import com.mongodb.async.AsyncBatchCursor
-import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.channels.produce
+import kotlinx.coroutines.channels.toMutableList
+import kotlinx.coroutines.channels.toMutableSet
 
 /**
  * Operations that allow asynchronous iteration over a collection view.
@@ -25,7 +29,7 @@ import kotlinx.coroutines.channels.ReceiveChannel
  * @param <TResult> the result type
  * @since 3.0
  */
-interface MongoIterable<out TResult> : ReceiveChannel<TResult> {
+interface MongoIterable<out TResult> {
 
 	/**
 	 * The underlying object from the async driver.
@@ -42,12 +46,6 @@ interface MongoIterable<out TResult> : ReceiveChannel<TResult> {
 	val batchSize: Int?
 
 	/**
-	 * Helper to return the first item in the iterator or null.
-	 *
-	 */
-	suspend fun first(): TResult?
-
-	/**
 	 * Sets the number of documents to return per batch.
 	 *
 	 * @param batchSize the batch size
@@ -61,3 +59,46 @@ interface MongoIterable<out TResult> : ReceiveChannel<TResult> {
 	 */
 	suspend fun batchCursor(): AsyncBatchCursor<out TResult>
 }
+
+
+/**
+ * Helper to return the first item in the iterator or null.
+ */
+suspend fun <TResult> MongoIterable<TResult>.firstOrNull(): TResult? {
+	@Suppress("UNCHECKED_CAST") // I'll never fully understand variance…
+	val async = async as com.mongodb.async.client.MongoIterable<TResult>
+
+	return withCallback(async::first)
+}
+
+
+fun <TResult> MongoIterable<TResult>.produce(scope: CoroutineScope = GlobalScope) =
+	scope.produce {
+		@Suppress("UNCHECKED_CAST") // I'll never fully understand variance…
+		val async = async as com.mongodb.async.client.MongoIterable<TResult>
+
+		// TODO calling batchCursor here may cause a race condition if the async iterable is modified before this coroutine is started
+		val cursor = withCallback<AsyncBatchCursor<TResult>?>(async::batchCursor) ?: return@produce
+		while (true) {
+			val elements = withCallback<List<TResult>?>(cursor::next) ?: break
+			for (element in elements) {
+				send(element)
+			}
+		}
+	}
+
+
+suspend fun <TResult> MongoIterable<TResult>.toList(): List<TResult> =
+	toMutableList()
+
+
+suspend fun <TResult> MongoIterable<TResult>.toMutableList(): MutableList<TResult> =
+	produce().toMutableList()
+
+
+suspend fun <TResult> MongoIterable<TResult>.toSet(): Set<TResult> =
+	toMutableSet()
+
+
+suspend fun <TResult> MongoIterable<TResult>.toMutableSet(): MutableSet<TResult> =
+	produce().toMutableSet()
