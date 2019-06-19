@@ -1,15 +1,15 @@
 import com.github.fluidsonic.fluid.library.*
 
 plugins {
-	id("com.github.fluidsonic.fluid-library") version "0.9.3"
+	id("com.github.fluidsonic.fluid-library") version "0.9.19"
 }
 
-fluidLibrary {
+fluidJvmLibrary {
 	name = "fluid-mongo"
 	version = "0.9.5"
 }
 
-fluidLibraryVariant {
+fluidJvmLibraryVariant {
 	description = "Kotlin coroutine support for MongoDB built on top of the official MongoDB Asynchronous Java Driver"
 	jdk = JDK.v1_8
 }
@@ -17,11 +17,11 @@ fluidLibraryVariant {
 dependencies {
 	implementation(mongodb("driver-async"))
 
-	api(kotlinx("coroutines-core", "1.1.1"))
+	api(kotlinx("coroutines-core", "1.2.1"))
 	api(mongodb("driver-core"))
 }
 
 
 @Suppress("unused")
-fun DependencyHandler.mongodb(name: String, version: String = "3.10.1") =
+fun DependencyHandler.mongodb(name: String, version: String = "3.10.2") =
 	"org.mongodb:mongodb-$name:$version"

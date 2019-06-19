@@ -1,7 +1,7 @@
 fluid-mongo
 ===========
 
-[![Kotlin 1.3.21](https://img.shields.io/badge/Kotlin-1.3.21-blue.svg)](http://kotlinlang.org)
+[![Kotlin 1.3.40](https://img.shields.io/badge/Kotlin-1.3.40-blue.svg)](http://kotlinlang.org)
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.fluidsonic/fluid-mongo.svg)](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.github.fluidsonic%22%20a%3A%22fluid-mongo%22)
 [![#fluid-libraries Slack Channel](https://img.shields.io/badge/slack-%23fluid--libraries-543951.svg)](https://kotlinlang.slack.com/messages/C7UDFSVT2/)
 [![Awesome Kotlin](https://kotlin.link/awesome-kotlin.svg)](https://github.com/KotlinBy/awesome-kotlin)
