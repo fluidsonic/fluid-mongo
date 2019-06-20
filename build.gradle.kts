@@ -17,7 +17,7 @@ fluidJvmLibraryVariant {
 dependencies {
 	implementation(mongodb("driver-async"))
 
-	api(kotlinx("coroutines-core", "1.2.1"))
+	api(kotlinx("coroutines-core", "1.2.2"))
 	api(mongodb("driver-core"))
 }
 
