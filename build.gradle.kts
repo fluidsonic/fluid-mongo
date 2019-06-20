@@ -6,7 +6,7 @@ plugins {
 
 fluidJvmLibrary {
 	name = "fluid-mongo"
-	version = "0.9.6"
+	version = "0.9.7"
 }
 
 fluidJvmLibraryVariant {
