@@ -1,7 +1,7 @@
 import com.github.fluidsonic.fluid.library.*
 
 plugins {
-	id("com.github.fluidsonic.fluid-library") version "0.9.19"
+	id("com.github.fluidsonic.fluid-library") version "0.9.21"
 }
 
 fluidJvmLibrary {
@@ -11,7 +11,7 @@ fluidJvmLibrary {
 
 fluidJvmLibraryVariant {
 	description = "Kotlin coroutine support for MongoDB built on top of the official MongoDB Asynchronous Java Driver"
-	jdk = JDK.v1_8
+	jdk = JvmTarget.jdk8
 }
 
 dependencies {
