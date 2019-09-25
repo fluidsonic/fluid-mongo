@@ -1,7 +1,7 @@
 import com.github.fluidsonic.fluid.library.*
 
 plugins {
-	id("com.github.fluidsonic.fluid-library") version "0.9.21"
+	id("com.github.fluidsonic.fluid-library") version "0.9.24"
 }
 
 fluidJvmLibrary {
@@ -17,11 +17,11 @@ fluidJvmLibraryVariant {
 dependencies {
 	implementation(mongodb("driver-async"))
 
-	api(kotlinx("coroutines-core", "1.2.2"))
+	api(kotlinx("coroutines-core", "1.3.1"))
 	api(mongodb("driver-core"))
 }
 
 
 @Suppress("unused")
-fun DependencyHandler.mongodb(name: String, version: String = "3.10.2") =
+fun DependencyHandler.mongodb(name: String, version: String = "3.11.0") =
 	"org.mongodb:mongodb-$name:$version"

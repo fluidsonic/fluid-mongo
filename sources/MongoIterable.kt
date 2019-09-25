@@ -81,9 +81,8 @@ fun <TResult> MongoIterable<TResult>.produce(scope: CoroutineScope = GlobalScope
 		val cursor = withCallback<AsyncBatchCursor<TResult>?>(async::batchCursor) ?: return@produce
 		while (true) {
 			val elements = withCallback<List<TResult>?>(cursor::next) ?: break
-			for (element in elements) {
+			for (element in elements)
 				send(element)
-			}
 		}
 	}
 

@@ -17,6 +17,7 @@
 package com.github.fluidsonic.fluid.mongo
 
 import com.mongodb.ClientSessionOptions
+import com.mongodb.ServerAddress
 import com.mongodb.TransactionOptions
 import com.mongodb.session.ServerSession
 import org.bson.BsonDocument
@@ -31,12 +32,30 @@ internal class CoroutineClientSession(
 		get() = async.transactionOptions
 
 
+	override fun getPinnedServerAddress(): ServerAddress? =
+		async.pinnedServerAddress
+
+
+	override fun getRecoveryToken(): BsonDocument? =
+		async.recoveryToken
+
+
 	override fun hasActiveTransaction() =
 		async.hasActiveTransaction()
 
 
 	override fun notifyMessageSent() =
 		async.notifyMessageSent()
+
+
+	override fun setPinnedServerAddress(address: ServerAddress?) {
+		async.pinnedServerAddress = address
+	}
+
+
+	override fun setRecoveryToken(recoveryToken: BsonDocument?) {
+		async.recoveryToken = recoveryToken
+	}
 
 
 	override fun startTransaction() =
