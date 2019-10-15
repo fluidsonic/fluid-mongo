@@ -17,11 +17,11 @@ fluidJvmLibraryVariant {
 dependencies {
 	implementation(mongodb("driver-async"))
 
-	api(kotlinx("coroutines-core", "1.3.1"))
+	api(kotlinx("coroutines-core", "1.3.2"))
 	api(mongodb("driver-core"))
 }
 
 
 @Suppress("unused")
-fun DependencyHandler.mongodb(name: String, version: String = "3.11.0") =
+fun DependencyHandler.mongodb(name: String, version: String = "3.11.1") =
 	"org.mongodb:mongodb-$name:$version"
