@@ -1,7 +1,7 @@
 import io.fluidsonic.gradle.*
 
 plugins {
-	id("io.fluidsonic.gradle") version "1.0.0"
+	id("io.fluidsonic.gradle") version "1.0.2"
 }
 
 fluidJvmLibrary(name = "mongo", version = "0.9.11")
@@ -11,13 +11,13 @@ fluidJvmLibraryVariant(JvmTarget.jdk8) {
 }
 
 dependencies {
-	implementation(mongodb("driver-async"))
+	implementation(mongodb("driver-reactivestreams", "1.12.0"))
 
-	api(kotlinx("coroutines-core", "1.3.2"))
-	api(mongodb("driver-core"))
+	api(kotlinx("coroutines-reactive", "1.3.2"))
+	api(mongodb("driver-core", "3.11.1"))
 }
 
 
 @Suppress("unused")
-fun DependencyHandler.mongodb(name: String, version: String = "3.11.1") =
+fun DependencyHandler.mongodb(name: String, version: String) =
 	"org.mongodb:mongodb-$name:$version"

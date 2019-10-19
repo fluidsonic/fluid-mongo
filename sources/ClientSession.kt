@@ -26,18 +26,6 @@ import com.mongodb.*
 interface ClientSession : com.mongodb.session.ClientSession {
 
 	/**
-	 * The underlying object from the async driver.
-	 */
-	val async: com.mongodb.async.client.ClientSession
-
-	/**
-	 * Gets the transaction options.  Only call this method of the session has an active transaction
-	 *
-	 * @return the transaction options
-	 */
-	val transactionOptions: TransactionOptions?
-
-	/**
 	 * Returns true if there is an active transaction on this session, and false otherwise
 	 *
 	 * @return true if there is an active transaction on this session
@@ -46,13 +34,11 @@ interface ClientSession : com.mongodb.session.ClientSession {
 	fun hasActiveTransaction(): Boolean
 
 	/**
-	 * Notify the client session that a message has been sent.
+	 * Gets the transaction options.  Only call this method of the session has an active transaction
 	 *
-	 * For internal use only
-	 *
-	 * @return true if this is the first message sent, false otherwise
+	 * @return the transaction options
 	 */
-	fun notifyMessageSent(): Boolean
+	val transactionOptions: TransactionOptions?
 
 	/**
 	 * Start a transaction in the context of this session with default transaction options. A transaction can not be started if there is

@@ -17,8 +17,7 @@
 package io.fluidsonic.mongo
 
 import com.mongodb.*
-import com.mongodb.MongoClientSettings
-import com.mongodb.async.client.MongoClients
+import com.mongodb.reactivestreams.client.MongoClients
 import org.bson.codecs.configuration.*
 
 /**

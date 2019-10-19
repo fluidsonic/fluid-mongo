@@ -16,30 +16,16 @@
 
 package io.fluidsonic.mongo
 
-import org.bson.conversions.*
+import kotlinx.coroutines.flow.Flow
 import java.util.concurrent.*
 
 /**
- * Iterable for ListCollections.
+ * Flow for ListIndexes.
  *
  * @param <TResult> The type of the result.
  * @since 3.0
  */
-interface ListCollectionsIterable<out TResult> : MongoIterable<TResult> {
-
-	/**
-	 * The underlying object from the async driver.
-	 */
-	override val async: com.mongodb.async.client.ListCollectionsIterable<out TResult>
-
-	/**
-	 * Sets the query filter to apply to the query.
-	 *
-	 * @param filter the filter, which may be null.
-	 * @return this
-	 * @mongodb.driver.manual reference/method/db.collection.find/ Filter
-	 */
-	fun filter(filter: Bson?): ListCollectionsIterable<TResult>
+interface ListIndexesFlow<out TResult : Any> : Flow<TResult> {
 
 	/**
 	 * Sets the maximum execution time on the server for this operation.
@@ -49,14 +35,26 @@ interface ListCollectionsIterable<out TResult> : MongoIterable<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/operator/meta/maxTimeMS/ Max Time
 	 */
-	fun maxTime(maxTime: Long, timeUnit: TimeUnit): ListCollectionsIterable<TResult>
+	fun maxTime(maxTime: Long, timeUnit: TimeUnit): ListIndexesFlow<TResult>
 
 	/**
 	 * Sets the number of documents to return per batch.
 	 *
+	 * Overrides the [org.reactivestreams.Subscription.request] value for setting the batch size, allowing for fine grained
+	 * control over the underlying cursor.
+	 *
 	 * @param batchSize the batch size
 	 * @return this
+	 * @since 1.8
 	 * @mongodb.driver.manual reference/method/cursor.batchSize/#cursor.batchSize Batch Size
 	 */
-	override fun batchSize(batchSize: Int): ListCollectionsIterable<TResult>
+	fun batchSize(batchSize: Int): ListIndexesFlow<TResult>
+
+	/**
+	 * Helper to return first result.
+	 *
+	 * @return the first result or null
+	 * @since 1.8
+	 */
+	suspend fun firstOrNull(): TResult?
 }

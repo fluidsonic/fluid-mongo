@@ -21,6 +21,7 @@ import com.mongodb.annotations.*
 import com.mongodb.bulk.*
 import com.mongodb.client.model.*
 import com.mongodb.client.result.*
+import kotlinx.coroutines.flow.*
 import org.bson.*
 import org.bson.codecs.configuration.*
 import org.bson.conversions.*
@@ -30,20 +31,11 @@ import org.bson.conversions.*
  *
  * Note: Additions to this interface will not be considered to break binary compatibility.
  *
- * MongoCollection is generic allowing for different types to represent documents. Any custom classes must have a
- * [org.bson.codecs.Codec] registered in the [CodecRegistry]. The default `CodecRegistry` includes built-in support for:
- * [org.bson.BsonDocument] and [Document].
- *
  * @param <TDocument> The type that this collection will encode documents from and decode documents to.
  * @since 3.0
  */
 @ThreadSafe
 interface MongoCollection<TDocument : Any> {
-
-	/**
-	 * The underlying object from the async driver.
-	 */
-	val async: com.mongodb.async.client.MongoCollection<TDocument>
 
 	/**
 	 * Gets the namespace of this collection.
@@ -133,6 +125,21 @@ interface MongoCollection<TDocument : Any> {
 	 * @mongodb.driver.manual reference/readConcern/ Read Concern
 	 */
 	fun withReadConcern(readConcern: ReadConcern): MongoCollection<TDocument>
+
+	/**
+	 * Gets an estimate of the count of documents in a collection using collection metadata.
+	 *
+	 * @since 3.8
+	 */
+	suspend fun estimatedDocumentCount(): Long
+
+	/**
+	 * Gets an estimate of the count of documents in a collection using collection metadata.
+	 *
+	 * @param options the options describing the count
+	 * @since 3.8
+	 */
+	suspend fun estimatedDocumentCount(options: EstimatedDocumentCountOptions): Long
 
 	/**
 	 * Counts the number of documents in the collection.
@@ -273,21 +280,6 @@ interface MongoCollection<TDocument : Any> {
 	suspend fun countDocuments(clientSession: ClientSession, filter: Bson, options: CountOptions): Long
 
 	/**
-	 * Gets an estimate of the count of documents in a collection using collection metadata.
-	 *
-	 * @since 3.8
-	 */
-	suspend fun estimatedDocumentCount(): Long
-
-	/**
-	 * Gets an estimate of the count of documents in a collection using collection metadata.
-	 *
-	 * @param options the options describing the count
-	 * @since 3.8
-	 */
-	suspend fun estimatedDocumentCount(options: EstimatedDocumentCountOptions): Long
-
-	/**
 	 * Gets the distinct values of the specified field name.
 	 *
 	 * @param fieldName   the field name
@@ -296,7 +288,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return an iterable of distinct values
 	 * @mongodb.driver.manual reference/command/distinct/ Distinct
 	 */
-	fun <TResult> distinct(fieldName: String, resultClass: Class<TResult>): DistinctIterable<TResult>
+	fun <TResult : Any> distinct(fieldName: String, resultClass: Class<TResult>): DistinctFlow<TResult>
 
 	/**
 	 * Gets the distinct values of the specified field name.
@@ -308,7 +300,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return an iterable of distinct values
 	 * @mongodb.driver.manual reference/command/distinct/ Distinct
 	 */
-	fun <TResult> distinct(fieldName: String, filter: Bson, resultClass: Class<TResult>): DistinctIterable<TResult>
+	fun <TResult : Any> distinct(fieldName: String, filter: Bson, resultClass: Class<TResult>): DistinctFlow<TResult>
 
 	/**
 	 * Gets the distinct values of the specified field name.
@@ -322,7 +314,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult> distinct(clientSession: ClientSession, fieldName: String, resultClass: Class<TResult>): DistinctIterable<TResult>
+	fun <TResult : Any> distinct(clientSession: ClientSession, fieldName: String, resultClass: Class<TResult>): DistinctFlow<TResult>
 
 	/**
 	 * Gets the distinct values of the specified field name.
@@ -337,7 +329,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult> distinct(clientSession: ClientSession, fieldName: String, filter: Bson, resultClass: Class<TResult>): DistinctIterable<TResult>
+	fun <TResult : Any> distinct(clientSession: ClientSession, fieldName: String, filter: Bson, resultClass: Class<TResult>): DistinctFlow<TResult>
 
 	/**
 	 * Finds all documents in the collection.
@@ -345,7 +337,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return the find iterable interface
 	 * @mongodb.driver.manual tutorial/query-documents/ Find
 	 */
-	fun find(): FindIterable<TDocument>
+	fun find(): FindFlow<TDocument>
 
 	/**
 	 * Finds all documents in the collection.
@@ -355,7 +347,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return the find iterable interface
 	 * @mongodb.driver.manual tutorial/query-documents/ Find
 	 */
-	fun <TResult> find(resultClass: Class<TResult>): FindIterable<TResult>
+	fun <TResult : Any> find(resultClass: Class<TResult>): FindFlow<TResult>
 
 	/**
 	 * Finds all documents in the collection.
@@ -364,7 +356,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return the find iterable interface
 	 * @mongodb.driver.manual tutorial/query-documents/ Find
 	 */
-	fun find(filter: Bson): FindIterable<TDocument>
+	fun find(filter: Bson): FindFlow<TDocument>
 
 	/**
 	 * Finds all documents in the collection.
@@ -375,7 +367,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return the find iterable interface
 	 * @mongodb.driver.manual tutorial/query-documents/ Find
 	 */
-	fun <TResult> find(filter: Bson, resultClass: Class<TResult>): FindIterable<TResult>
+	fun <TResult : Any> find(filter: Bson, resultClass: Class<TResult>): FindFlow<TResult>
 
 	/**
 	 * Finds all documents in the collection.
@@ -386,7 +378,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun find(clientSession: ClientSession): FindIterable<TDocument>
+	fun find(clientSession: ClientSession): FindFlow<TDocument>
 
 	/**
 	 * Finds all documents in the collection.
@@ -399,7 +391,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult> find(clientSession: ClientSession, resultClass: Class<TResult>): FindIterable<TResult>
+	fun <TResult : Any> find(clientSession: ClientSession, resultClass: Class<TResult>): FindFlow<TResult>
 
 	/**
 	 * Finds all documents in the collection.
@@ -411,7 +403,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun find(clientSession: ClientSession, filter: Bson): FindIterable<TDocument>
+	fun find(clientSession: ClientSession, filter: Bson): FindFlow<TDocument>
 
 	/**
 	 * Finds all documents in the collection.
@@ -425,7 +417,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult> find(clientSession: ClientSession, filter: Bson, resultClass: Class<TResult>): FindIterable<TResult>
+	fun <TResult : Any> find(clientSession: ClientSession, filter: Bson, resultClass: Class<TResult>): FindFlow<TResult>
 
 	/**
 	 * Aggregates documents according to the specified aggregation pipeline.  If the pipeline ends with a $out stage, the returned
@@ -436,7 +428,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return an iterable containing the result of the aggregation operation
 	 * @mongodb.driver.manual aggregation/ Aggregation
 	 */
-	fun aggregate(pipeline: List<Bson>): AggregateIterable<TDocument>
+	fun aggregate(pipeline: List<Bson>): AggregateFlow<Document>
 
 	/**
 	 * Aggregates documents according to the specified aggregation pipeline.  If the pipeline ends with a $out stage, the returned
@@ -449,7 +441,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return an iterable containing the result of the aggregation operation
 	 * @mongodb.driver.manual aggregation/ Aggregation
 	 */
-	fun <TResult> aggregate(pipeline: List<Bson>, resultClass: Class<TResult>): AggregateIterable<TResult>
+	fun <TResult : Any> aggregate(pipeline: List<Bson>, resultClass: Class<TResult>): AggregateFlow<TResult>
 
 	/**
 	 * Aggregates documents according to the specified aggregation pipeline.  If the pipeline ends with a $out stage, the returned
@@ -463,7 +455,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun aggregate(clientSession: ClientSession, pipeline: List<Bson>): AggregateIterable<TDocument>
+	fun aggregate(clientSession: ClientSession, pipeline: List<Bson>): AggregateFlow<Document>
 
 	/**
 	 * Aggregates documents according to the specified aggregation pipeline.  If the pipeline ends with a $out stage, the returned
@@ -479,7 +471,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult> aggregate(clientSession: ClientSession, pipeline: List<Bson>, resultClass: Class<TResult>): AggregateIterable<TResult>
+	fun <TResult : Any> aggregate(clientSession: ClientSession, pipeline: List<Bson>, resultClass: Class<TResult>): AggregateFlow<TResult>
 
 	/**
 	 * Creates a change stream for this collection.
@@ -489,7 +481,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun watch(): ChangeStreamIterable<TDocument>
+	fun watch(): ChangeStreamFlow<Document>
 
 	/**
 	 * Creates a change stream for this collection.
@@ -501,7 +493,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult> watch(resultClass: Class<TResult>): ChangeStreamIterable<TResult>
+	fun <TResult : Any> watch(resultClass: Class<TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a change stream for this collection.
@@ -512,7 +504,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun watch(pipeline: List<Bson>): ChangeStreamIterable<TDocument>
+	fun watch(pipeline: List<Bson>): ChangeStreamFlow<Document>
 
 	/**
 	 * Creates a change stream for this collection.
@@ -525,7 +517,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult> watch(pipeline: List<Bson>, resultClass: Class<TResult>): ChangeStreamIterable<TResult>
+	fun <TResult : Any> watch(pipeline: List<Bson>, resultClass: Class<TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a change stream for this collection.
@@ -536,7 +528,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun watch(clientSession: ClientSession): ChangeStreamIterable<TDocument>
+	fun watch(clientSession: ClientSession): ChangeStreamFlow<Document>
 
 	/**
 	 * Creates a change stream for this collection.
@@ -549,7 +541,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult> watch(clientSession: ClientSession, resultClass: Class<TResult>): ChangeStreamIterable<TResult>
+	fun <TResult : Any> watch(clientSession: ClientSession, resultClass: Class<TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a change stream for this collection.
@@ -561,7 +553,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun watch(clientSession: ClientSession, pipeline: List<Bson>): ChangeStreamIterable<TDocument>
+	fun watch(clientSession: ClientSession, pipeline: List<Bson>): ChangeStreamFlow<Document>
 
 	/**
 	 * Creates a change stream for this collection.
@@ -575,7 +567,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult> watch(clientSession: ClientSession, pipeline: List<Bson>, resultClass: Class<TResult>): ChangeStreamIterable<TResult>
+	fun <TResult : Any> watch(clientSession: ClientSession, pipeline: List<Bson>, resultClass: Class<TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Aggregates documents according to the specified map-reduce function.
@@ -585,7 +577,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return an iterable containing the result of the map-reduce operation
 	 * @mongodb.driver.manual reference/command/mapReduce/ map-reduce
 	 */
-	fun mapReduce(mapFunction: String, reduceFunction: String): MapReduceIterable<TDocument>
+	fun mapReduce(mapFunction: String, reduceFunction: String): MapReduceFlow<Document>
 
 	/**
 	 * Aggregates documents according to the specified map-reduce function.
@@ -597,7 +589,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return an iterable containing the result of the map-reduce operation
 	 * @mongodb.driver.manual reference/command/mapReduce/ map-reduce
 	 */
-	fun <TResult> mapReduce(mapFunction: String, reduceFunction: String, resultClass: Class<TResult>): MapReduceIterable<TResult>
+	fun <TResult : Any> mapReduce(mapFunction: String, reduceFunction: String, resultClass: Class<TResult>): MapReduceFlow<TResult>
 
 	/**
 	 * Aggregates documents according to the specified map-reduce function.
@@ -610,7 +602,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun mapReduce(clientSession: ClientSession, mapFunction: String, reduceFunction: String): MapReduceIterable<TDocument>
+	fun mapReduce(clientSession: ClientSession, mapFunction: String, reduceFunction: String): MapReduceFlow<Document>
 
 	/**
 	 * Aggregates documents according to the specified map-reduce function.
@@ -625,8 +617,8 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult> mapReduce(clientSession: ClientSession, mapFunction: String, reduceFunction: String,
-	                        resultClass: Class<TResult>): MapReduceIterable<TResult>
+	fun <TResult : Any> mapReduce(clientSession: ClientSession, mapFunction: String, reduceFunction: String,
+	                              resultClass: Class<TResult>): MapReduceFlow<TResult>
 
 	/**
 	 * Executes a mix of inserts, updates, replaces, and deletes.
@@ -1289,7 +1281,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @mongodb.driver.manual reference/command/createIndexes Create indexes
 	 * @mongodb.server.release 2.6
 	 */
-	suspend fun createIndexes(indexes: List<IndexModel>): List<String>
+	suspend fun createIndexes(indexes: List<IndexModel>): Flow<String>
 
 	/**
 	 * Create multiple indexes.
@@ -1300,7 +1292,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @mongodb.driver.manual reference/command/createIndexes Create indexes
 	 * @since 3.6
 	 */
-	suspend fun createIndexes(indexes: List<IndexModel>, createIndexOptions: CreateIndexOptions): List<String>
+	suspend fun createIndexes(indexes: List<IndexModel>, createIndexOptions: CreateIndexOptions): Flow<String>
 
 	/**
 	 * Create multiple indexes.
@@ -1312,7 +1304,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun createIndexes(clientSession: ClientSession, indexes: List<IndexModel>): List<String>
+	suspend fun createIndexes(clientSession: ClientSession, indexes: List<IndexModel>): Flow<String>
 
 	/**
 	 * Create multiple indexes.
@@ -1325,7 +1317,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun createIndexes(clientSession: ClientSession, indexes: List<IndexModel>, createIndexOptions: CreateIndexOptions): List<String>
+	suspend fun createIndexes(clientSession: ClientSession, indexes: List<IndexModel>, createIndexOptions: CreateIndexOptions): Flow<String>
 
 	/**
 	 * Get all the indexes in this collection.
@@ -1333,7 +1325,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return the list indexes iterable interface
 	 * @mongodb.driver.manual reference/command/listIndexes/ List indexes
 	 */
-	fun listIndexes(): ListIndexesIterable<Document>
+	fun listIndexes(): ListIndexesFlow<Document>
 
 	/**
 	 * Get all the indexes in this collection.
@@ -1343,7 +1335,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return the list indexes iterable interface
 	 * @mongodb.driver.manual reference/command/listIndexes/ List indexes
 	 */
-	fun <TResult> listIndexes(resultClass: Class<TResult>): ListIndexesIterable<TResult>
+	fun <TResult : Any> listIndexes(resultClass: Class<TResult>): ListIndexesFlow<TResult>
 
 	/**
 	 * Get all the indexes in this collection.
@@ -1354,7 +1346,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun listIndexes(clientSession: ClientSession): ListIndexesIterable<Document>
+	fun listIndexes(clientSession: ClientSession): ListIndexesFlow<Document>
 
 	/**
 	 * Get all the indexes in this collection.
@@ -1367,7 +1359,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult> listIndexes(clientSession: ClientSession, resultClass: Class<TResult>): ListIndexesIterable<TResult>
+	fun <TResult : Any> listIndexes(clientSession: ClientSession, resultClass: Class<TResult>): ListIndexesFlow<TResult>
 
 	/**
 	 * Drops the index given its name.

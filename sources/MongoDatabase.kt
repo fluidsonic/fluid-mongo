@@ -19,6 +19,7 @@ package io.fluidsonic.mongo
 import com.mongodb.*
 import com.mongodb.annotations.*
 import com.mongodb.client.model.*
+import kotlinx.coroutines.flow.*
 import org.bson.*
 import org.bson.codecs.configuration.*
 import org.bson.conversions.*
@@ -32,11 +33,6 @@ import org.bson.conversions.*
  */
 @ThreadSafe
 interface MongoDatabase {
-
-	/**
-	 * The underlying object from the async driver.
-	 */
-	val async: com.mongodb.async.client.MongoDatabase
 
 	/**
 	 * Gets the name of the database.
@@ -153,7 +149,7 @@ interface MongoDatabase {
 	 * @param resultClass the default class to cast any documents returned from the database into.
 	 * @param <TResult>   the type of the class to use instead of `Document`.
 	 */
-	suspend fun <TResult> runCommand(command: Bson, resultClass: Class<TResult>): TResult
+	suspend fun <TResult : Any> runCommand(command: Bson, resultClass: Class<TResult>): TResult
 
 	/**
 	 * Executes the given command in the context of the current database with the given read preference.
@@ -163,7 +159,7 @@ interface MongoDatabase {
 	 * @param resultClass    the default class to cast any documents returned from the database into.
 	 * @param <TResult>      the type of the class to use instead of `Document`.
 	 */
-	suspend fun <TResult> runCommand(command: Bson, readPreference: ReadPreference, resultClass: Class<TResult>): TResult
+	suspend fun <TResult : Any> runCommand(command: Bson, readPreference: ReadPreference, resultClass: Class<TResult>): TResult
 
 	/**
 	 * Executes the given command in the context of the current database with a read preference of [ReadPreference.primary].
@@ -196,7 +192,7 @@ interface MongoDatabase {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun <TResult> runCommand(clientSession: ClientSession, command: Bson, resultClass: Class<TResult>): TResult
+	suspend fun <TResult : Any> runCommand(clientSession: ClientSession, command: Bson, resultClass: Class<TResult>): TResult
 
 	/**
 	 * Executes the given command in the context of the current database with the given read preference.
@@ -209,7 +205,7 @@ interface MongoDatabase {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun <TResult> runCommand(clientSession: ClientSession, command: Bson, readPreference: ReadPreference, resultClass: Class<TResult>): TResult
+	suspend fun <TResult : Any> runCommand(clientSession: ClientSession, command: Bson, readPreference: ReadPreference, resultClass: Class<TResult>): TResult
 
 	/**
 	 * Drops this database.
@@ -233,7 +229,7 @@ interface MongoDatabase {
 	 *
 	 * @return an iterable containing all the names of all the collections in this database
 	 */
-	fun listCollectionNames(): MongoIterable<String>
+	fun listCollectionNames(): Flow<String>
 
 	/**
 	 * Gets the names of all the collections in this database.
@@ -243,7 +239,7 @@ interface MongoDatabase {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun listCollectionNames(clientSession: ClientSession): MongoIterable<String>
+	fun listCollectionNames(clientSession: ClientSession): Flow<String>
 
 	/**
 	 * Finds all the collections in this database.
@@ -251,7 +247,7 @@ interface MongoDatabase {
 	 * @return the list collections iterable interface
 	 * @mongodb.driver.manual reference/command/listCollections listCollections
 	 */
-	fun listCollections(): ListCollectionsIterable<Document>
+	fun listCollections(): ListCollectionsFlow<Document>
 
 	/**
 	 * Finds all the collections in this database.
@@ -261,7 +257,7 @@ interface MongoDatabase {
 	 * @return the list collections iterable interface
 	 * @mongodb.driver.manual reference/command/listCollections listCollections
 	 */
-	fun <TResult> listCollections(resultClass: Class<TResult>): ListCollectionsIterable<TResult>
+	fun <TResult : Any> listCollections(resultClass: Class<TResult>): ListCollectionsFlow<TResult>
 
 	/**
 	 * Finds all the collections in this database.
@@ -272,7 +268,7 @@ interface MongoDatabase {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun listCollections(clientSession: ClientSession): ListCollectionsIterable<Document>
+	fun listCollections(clientSession: ClientSession): ListCollectionsFlow<Document>
 
 	/**
 	 * Finds all the collections in this database.
@@ -285,7 +281,7 @@ interface MongoDatabase {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult> listCollections(clientSession: ClientSession, resultClass: Class<TResult>): ListCollectionsIterable<TResult>
+	fun <TResult : Any> listCollections(clientSession: ClientSession, resultClass: Class<TResult>): ListCollectionsFlow<TResult>
 
 	/**
 	 * Create a new collection with the given name.
@@ -388,7 +384,7 @@ interface MongoDatabase {
 	 * @since 3.8
 	 * @mongodb.server.release 4.0
 	 */
-	fun watch(): ChangeStreamIterable<Document>
+	fun watch(): ChangeStreamFlow<Document>
 
 	/**
 	 * Creates a change stream for this database.
@@ -400,7 +396,7 @@ interface MongoDatabase {
 	 * @since 3.8
 	 * @mongodb.server.release 4.0
 	 */
-	fun <TResult> watch(resultClass: Class<TResult>): ChangeStreamIterable<TResult>
+	fun <TResult : Any> watch(resultClass: Class<TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a change stream for this database.
@@ -411,7 +407,7 @@ interface MongoDatabase {
 	 * @since 3.8
 	 * @mongodb.server.release 4.0
 	 */
-	fun watch(pipeline: List<Bson>): ChangeStreamIterable<Document>
+	fun watch(pipeline: List<Bson>): ChangeStreamFlow<Document>
 
 	/**
 	 * Creates a change stream for this database.
@@ -424,7 +420,7 @@ interface MongoDatabase {
 	 * @since 3.8
 	 * @mongodb.server.release 4.0
 	 */
-	fun <TResult> watch(pipeline: List<Bson>, resultClass: Class<TResult>): ChangeStreamIterable<TResult>
+	fun <TResult : Any> watch(pipeline: List<Bson>, resultClass: Class<TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a change stream for this database.
@@ -435,7 +431,7 @@ interface MongoDatabase {
 	 * @mongodb.server.release 4.0
 	 * @mongodb.driver.dochub core/changestreams Change Streams
 	 */
-	fun watch(clientSession: ClientSession): ChangeStreamIterable<Document>
+	fun watch(clientSession: ClientSession): ChangeStreamFlow<Document>
 
 	/**
 	 * Creates a change stream for this database.
@@ -448,7 +444,7 @@ interface MongoDatabase {
 	 * @mongodb.server.release 4.0
 	 * @mongodb.driver.dochub core/changestreams Change Streams
 	 */
-	fun <TResult> watch(clientSession: ClientSession, resultClass: Class<TResult>): ChangeStreamIterable<TResult>
+	fun <TResult : Any> watch(clientSession: ClientSession, resultClass: Class<TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a change stream for this database.
@@ -460,7 +456,7 @@ interface MongoDatabase {
 	 * @mongodb.server.release 4.0
 	 * @mongodb.driver.dochub core/changestreams Change Streams
 	 */
-	fun watch(clientSession: ClientSession, pipeline: List<Bson>): ChangeStreamIterable<Document>
+	fun watch(clientSession: ClientSession, pipeline: List<Bson>): ChangeStreamFlow<Document>
 
 	/**
 	 * Creates a change stream for this database.
@@ -474,5 +470,59 @@ interface MongoDatabase {
 	 * @mongodb.server.release 4.0
 	 * @mongodb.driver.dochub core/changestreams Change Streams
 	 */
-	fun <TResult> watch(clientSession: ClientSession, pipeline: List<Bson>, resultClass: Class<TResult>): ChangeStreamIterable<TResult>
+	fun <TResult : Any> watch(clientSession: ClientSession, pipeline: List<Bson>, resultClass: Class<TResult>): ChangeStreamFlow<TResult>
+
+	/**
+	 * Runs an aggregation framework pipeline on the database for pipeline stages
+	 * that do not require an underlying collection, such as `$currentOp` and `$listLocalSessions`.
+	 *
+	 * @param pipeline the aggregation pipeline
+	 * @return an iterable containing the result of the aggregation operation
+	 * @since 1.11
+	 * @mongodb.driver.manual reference/command/aggregate/#dbcmd.aggregate Aggregate Command
+	 * @mongodb.server.release 3.6
+	 */
+	fun aggregate(pipeline: List<Bson>): AggregateFlow<Document>
+
+	/**
+	 * Runs an aggregation framework pipeline on the database for pipeline stages
+	 * that do not require an underlying collection, such as `$currentOp` and `$listLocalSessions`.
+	 *
+	 * @param pipeline    the aggregation pipeline
+	 * @param resultClass the class to decode each document into
+	 * @param <TResult>   the target document type of the iterable.
+	 * @return an iterable containing the result of the aggregation operation
+	 * @since 1.11
+	 * @mongodb.driver.manual reference/command/aggregate/#dbcmd.aggregate Aggregate Command
+	 * @mongodb.server.release 3.6
+	</TResult> */
+	fun <TResult : Any> aggregate(pipeline: List<Bson>, resultClass: Class<TResult>): AggregateFlow<TResult>
+
+	/**
+	 * Runs an aggregation framework pipeline on the database for pipeline stages
+	 * that do not require an underlying collection, such as `$currentOp` and `$listLocalSessions`.
+	 *
+	 * @param clientSession the client session with which to associate this operation
+	 * @param pipeline the aggregation pipeline
+	 * @return an iterable containing the result of the aggregation operation
+	 * @since 1.11
+	 * @mongodb.driver.manual reference/command/aggregate/#dbcmd.aggregate Aggregate Command
+	 * @mongodb.server.release 3.6
+	 */
+	fun aggregate(clientSession: ClientSession, pipeline: List<Bson>): AggregateFlow<Document>
+
+	/**
+	 * Runs an aggregation framework pipeline on the database for pipeline stages
+	 * that do not require an underlying collection, such as `$currentOp` and `$listLocalSessions`.
+	 *
+	 * @param clientSession the client session with which to associate this operation
+	 * @param pipeline    the aggregation pipeline
+	 * @param resultClass the class to decode each document into
+	 * @param <TResult>   the target document type of the iterable.
+	 * @return an iterable containing the result of the aggregation operation
+	 * @since 1.11
+	 * @mongodb.driver.manual reference/command/aggregate/#dbcmd.aggregate Aggregate Command
+	 * @mongodb.server.release 3.6
+	</TResult> */
+	fun <TResult : Any> aggregate(clientSession: ClientSession, pipeline: List<Bson>, resultClass: Class<TResult>): AggregateFlow<TResult>
 }

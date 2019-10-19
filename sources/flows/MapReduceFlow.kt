@@ -17,21 +17,17 @@
 package io.fluidsonic.mongo
 
 import com.mongodb.client.model.*
+import kotlinx.coroutines.flow.Flow
 import org.bson.conversions.*
 import java.util.concurrent.*
 
 /**
- * Iterable for map reduce.
+ * Flow for map reduce.
  *
  * @param <TResult> The type of the result.
  * @since 3.0
  */
-interface MapReduceIterable<out TResult> : MongoIterable<TResult> {
-
-	/**
-	 * The underlying object from the async driver.
-	 */
-	override val async: com.mongodb.async.client.MapReduceIterable<out TResult>
+interface MapReduceFlow<out TResult : Any> : Flow<TResult> {
 
 	/**
 	 * Sets the collectionName for the output of the MapReduce
@@ -41,7 +37,7 @@ interface MapReduceIterable<out TResult> : MongoIterable<TResult> {
 	 * @param collectionName the name of the collection that you want the map-reduce operation to write its output.
 	 * @return this
 	 */
-	fun collectionName(collectionName: String): MapReduceIterable<TResult>
+	fun collectionName(collectionName: String): MapReduceFlow<TResult>
 
 	/**
 	 * Sets the JavaScript function that follows the reduce method and modifies the output.
@@ -50,7 +46,7 @@ interface MapReduceIterable<out TResult> : MongoIterable<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/command/mapReduce/#mapreduce-finalize-cmd Requirements for the finalize Function
 	 */
-	fun finalizeFunction(finalizeFunction: String?): MapReduceIterable<TResult>
+	fun finalizeFunction(finalizeFunction: String?): MapReduceFlow<TResult>
 
 	/**
 	 * Sets the global variables that are accessible in the map, reduce and finalize functions.
@@ -59,7 +55,7 @@ interface MapReduceIterable<out TResult> : MongoIterable<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/command/mapReduce mapReduce
 	 */
-	fun scope(scope: Bson?): MapReduceIterable<TResult>
+	fun scope(scope: Bson?): MapReduceFlow<TResult>
 
 	/**
 	 * Sets the sort criteria to apply to the query.
@@ -68,7 +64,7 @@ interface MapReduceIterable<out TResult> : MongoIterable<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/method/cursor.sort/ Sort
 	 */
-	fun sort(sort: Bson?): MapReduceIterable<TResult>
+	fun sort(sort: Bson?): MapReduceFlow<TResult>
 
 	/**
 	 * Sets the query filter to apply to the query.
@@ -77,16 +73,16 @@ interface MapReduceIterable<out TResult> : MongoIterable<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/method/db.collection.find/ Filter
 	 */
-	fun filter(filter: Bson?): MapReduceIterable<TResult>
+	fun filter(filter: Bson?): MapReduceFlow<TResult>
 
 	/**
 	 * Sets the limit to apply.
 	 *
-	 * @param limit the limit
+	 * @param limit the limit, which may be null
 	 * @return this
 	 * @mongodb.driver.manual reference/method/cursor.limit/#cursor.limit Limit
 	 */
-	fun limit(limit: Int): MapReduceIterable<TResult>
+	fun limit(limit: Int): MapReduceFlow<TResult>
 
 	/**
 	 * Sets the flag that specifies whether to convert intermediate data into BSON format between the execution of the map and reduce
@@ -97,7 +93,7 @@ interface MapReduceIterable<out TResult> : MongoIterable<TResult> {
 	 * @return jsMode
 	 * @mongodb.driver.manual reference/command/mapReduce mapReduce
 	 */
-	fun jsMode(jsMode: Boolean): MapReduceIterable<TResult>
+	fun jsMode(jsMode: Boolean): MapReduceFlow<TResult>
 
 	/**
 	 * Sets whether to include the timing information in the result information.
@@ -105,7 +101,7 @@ interface MapReduceIterable<out TResult> : MongoIterable<TResult> {
 	 * @param verbose whether to include the timing information in the result information.
 	 * @return this
 	 */
-	fun verbose(verbose: Boolean): MapReduceIterable<TResult>
+	fun verbose(verbose: Boolean): MapReduceFlow<TResult>
 
 	/**
 	 * Sets the maximum execution time on the server for this operation.
@@ -115,7 +111,7 @@ interface MapReduceIterable<out TResult> : MongoIterable<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/method/cursor.maxTimeMS/#cursor.maxTimeMS Max Time
 	 */
-	fun maxTime(maxTime: Long, timeUnit: TimeUnit): MapReduceIterable<TResult>
+	fun maxTime(maxTime: Long, timeUnit: TimeUnit): MapReduceFlow<TResult>
 
 	/**
 	 * Specify the `MapReduceAction` to be used when writing to a collection.
@@ -123,7 +119,7 @@ interface MapReduceIterable<out TResult> : MongoIterable<TResult> {
 	 * @param action an [com.mongodb.client.model.MapReduceAction] to perform on the collection
 	 * @return this
 	 */
-	fun action(action: MapReduceAction): MapReduceIterable<TResult>
+	fun action(action: MapReduceAction): MapReduceFlow<TResult>
 
 	/**
 	 * Sets the name of the database to output into.
@@ -132,7 +128,7 @@ interface MapReduceIterable<out TResult> : MongoIterable<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/command/mapReduce/#output-to-a-collection-with-an-action output with an action
 	 */
-	fun databaseName(databaseName: String?): MapReduceIterable<TResult>
+	fun databaseName(databaseName: String?): MapReduceFlow<TResult>
 
 	/**
 	 * Sets if the output database is sharded
@@ -141,7 +137,7 @@ interface MapReduceIterable<out TResult> : MongoIterable<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/command/mapReduce/#output-to-a-collection-with-an-action output with an action
 	 */
-	fun sharded(sharded: Boolean): MapReduceIterable<TResult>
+	fun sharded(sharded: Boolean): MapReduceFlow<TResult>
 
 	/**
 	 * Sets if the post-processing step will prevent MongoDB from locking the database.
@@ -152,38 +148,61 @@ interface MapReduceIterable<out TResult> : MongoIterable<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/command/mapReduce/#output-to-a-collection-with-an-action output with an action
 	 */
-	fun nonAtomic(nonAtomic: Boolean): MapReduceIterable<TResult>
-
-	/**
-	 * Sets the number of documents to return per batch.
-	 *
-	 * @param batchSize the batch size
-	 * @return this
-	 * @mongodb.driver.manual reference/method/cursor.batchSize/#cursor.batchSize Batch Size
-	 */
-	override fun batchSize(batchSize: Int): MapReduceIterable<TResult>
+	fun nonAtomic(nonAtomic: Boolean): MapReduceFlow<TResult>
 
 	/**
 	 * Sets the bypass document level validation flag.
+	 *
 	 *
 	 * Note: This only applies when an $out stage is specified.
 	 *
 	 * @param bypassDocumentValidation If true, allows the write to opt-out of document level validation.
 	 * @return this
-	 * @since 3.2
-	 * @mongodb.driver.manual reference/command/mapReduce mapReduce
+	 * @since 1.2
+	 * @mongodb.driver.manual reference/command/aggregate/ Aggregation
 	 * @mongodb.server.release 3.2
 	 */
-	fun bypassDocumentValidation(bypassDocumentValidation: Boolean?): MapReduceIterable<TResult>
+	fun bypassDocumentValidation(bypassDocumentValidation: Boolean?): MapReduceFlow<TResult>
+
+	/**
+	 * Aggregates documents to a collection according to the specified map-reduce function with the given options, which must specify a
+	 * non-inline result.
+	 *
+	 * @mongodb.driver.manual aggregation/ Aggregation
+	 */
+	suspend fun toCollection()
 
 	/**
 	 * Sets the collation options
 	 *
+	 *
 	 * A null value represents the server default.
 	 * @param collation the collation options to use
 	 * @return this
-	 * @since 3.4
+	 * @since 1.3
 	 * @mongodb.server.release 3.4
 	 */
-	fun collation(collation: Collation?): MapReduceIterable<TResult>
+	fun collation(collation: Collation?): MapReduceFlow<TResult>
+
+	/**
+	 * Sets the number of documents to return per batch.
+	 *
+	 *
+	 * Overrides the [org.reactivestreams.Subscription.request] value for setting the batch size, allowing for fine grained
+	 * control over the underlying cursor.
+	 *
+	 * @param batchSize the batch size
+	 * @return this
+	 * @since 1.8
+	 * @mongodb.driver.manual reference/method/cursor.batchSize/#cursor.batchSize Batch Size
+	 */
+	fun batchSize(batchSize: Int): MapReduceFlow<TResult>
+
+	/**
+	 * Helper to return first result.
+	 *
+	 * @return the first result or null
+	 * @since 1.8
+	 */
+	suspend fun firstOrNull(): TResult?
 }

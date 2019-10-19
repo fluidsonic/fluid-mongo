@@ -17,21 +17,17 @@
 package io.fluidsonic.mongo
 
 import com.mongodb.client.model.*
+import kotlinx.coroutines.flow.Flow
 import org.bson.conversions.*
 import java.util.concurrent.*
 
 /**
- * Iterable for distinct.
+ * Flow for distinct.
  *
  * @param <TResult> The type of the result.
  * @since 3.0
  */
-interface DistinctIterable<out TResult> : MongoIterable<TResult> {
-
-	/**
-	 * The underlying object from the async driver.
-	 */
-	override val async: com.mongodb.async.client.DistinctIterable<out TResult>
+interface DistinctFlow<out TResult : Any> : Flow<TResult> {
 
 	/**
 	 * Sets the query filter to apply to the query.
@@ -40,7 +36,7 @@ interface DistinctIterable<out TResult> : MongoIterable<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/method/db.collection.find/ Filter
 	 */
-	fun filter(filter: Bson?): DistinctIterable<TResult>
+	fun filter(filter: Bson?): DistinctFlow<TResult>
 
 	/**
 	 * Sets the maximum execution time on the server for this operation.
@@ -49,26 +45,37 @@ interface DistinctIterable<out TResult> : MongoIterable<TResult> {
 	 * @param timeUnit the time unit, which may not be null
 	 * @return this
 	 */
-	fun maxTime(maxTime: Long, timeUnit: TimeUnit): DistinctIterable<TResult>
-
-	/**
-	 * Sets the number of documents to return per batch.
-	 *
-	 * @param batchSize the batch size
-	 * @return this
-	 * @mongodb.driver.manual reference/method/cursor.batchSize/#cursor.batchSize Batch Size
-	 */
-	override fun batchSize(batchSize: Int): DistinctIterable<TResult>
+	fun maxTime(maxTime: Long, timeUnit: TimeUnit): DistinctFlow<TResult>
 
 	/**
 	 * Sets the collation options
 	 *
-	 *
 	 * A null value represents the server default.
 	 * @param collation the collation options to use
 	 * @return this
-	 * @since 3.4
+	 * @since 1.3
 	 * @mongodb.server.release 3.4
 	 */
-	fun collation(collation: Collation?): DistinctIterable<TResult>
+	fun collation(collation: Collation?): DistinctFlow<TResult>
+
+	/**
+	 * Sets the number of documents to return per batch.
+	 *
+	 * Overrides the [org.reactivestreams.Subscription.request] value for setting the batch size, allowing for fine grained
+	 * control over the underlying cursor.
+	 *
+	 * @param batchSize the batch size
+	 * @return this
+	 * @since 1.8
+	 * @mongodb.driver.manual reference/method/cursor.batchSize/#cursor.batchSize Batch Size
+	 */
+	fun batchSize(batchSize: Int): DistinctFlow<TResult>
+
+	/**
+	 * Helper to return first result.
+	 *
+	 * @return the first result or null
+	 * @since 1.8
+	 */
+	suspend fun firstOrNull(): TResult?
 }

@@ -16,20 +16,26 @@
 
 package io.fluidsonic.mongo
 
+import kotlinx.coroutines.flow.Flow
 import org.bson.conversions.*
 import java.util.concurrent.*
 
 /**
- * Iterable for ListDatabases.
+ * Flow for ListCollections.
  *
- * @param <T> The type of the result.
+ * @param <TResult> The type of the result.
+ * @since 3.0
  */
-interface ListDatabasesIterable<out T> : MongoIterable<T> {
+interface ListCollectionsFlow<out TResult : Any> : Flow<TResult> {
 
 	/**
-	 * The underlying object from the async driver.
+	 * Sets the query filter to apply to the query.
+	 *
+	 * @param filter the filter, which may be null.
+	 * @return this
+	 * @mongodb.driver.manual reference/method/db.collection.find/ Filter
 	 */
-	override val async: com.mongodb.async.client.ListDatabasesIterable<out T>
+	fun filter(filter: Bson?): ListCollectionsFlow<TResult>
 
 	/**
 	 * Sets the maximum execution time on the server for this operation.
@@ -39,35 +45,26 @@ interface ListDatabasesIterable<out T> : MongoIterable<T> {
 	 * @return this
 	 * @mongodb.driver.manual reference/operator/meta/maxTimeMS/ Max Time
 	 */
-	fun maxTime(maxTime: Long, timeUnit: TimeUnit): ListDatabasesIterable<T>
+	fun maxTime(maxTime: Long, timeUnit: TimeUnit): ListCollectionsFlow<TResult>
 
 	/**
 	 * Sets the number of documents to return per batch.
 	 *
+	 * Overrides the [org.reactivestreams.Subscription.request] value for setting the batch size, allowing for fine grained
+	 * control over the underlying cursor.
+	 *
 	 * @param batchSize the batch size
 	 * @return this
+	 * @since 1.8
 	 * @mongodb.driver.manual reference/method/cursor.batchSize/#cursor.batchSize Batch Size
 	 */
-	override fun batchSize(batchSize: Int): ListDatabasesIterable<T>
+	fun batchSize(batchSize: Int): ListCollectionsFlow<TResult>
 
 	/**
-	 * Sets the query filter to apply to the returned database names.
+	 * Helper to return first result.
 	 *
-	 * @param filter the filter, which may be null.
-	 * @return this
-	 * @since 3.6
-	 * @mongodb.server.release 3.4.2
+	 * @return the first result or null
+	 * @since 1.8
 	 */
-	fun filter(filter: Bson?): ListDatabasesIterable<T>
-
-	/**
-	 * Sets the nameOnly flag that indicates whether the command should return just the database names or return the database names and
-	 * size information.
-	 *
-	 * @param nameOnly the nameOnly flag, which may be null
-	 * @return this
-	 * @since 3.6
-	 * @mongodb.server.release 3.4.3
-	 */
-	fun nameOnly(nameOnly: Boolean?): ListDatabasesIterable<T>
+	suspend fun firstOrNull(): TResult?
 }

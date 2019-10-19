@@ -21,94 +21,94 @@ import com.mongodb.session.*
 import org.bson.*
 
 
-internal class CoroutineClientSession(
-	override val async: com.mongodb.async.client.ClientSession
+internal class ReactiveClientSession(
+	val source: com.mongodb.reactivestreams.client.ClientSession
 ) : ClientSession {
 
 	override val transactionOptions: TransactionOptions?
-		get() = async.transactionOptions
+		get() = source.transactionOptions
 
 
 	override fun getPinnedServerAddress(): ServerAddress? =
-		async.pinnedServerAddress
+		source.pinnedServerAddress
 
 
 	override fun getRecoveryToken(): BsonDocument? =
-		async.recoveryToken
+		source.recoveryToken
 
 
 	override fun hasActiveTransaction() =
-		async.hasActiveTransaction()
-
-
-	override fun notifyMessageSent() =
-		async.notifyMessageSent()
+		source.hasActiveTransaction()
 
 
 	override fun setPinnedServerAddress(address: ServerAddress?) {
-		async.pinnedServerAddress = address
+		source.pinnedServerAddress = address
 	}
 
 
 	override fun setRecoveryToken(recoveryToken: BsonDocument?) {
-		async.recoveryToken = recoveryToken
+		source.recoveryToken = recoveryToken
 	}
 
 
 	override fun startTransaction() =
-		async.startTransaction()
+		source.startTransaction()
 
 
 	override fun startTransaction(transactionOptions: TransactionOptions) =
-		async.startTransaction(transactionOptions)
+		source.startTransaction(transactionOptions)
 
 
 	override suspend fun commitTransaction() {
-		withCallback<Void> { async.commitTransaction(it) }
+		source.commitTransaction().awaitUnit()
 	}
 
 
 	override suspend fun abortTransaction() {
-		withCallback<Void> { async.abortTransaction(it) }
+		source.abortTransaction().awaitUnit()
 	}
 
 
 	override fun getOriginator(): Any? =
-		async.originator
+		source.originator
 
 
 	override fun advanceClusterTime(clusterTime: BsonDocument?) =
-		async.advanceClusterTime(clusterTime)
+		source.advanceClusterTime(clusterTime)
 
 
 	override fun isCausallyConsistent() =
-		async.isCausallyConsistent
+		source.isCausallyConsistent
 
 
 	override fun getClusterTime(): BsonDocument? =
-		async.clusterTime
+		source.clusterTime
 
 
 	override fun getOptions(): ClientSessionOptions =
-		async.options
+		source.options
 
 
 	override fun getOperationTime(): BsonTimestamp? =
-		async.operationTime
+		source.operationTime
 
 
 	override fun close() =
-		async.close()
+		source.close()
 
 
 	override fun getServerSession(): ServerSession? =
-		async.serverSession
+		source.serverSession
 
 
 	override fun advanceOperationTime(operationTime: BsonTimestamp?) =
-		async.advanceOperationTime(operationTime)
+		source.advanceOperationTime(operationTime)
 }
 
 
-internal fun com.mongodb.async.client.ClientSession.wrap() =
-	CoroutineClientSession(this)
+internal fun com.mongodb.reactivestreams.client.ClientSession.wrap() =
+	ReactiveClientSession(this)
+
+
+internal fun com.mongodb.session.ClientSession.unwrap() =
+	(this as ReactiveClientSession).source

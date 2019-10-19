@@ -16,25 +16,30 @@
 
 package io.fluidsonic.mongo
 
+import com.mongodb.reactivestreams.client.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.reactive.*
 import java.util.concurrent.*
 
 
-internal class CoroutineListIndexesIterable<TResult>(
-	override val async: com.mongodb.async.client.ListIndexesIterable<TResult>
-) : CoroutineMongoIterable<TResult>(async), ListIndexesIterable<TResult> {
+internal class ReactiveListIndexesFlow<TResult : Any>(
+	private val source: ListIndexesPublisher<TResult>
+) : ListIndexesFlow<TResult>, Flow<TResult> by source.asFlow() {
 
-	override fun maxTime(maxTime: Long, timeUnit: TimeUnit): ListIndexesIterable<TResult> {
-		async.maxTime(maxTime, timeUnit)
-		return this
+	override fun maxTime(maxTime: Long, timeUnit: TimeUnit) = apply {
+		source.maxTime(maxTime, timeUnit)
 	}
 
 
-	override fun batchSize(batchSize: Int): ListIndexesIterable<TResult> {
-		async.batchSize(batchSize)
-		return this
+	override fun batchSize(batchSize: Int) = apply {
+		source.batchSize(batchSize)
 	}
+
+
+	override suspend fun firstOrNull(): TResult? =
+		source.first().awaitFirstOrNull()
 }
 
 
-internal fun <TResult> com.mongodb.async.client.ListIndexesIterable<TResult>.wrap() =
-	CoroutineListIndexesIterable(this)
+internal fun <TResult : Any> ListIndexesPublisher<TResult>.wrap() =
+	ReactiveListIndexesFlow(this)

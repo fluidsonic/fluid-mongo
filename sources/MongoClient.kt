@@ -18,6 +18,7 @@ package io.fluidsonic.mongo
 
 import com.mongodb.*
 import com.mongodb.annotations.*
+import kotlinx.coroutines.flow.*
 import org.bson.*
 import org.bson.conversions.*
 import java.io.*
@@ -33,34 +34,6 @@ import java.io.*
  */
 @Immutable
 interface MongoClient : Closeable {
-
-	/**
-	 * The underlying object from the async driver.
-	 */
-	val async: com.mongodb.async.client.MongoClient
-
-	/**
-	 * Creates a client session with default options.
-	 *
-	 * Note: A ClientSession instance can not be used concurrently in multiple asynchronous operations.
-	 *
-	 * @return the client session
-	 * @mongodb.server.release 3.6
-	 * @since 3.8
-	 */
-	suspend fun startSession(): ClientSession
-
-	/**
-	 * Creates a client session.
-	 *
-	 * Note: A ClientSession instance can not be used concurrently in multiple asynchronous operations.
-	 *
-	 * @param options  the options for the client session
-	 * @return the client session
-	 * @mongodb.server.release 3.6
-	 * @since 3.6
-	 */
-	suspend fun startSession(options: ClientSessionOptions): ClientSession
 
 	/**
 	 * Gets the database with the given name.
@@ -84,7 +57,7 @@ interface MongoClient : Closeable {
 	 * @return an iterable containing all the names of all the databases
 	 * @mongodb.driver.manual reference/command/listDatabases List Databases
 	 */
-	fun listDatabaseNames(): MongoIterable<String>
+	fun listDatabaseNames(): Flow<String>
 
 	/**
 	 * Get a list of the database names
@@ -95,14 +68,14 @@ interface MongoClient : Closeable {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun listDatabaseNames(clientSession: ClientSession): MongoIterable<String>
+	fun listDatabaseNames(clientSession: ClientSession): Flow<String>
 
 	/**
 	 * Gets the list of databases
 	 *
 	 * @return the list databases iterable interface
 	 */
-	fun listDatabases(): ListDatabasesIterable<Document>
+	fun listDatabases(): ListDatabasesFlow<Document>
 
 	/**
 	 * Gets the list of databases
@@ -113,7 +86,7 @@ interface MongoClient : Closeable {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun listDatabases(clientSession: ClientSession): ListDatabasesIterable<Document>
+	fun listDatabases(clientSession: ClientSession): ListDatabasesFlow<Document>
 
 	/**
 	 * Gets the list of databases
@@ -122,7 +95,7 @@ interface MongoClient : Closeable {
 	 * @param <TResult>   the type of the class to use instead of `Document`.
 	 * @return the list databases iterable interface
 	 */
-	fun <TResult> listDatabases(resultClass: Class<TResult>): ListDatabasesIterable<TResult>
+	fun <TResult : Any> listDatabases(resultClass: Class<TResult>): ListDatabasesFlow<TResult>
 
 	/**
 	 * Gets the list of databases
@@ -135,7 +108,7 @@ interface MongoClient : Closeable {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult> listDatabases(clientSession: ClientSession, resultClass: Class<TResult>): ListDatabasesIterable<TResult>
+	fun <TResult : Any> listDatabases(clientSession: ClientSession, resultClass: Class<TResult>): ListDatabasesFlow<TResult>
 
 	/**
 	 * Creates a change stream for this client.
@@ -145,7 +118,7 @@ interface MongoClient : Closeable {
 	 * @since 3.8
 	 * @mongodb.server.release 4.0
 	 */
-	fun watch(): ChangeStreamIterable<Document>
+	fun watch(): ChangeStreamFlow<Document>
 
 	/**
 	 * Creates a change stream for this client.
@@ -157,7 +130,7 @@ interface MongoClient : Closeable {
 	 * @since 3.8
 	 * @mongodb.server.release 4.0
 	 */
-	fun <TResult> watch(resultClass: Class<TResult>): ChangeStreamIterable<TResult>
+	fun <TResult : Any> watch(resultClass: Class<TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a change stream for this client.
@@ -168,7 +141,7 @@ interface MongoClient : Closeable {
 	 * @since 3.8
 	 * @mongodb.server.release 4.0
 	 */
-	fun watch(pipeline: List<Bson>): ChangeStreamIterable<Document>
+	fun watch(pipeline: List<Bson>): ChangeStreamFlow<Document>
 
 	/**
 	 * Creates a change stream for this client.
@@ -181,7 +154,7 @@ interface MongoClient : Closeable {
 	 * @since 3.8
 	 * @mongodb.server.release 4.0
 	 */
-	fun <TResult> watch(pipeline: List<Bson>, resultClass: Class<TResult>): ChangeStreamIterable<TResult>
+	fun <TResult : Any> watch(pipeline: List<Bson>, resultClass: Class<TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a change stream for this client.
@@ -192,7 +165,7 @@ interface MongoClient : Closeable {
 	 * @mongodb.server.release 4.0
 	 * @mongodb.driver.dochub core/changestreams Change Streams
 	 */
-	fun watch(clientSession: ClientSession): ChangeStreamIterable<Document>
+	fun watch(clientSession: ClientSession): ChangeStreamFlow<Document>
 
 	/**
 	 * Creates a change stream for this client.
@@ -205,7 +178,7 @@ interface MongoClient : Closeable {
 	 * @mongodb.server.release 4.0
 	 * @mongodb.driver.dochub core/changestreams Change Streams
 	 */
-	fun <TResult> watch(clientSession: ClientSession, resultClass: Class<TResult>): ChangeStreamIterable<TResult>
+	fun <TResult : Any> watch(clientSession: ClientSession, resultClass: Class<TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a change stream for this client.
@@ -217,7 +190,7 @@ interface MongoClient : Closeable {
 	 * @mongodb.server.release 4.0
 	 * @mongodb.driver.dochub core/changestreams Change Streams
 	 */
-	fun watch(clientSession: ClientSession, pipeline: List<Bson>): ChangeStreamIterable<Document>
+	fun watch(clientSession: ClientSession, pipeline: List<Bson>): ChangeStreamFlow<Document>
 
 	/**
 	 * Creates a change stream for this client.
@@ -231,5 +204,28 @@ interface MongoClient : Closeable {
 	 * @mongodb.server.release 4.0
 	 * @mongodb.driver.dochub core/changestreams Change Streams
 	 */
-	fun <TResult> watch(clientSession: ClientSession, pipeline: List<Bson>, resultClass: Class<TResult>): ChangeStreamIterable<TResult>
+	fun <TResult : Any> watch(clientSession: ClientSession, pipeline: List<Bson>, resultClass: Class<TResult>): ChangeStreamFlow<TResult>
+
+	/**
+	 * Creates a client session with default options.
+	 *
+	 * Note: A ClientSession instance can not be used concurrently in multiple asynchronous operations.
+	 *
+	 * @return the client session
+	 * @mongodb.server.release 3.6
+	 * @since 3.8
+	 */
+	suspend fun startSession(): ClientSession
+
+	/**
+	 * Creates a client session.
+	 *
+	 * Note: A ClientSession instance can not be used concurrently in multiple asynchronous operations.
+	 *
+	 * @param options  the options for the client session
+	 * @return the client session
+	 * @mongodb.server.release 3.6
+	 * @since 3.6
+	 */
+	suspend fun startSession(options: ClientSessionOptions): ClientSession
 }

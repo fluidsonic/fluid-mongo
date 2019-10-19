@@ -18,21 +18,17 @@ package io.fluidsonic.mongo
 
 import com.mongodb.*
 import com.mongodb.client.model.*
+import kotlinx.coroutines.flow.Flow
 import org.bson.conversions.*
 import java.util.concurrent.*
 
 /**
- * Iterable for find.
+ * Flow for find.
  *
  * @param <T> The type of the result.
  * @since 3.0
  */
-interface FindIterable<out T> : MongoIterable<T> {
-
-	/**
-	 * The underlying object from the async driver.
-	 */
-	override val async: com.mongodb.async.client.FindIterable<out T>
+interface FindFlow<out TResult : Any> : Flow<TResult> {
 
 	/**
 	 * Sets the query filter to apply to the query.
@@ -41,7 +37,7 @@ interface FindIterable<out T> : MongoIterable<T> {
 	 * @return this
 	 * @mongodb.driver.manual reference/method/db.collection.find/ Filter
 	 */
-	fun filter(filter: Bson?): FindIterable<T>
+	fun filter(filter: Bson?): FindFlow<TResult>
 
 	/**
 	 * Sets the limit to apply.
@@ -50,7 +46,7 @@ interface FindIterable<out T> : MongoIterable<T> {
 	 * @return this
 	 * @mongodb.driver.manual reference/method/cursor.limit/#cursor.limit Limit
 	 */
-	fun limit(limit: Int): FindIterable<T>
+	fun limit(limit: Int): FindFlow<TResult>
 
 	/**
 	 * Sets the number of documents to skip.
@@ -59,7 +55,7 @@ interface FindIterable<out T> : MongoIterable<T> {
 	 * @return this
 	 * @mongodb.driver.manual reference/method/cursor.skip/#cursor.skip Skip
 	 */
-	fun skip(skip: Int): FindIterable<T>
+	fun skip(skip: Int): FindFlow<TResult>
 
 	/**
 	 * Sets the maximum execution time on the server for this operation.
@@ -69,7 +65,7 @@ interface FindIterable<out T> : MongoIterable<T> {
 	 * @return this
 	 * @mongodb.driver.manual reference/method/cursor.maxTimeMS/#cursor.maxTimeMS Max Time
 	 */
-	fun maxTime(maxTime: Long, timeUnit: TimeUnit): FindIterable<T>
+	fun maxTime(maxTime: Long, timeUnit: TimeUnit): FindFlow<TResult>
 
 	/**
 	 * The maximum amount of time for the server to wait on new documents to satisfy a tailable cursor
@@ -87,9 +83,9 @@ interface FindIterable<out T> : MongoIterable<T> {
 	 * @param timeUnit the time unit to return the result in
 	 * @return the maximum await execution time in the given time unit
 	 * @mongodb.driver.manual reference/method/cursor.maxTimeMS/#cursor.maxTimeMS Max Time
-	 * @since 3.2
+	 * @since 1.2
 	 */
-	fun maxAwaitTime(maxAwaitTime: Long, timeUnit: TimeUnit): FindIterable<T>
+	fun maxAwaitTime(maxAwaitTime: Long, timeUnit: TimeUnit): FindFlow<TResult>
 
 	/**
 	 * Sets a document describing the fields to return for all matching documents.
@@ -98,7 +94,7 @@ interface FindIterable<out T> : MongoIterable<T> {
 	 * @return this
 	 * @mongodb.driver.manual reference/method/db.collection.find/ Projection
 	 */
-	fun projection(projection: Bson?): FindIterable<T>
+	fun projection(projection: Bson?): FindFlow<TResult>
 
 	/**
 	 * Sets the sort criteria to apply to the query.
@@ -107,7 +103,7 @@ interface FindIterable<out T> : MongoIterable<T> {
 	 * @return this
 	 * @mongodb.driver.manual reference/method/cursor.sort/ Sort
 	 */
-	fun sort(sort: Bson?): FindIterable<T>
+	fun sort(sort: Bson?): FindFlow<TResult>
 
 	/**
 	 * The server normally times out idle cursors after an inactivity period (10 minutes)
@@ -116,7 +112,7 @@ interface FindIterable<out T> : MongoIterable<T> {
 	 * @param noCursorTimeout true if cursor timeout is disabled
 	 * @return this
 	 */
-	fun noCursorTimeout(noCursorTimeout: Boolean): FindIterable<T>
+	fun noCursorTimeout(noCursorTimeout: Boolean): FindFlow<TResult>
 
 	/**
 	 * Users should not set this under normal circumstances.
@@ -124,7 +120,7 @@ interface FindIterable<out T> : MongoIterable<T> {
 	 * @param oplogReplay if oplog replay is enabled
 	 * @return this
 	 */
-	fun oplogReplay(oplogReplay: Boolean): FindIterable<T>
+	fun oplogReplay(oplogReplay: Boolean): FindFlow<TResult>
 
 	/**
 	 * Get partial results from a sharded cluster if one or more shards are unreachable (instead of throwing an error).
@@ -132,8 +128,7 @@ interface FindIterable<out T> : MongoIterable<T> {
 	 * @param partial if partial results for sharded clusters is enabled
 	 * @return this
 	 */
-	fun partial(partial: Boolean): FindIterable<T>
-
+	fun partial(partial: Boolean): FindFlow<TResult>
 
 	/**
 	 * Sets the cursor type.
@@ -141,80 +136,92 @@ interface FindIterable<out T> : MongoIterable<T> {
 	 * @param cursorType the cursor type
 	 * @return this
 	 */
-	fun cursorType(cursorType: CursorType): FindIterable<T>
-
-	/**
-	 * Sets the number of documents to return per batch.
-	 *
-	 * @param batchSize the batch size
-	 * @return this
-	 * @mongodb.driver.manual reference/method/cursor.batchSize/#cursor.batchSize Batch Size
-	 */
-	override fun batchSize(batchSize: Int): FindIterable<T>
+	fun cursorType(cursorType: CursorType): FindFlow<TResult>
 
 	/**
 	 * Sets the collation options
 	 *
-	 *
 	 * A null value represents the server default.
 	 * @param collation the collation options to use
 	 * @return this
-	 * @since 3.4
+	 * @since 1.3
 	 * @mongodb.server.release 3.4
 	 */
-	fun collation(collation: Collation?): FindIterable<T>
+	fun collation(collation: Collation?): FindFlow<TResult>
 
 	/**
 	 * Sets the comment to the query. A null value means no comment is set.
 	 *
 	 * @param comment the comment
 	 * @return this
-	 * @since 3.5
+	 * @since 1.6
 	 */
-	fun comment(comment: String?): FindIterable<T>
+	fun comment(comment: String?): FindFlow<TResult>
 
 	/**
 	 * Sets the hint for which index to use. A null value means no hint is set.
 	 *
 	 * @param hint the hint
 	 * @return this
-	 * @since 3.5
+	 * @since 1.6
 	 */
-	fun hint(hint: Bson?): FindIterable<T>
+	fun hint(hint: Bson?): FindFlow<TResult>
 
 	/**
 	 * Sets the exclusive upper bound for a specific index. A null value means no max is set.
 	 *
 	 * @param max the max
 	 * @return this
-	 * @since 3.5
+	 * @since 1.6
 	 */
-	fun max(max: Bson?): FindIterable<T>
+	fun max(max: Bson?): FindFlow<TResult>
 
 	/**
 	 * Sets the minimum inclusive lower bound for a specific index. A null value means no max is set.
 	 *
 	 * @param min the min
 	 * @return this
-	 * @since 3.5
+	 * @since 1.6
 	 */
-	fun min(min: Bson?): FindIterable<T>
+	fun min(min: Bson?): FindFlow<TResult>
 
 	/**
 	 * Sets the returnKey. If true the find operation will return only the index keys in the resulting documents.
 	 *
 	 * @param returnKey the returnKey
 	 * @return this
-	 * @since 3.5
+	 * @since 1.6
 	 */
-	fun returnKey(returnKey: Boolean): FindIterable<T>
+	fun returnKey(returnKey: Boolean): FindFlow<TResult>
 
 	/**
 	 * Sets the showRecordId. Set to true to add a field `$recordId` to the returned documents.
 	 *
 	 * @param showRecordId the showRecordId
 	 * @return this
-	 * @since 3.5
+	 * @since 1.6
 	 */
-	fun showRecordId(showRecordId: Boolean): FindIterable<T>
+	fun showRecordId(showRecordId: Boolean): FindFlow<TResult>
+
+	/**
+	 * Sets the number of documents to return per batch.
+	 *
+	 *
+	 * Overrides the [org.reactivestreams.Subscription.request] value for setting the batch size, allowing for fine grained
+	 * control over the underlying cursor.
+	 *
+	 * @param batchSize the batch size
+	 * @return this
+	 * @since 1.8
+	 * @mongodb.driver.manual reference/method/cursor.batchSize/#cursor.batchSize Batch Size
+	 */
+	fun batchSize(batchSize: Int): FindFlow<TResult>
+
+	/**
+	 * Helper to return first result.
+	 *
+	 * @return the first result or null
+	 * @since 1.8
+	 */
+	suspend fun firstOrNull(): TResult?
 }
