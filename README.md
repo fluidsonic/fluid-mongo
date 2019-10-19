@@ -5,7 +5,7 @@ fluid-mongo
 [![JCenter](https://img.shields.io/bintray/v/fluidsonic/kotlin/mongo?label=JCenter)](https://bintray.com/fluidsonic/kotlin/mongo)
 [![Kotlin](https://img.shields.io/badge/Kotlin-1.3.50-blue.svg)](https://github.com/JetBrains/kotlin/releases/v1.3.50)
 [![Kotlin Coroutines](https://img.shields.io/badge/Kotlin%20Coroutines-1.3.2-blue.svg)](https://github.com/Kotlin/kotlinx.coroutines/releases/tag/1.3.2)
-[![MongoDB Driver](https://img.shields.io/badge/MongoDB%20Driver-Rective%20Streams%201.12.0-blue.svg)](https://github.com/mongodb/mongo-java-driver-reactivestreams/releases/tag/r1.12.0)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Reactive%20Streams%201.12.0-blue.svg)](https://github.com/mongodb/mongo-java-driver-reactivestreams/releases/tag/r1.12.0)
 [![#fluid-libraries Slack Channel](https://img.shields.io/badge/slack-%23fluid--libraries-543951.svg?label=Slack)](https://kotlinlang.slack.com/messages/C7UDFSVT2/)
 
 Kotlin coroutine support for MongoDB built on top of the official [MongoDB Reactive Streams Java Driver](https://mongodb.github.io/mongo-java-driver-reactivestreams/1.12/).
