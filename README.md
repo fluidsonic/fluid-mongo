@@ -18,7 +18,7 @@ Installation
 `build.gradle.kts`:
 ```kotlin
 dependencies {
-    implementation("io.fluidsonic.mongo:fluid-mongo:0.9.11")
+    implementation("io.fluidsonic.mongo:fluid-mongo:1.0.0-beta.1")
 }
 ```
 
@@ -39,7 +39,7 @@ suspend fun main() {
     collection.insertOne(Document("hello", "world"))    // suspending call
     collection.insertOne(Document("it's", "so easy!"))  // suspending call
 
-    collection.find().collect { document ->
+    collection.find().collect { document ->  // Kotlin Flow
         println(document)
     }
 }
