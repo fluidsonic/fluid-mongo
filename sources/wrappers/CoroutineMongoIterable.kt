@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package com.github.fluidsonic.fluid.mongo
+package io.fluidsonic.mongo
 
-import com.mongodb.async.AsyncBatchCursor
-import com.mongodb.async.SingleResultCallback
+import com.mongodb.async.*
 
 
 internal open class CoroutineMongoIterable<out TResult>(

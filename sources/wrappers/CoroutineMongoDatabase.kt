@@ -14,16 +14,13 @@
  * limitations under the License.
  */
 
-package com.github.fluidsonic.fluid.mongo
+package io.fluidsonic.mongo
 
-import com.mongodb.ReadConcern
-import com.mongodb.ReadPreference
-import com.mongodb.WriteConcern
-import com.mongodb.client.model.CreateCollectionOptions
-import com.mongodb.client.model.CreateViewOptions
-import org.bson.Document
-import org.bson.codecs.configuration.CodecRegistry
-import org.bson.conversions.Bson
+import com.mongodb.*
+import com.mongodb.client.model.*
+import org.bson.*
+import org.bson.codecs.configuration.*
+import org.bson.conversions.*
 
 
 internal class CoroutineMongoDatabase(

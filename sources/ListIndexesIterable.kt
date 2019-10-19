@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.github.fluidsonic.fluid.mongo
+package io.fluidsonic.mongo
 
-import java.util.concurrent.TimeUnit
+import java.util.concurrent.*
 
 /**
  * Iterable for ListIndexes.

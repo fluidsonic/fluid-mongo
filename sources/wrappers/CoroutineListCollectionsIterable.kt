@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.github.fluidsonic.fluid.mongo
+package io.fluidsonic.mongo
 
-import org.bson.conversions.Bson
-import java.util.concurrent.TimeUnit
+import org.bson.conversions.*
+import java.util.concurrent.*
 
 
 internal class CoroutineListCollectionsIterable<TResult>(

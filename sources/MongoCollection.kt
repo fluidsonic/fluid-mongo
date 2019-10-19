@@ -14,36 +14,16 @@
  * limitations under the License.
  */
 
-package com.github.fluidsonic.fluid.mongo
+package io.fluidsonic.mongo
 
-import com.mongodb.MongoNamespace
-import com.mongodb.ReadConcern
-import com.mongodb.ReadPreference
-import com.mongodb.WriteConcern
-import com.mongodb.annotations.ThreadSafe
-import com.mongodb.bulk.BulkWriteResult
-import com.mongodb.client.model.BulkWriteOptions
-import com.mongodb.client.model.CountOptions
-import com.mongodb.client.model.CreateIndexOptions
-import com.mongodb.client.model.DeleteOptions
-import com.mongodb.client.model.DropIndexOptions
-import com.mongodb.client.model.EstimatedDocumentCountOptions
-import com.mongodb.client.model.FindOneAndDeleteOptions
-import com.mongodb.client.model.FindOneAndReplaceOptions
-import com.mongodb.client.model.FindOneAndUpdateOptions
-import com.mongodb.client.model.IndexModel
-import com.mongodb.client.model.IndexOptions
-import com.mongodb.client.model.InsertManyOptions
-import com.mongodb.client.model.InsertOneOptions
-import com.mongodb.client.model.RenameCollectionOptions
-import com.mongodb.client.model.ReplaceOptions
-import com.mongodb.client.model.UpdateOptions
-import com.mongodb.client.model.WriteModel
-import com.mongodb.client.result.DeleteResult
-import com.mongodb.client.result.UpdateResult
-import org.bson.Document
-import org.bson.codecs.configuration.CodecRegistry
-import org.bson.conversions.Bson
+import com.mongodb.*
+import com.mongodb.annotations.*
+import com.mongodb.bulk.*
+import com.mongodb.client.model.*
+import com.mongodb.client.result.*
+import org.bson.*
+import org.bson.codecs.configuration.*
+import org.bson.conversions.*
 
 /**
  * The MongoCollection interface.

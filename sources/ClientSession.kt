@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.github.fluidsonic.fluid.mongo
+package io.fluidsonic.mongo
 
-import com.mongodb.TransactionOptions
+import com.mongodb.*
 
 /**
  * A client session that supports transactions.

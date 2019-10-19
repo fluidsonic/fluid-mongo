@@ -1,7 +1,7 @@
 pluginManagement {
 	repositories {
 		gradlePluginPortal()
-		maven("https://dl.bintray.com/fluidsonic/maven")
+		maven("https://dl.bintray.com/fluidsonic/kotlin")
 	}
 }
 

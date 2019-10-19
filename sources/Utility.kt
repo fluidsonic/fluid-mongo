@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.github.fluidsonic.fluid.mongo
+package io.fluidsonic.mongo
 
-import com.mongodb.async.SingleResultCallback
-import kotlin.coroutines.suspendCoroutine
+import com.mongodb.async.*
+import kotlin.coroutines.*
 
 
 internal suspend inline fun <T> withCallback(crossinline callback: (SingleResultCallback<T>) -> Unit): T =

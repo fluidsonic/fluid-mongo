@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package com.github.fluidsonic.fluid.mongo
+package io.fluidsonic.mongo
 
-import com.mongodb.client.model.Collation
-import com.mongodb.client.model.MapReduceAction
-import org.bson.conversions.Bson
-import java.util.concurrent.TimeUnit
+import com.mongodb.client.model.*
+import org.bson.conversions.*
+import java.util.concurrent.*
 
 /**
  * Iterable for map reduce.

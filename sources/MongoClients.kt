@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-package com.github.fluidsonic.fluid.mongo
+package io.fluidsonic.mongo
 
-import com.mongodb.ConnectionString
+import com.mongodb.*
 import com.mongodb.MongoClientSettings
-import com.mongodb.MongoDriverInformation
 import com.mongodb.async.client.MongoClients
-import org.bson.codecs.configuration.CodecRegistry
+import org.bson.codecs.configuration.*
 
 /**
  * A factory for MongoClient instances.

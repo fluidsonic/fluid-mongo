@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.github.fluidsonic.fluid.mongo
+package io.fluidsonic.mongo
 
-import com.mongodb.ClientSessionOptions
-import com.mongodb.annotations.Immutable
-import org.bson.Document
-import org.bson.conversions.Bson
-import java.io.Closeable
+import com.mongodb.*
+import com.mongodb.annotations.*
+import org.bson.*
+import org.bson.conversions.*
+import java.io.*
 
 /**
  * A client-side representation of a MongoDB cluster.  Instances can represent either a standalone MongoDB instance, a replica set,

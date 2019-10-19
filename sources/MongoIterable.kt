@@ -14,14 +14,11 @@
  * limitations under the License.
  */
 
-package com.github.fluidsonic.fluid.mongo
+package io.fluidsonic.mongo
 
-import com.mongodb.async.AsyncBatchCursor
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.channels.produce
-import kotlinx.coroutines.channels.toMutableList
-import kotlinx.coroutines.channels.toMutableSet
+import com.mongodb.async.*
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.*
 
 /**
  * Operations that allow asynchronous iteration over a collection view.

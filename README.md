@@ -1,8 +1,8 @@
 fluid-mongo
 ===========
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.github.fluidsonic/fluid-mongo?label=Maven%20Central)](https://search.maven.org/artifact/com.github.fluidsonic/fluid-mongo)
-[![JCenter](https://img.shields.io/bintray/v/bintray/jcenter/fluid-mongo?label=JCenter)](https://bintray.com/fluidsonic/maven/fluid-mongo)
+[![Maven Central](https://img.shields.io/maven-central/v/io.fluidsonic.mongo/fluid-mongo?label=Maven%20Central)](https://search.maven.org/artifact/io.fluidsonic.mongo/fluid-mongo)
+[![JCenter](https://img.shields.io/bintray/v/fluidsonic/kotlin/mongo?label=JCenter)](https://bintray.com/fluidsonic/kotlin/mongo)
 [![Kotlin](https://img.shields.io/badge/Kotlin-1.3.50-blue.svg)](https://github.com/JetBrains/kotlin/releases/v1.3.50)
 [![Kotlin Coroutines](https://img.shields.io/badge/Kotlin%20Coroutines-1.3.2-blue.svg)](https://github.com/Kotlin/kotlinx.coroutines/releases/tag/1.3.2)
 [![MongoDB Driver](https://img.shields.io/badge/MongoDB%20Driver-Async%203.11.1-blue.svg)](https://mongodb.github.io/mongo-java-driver/3.11/driver-async/)
@@ -18,7 +18,7 @@ Installation
 `build.gradle.kts`:
 ```kotlin
 dependencies {
-    implementation("com.github.fluidsonic:fluid-mongo:0.9.10")
+    implementation("io.fluidsonic:fluid-mongo:0.9.11")
 }
 ```
 
@@ -27,7 +27,7 @@ Example
 -------
 
 ```kotlin
-import com.github.fluidsonic.fluid.mongo.MongoClients
+import io.fluidsonic.mongo.MongoClients
 import org.bson.Document
 
 

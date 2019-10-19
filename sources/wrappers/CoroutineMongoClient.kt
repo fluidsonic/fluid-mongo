@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.github.fluidsonic.fluid.mongo
+package io.fluidsonic.mongo
 
-import com.mongodb.ClientSessionOptions
-import org.bson.conversions.Bson
+import com.mongodb.*
+import org.bson.conversions.*
 
 
 internal class CoroutineMongoClient(

@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-package com.github.fluidsonic.fluid.mongo
+package io.fluidsonic.mongo
 
-import com.mongodb.client.model.Collation
-import com.mongodb.client.model.changestream.ChangeStreamDocument
-import com.mongodb.client.model.changestream.FullDocument
-import org.bson.BsonDocument
-import org.bson.BsonTimestamp
-import java.util.concurrent.TimeUnit
+import com.mongodb.client.model.*
+import com.mongodb.client.model.changestream.*
+import org.bson.*
+import java.util.concurrent.*
 
 
 internal class CoroutineChangeStreamIterable<TResult>(
