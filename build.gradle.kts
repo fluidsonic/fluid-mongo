@@ -11,9 +11,10 @@ fluidJvmLibraryVariant(JvmTarget.jdk8) {
 }
 
 dependencies {
+	implementation(kotlinx("coroutines-reactive", "1.3.2"))
 	implementation(mongodb("driver-reactivestreams", "1.12.0"))
 
-	api(kotlinx("coroutines-reactive", "1.3.2"))
+	api(kotlinx("coroutines-core", "1.3.2"))
 	api(mongodb("driver-core", "3.11.1"))
 }
 
