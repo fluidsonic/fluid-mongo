@@ -1,7 +1,7 @@
 import io.fluidsonic.gradle.*
 
 plugins {
-	id("io.fluidsonic.gradle") version "1.0.2"
+	id("io.fluidsonic.gradle") version "1.0.3"
 }
 
 fluidJvmLibrary(name = "mongo", version = "1.0.0-beta.2")
