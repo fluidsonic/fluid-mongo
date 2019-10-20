@@ -24,8 +24,8 @@ import org.bson.conversions.*
 import java.util.concurrent.*
 
 
-internal class ReactiveDistinctFlow<TResult : Any>(
-	private val source: DistinctPublisher<TResult>
+internal class ReactiveDistinctFlow<out TResult : Any>(
+	private val source: DistinctPublisher<out TResult>
 ) : DistinctFlow<TResult>, Flow<TResult> by source.asFlow() {
 
 	override fun filter(filter: Bson?) = apply {
@@ -53,5 +53,5 @@ internal class ReactiveDistinctFlow<TResult : Any>(
 }
 
 
-internal fun <TResult : Any> DistinctPublisher<TResult>.wrap() =
+internal fun <TResult : Any> DistinctPublisher<out TResult>.wrap() =
 	ReactiveDistinctFlow(this)

@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.*
 import org.bson.*
 import org.bson.codecs.configuration.*
 import org.bson.conversions.*
+import kotlin.reflect.*
 
 /**
  * The MongoCollection interface.
@@ -49,7 +50,7 @@ interface MongoCollection<TDocument : Any> {
 	 *
 	 * @return the class
 	 */
-	val documentClass: Class<TDocument>
+	val documentClass: KClass<TDocument>
 
 	/**
 	 * Get the codec registry for the MongoCollection.
@@ -89,7 +90,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @param <NewTDocument>   the type that the new collection will encode documents from and decode documents to
 	 * @return a new MongoCollection instance with the different default class
 	 */
-	fun <NewTDocument : Any> withDocumentClass(newDocumentClass: Class<NewTDocument>): MongoCollection<NewTDocument>
+	fun <NewTDocument : Any> withDocumentClass(newDocumentClass: KClass<NewTDocument>): MongoCollection<NewTDocument>
 
 	/**
 	 * Create a new MongoCollection instance with a different codec registry.
@@ -288,7 +289,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return an iterable of distinct values
 	 * @mongodb.driver.manual reference/command/distinct/ Distinct
 	 */
-	fun <TResult : Any> distinct(fieldName: String, resultClass: Class<TResult>): DistinctFlow<TResult>
+	fun <TResult : Any> distinct(fieldName: String, resultClass: KClass<out TResult>): DistinctFlow<TResult>
 
 	/**
 	 * Gets the distinct values of the specified field name.
@@ -300,7 +301,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return an iterable of distinct values
 	 * @mongodb.driver.manual reference/command/distinct/ Distinct
 	 */
-	fun <TResult : Any> distinct(fieldName: String, filter: Bson, resultClass: Class<TResult>): DistinctFlow<TResult>
+	fun <TResult : Any> distinct(fieldName: String, filter: Bson, resultClass: KClass<out TResult>): DistinctFlow<TResult>
 
 	/**
 	 * Gets the distinct values of the specified field name.
@@ -314,7 +315,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult : Any> distinct(clientSession: ClientSession, fieldName: String, resultClass: Class<TResult>): DistinctFlow<TResult>
+	fun <TResult : Any> distinct(clientSession: ClientSession, fieldName: String, resultClass: KClass<out TResult>): DistinctFlow<TResult>
 
 	/**
 	 * Gets the distinct values of the specified field name.
@@ -329,7 +330,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult : Any> distinct(clientSession: ClientSession, fieldName: String, filter: Bson, resultClass: Class<TResult>): DistinctFlow<TResult>
+	fun <TResult : Any> distinct(clientSession: ClientSession, fieldName: String, filter: Bson, resultClass: KClass<out TResult>): DistinctFlow<TResult>
 
 	/**
 	 * Finds all documents in the collection.
@@ -347,7 +348,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return the find iterable interface
 	 * @mongodb.driver.manual tutorial/query-documents/ Find
 	 */
-	fun <TResult : Any> find(resultClass: Class<TResult>): FindFlow<TResult>
+	fun <TResult : Any> find(resultClass: KClass<out TResult>): FindFlow<TResult>
 
 	/**
 	 * Finds all documents in the collection.
@@ -367,7 +368,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return the find iterable interface
 	 * @mongodb.driver.manual tutorial/query-documents/ Find
 	 */
-	fun <TResult : Any> find(filter: Bson, resultClass: Class<TResult>): FindFlow<TResult>
+	fun <TResult : Any> find(filter: Bson, resultClass: KClass<out TResult>): FindFlow<TResult>
 
 	/**
 	 * Finds all documents in the collection.
@@ -391,7 +392,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult : Any> find(clientSession: ClientSession, resultClass: Class<TResult>): FindFlow<TResult>
+	fun <TResult : Any> find(clientSession: ClientSession, resultClass: KClass<out TResult>): FindFlow<TResult>
 
 	/**
 	 * Finds all documents in the collection.
@@ -417,7 +418,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult : Any> find(clientSession: ClientSession, filter: Bson, resultClass: Class<TResult>): FindFlow<TResult>
+	fun <TResult : Any> find(clientSession: ClientSession, filter: Bson, resultClass: KClass<out TResult>): FindFlow<TResult>
 
 	/**
 	 * Aggregates documents according to the specified aggregation pipeline.  If the pipeline ends with a $out stage, the returned
@@ -441,7 +442,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return an iterable containing the result of the aggregation operation
 	 * @mongodb.driver.manual aggregation/ Aggregation
 	 */
-	fun <TResult : Any> aggregate(pipeline: List<Bson>, resultClass: Class<TResult>): AggregateFlow<TResult>
+	fun <TResult : Any> aggregate(pipeline: List<Bson>, resultClass: KClass<out TResult>): AggregateFlow<TResult>
 
 	/**
 	 * Aggregates documents according to the specified aggregation pipeline.  If the pipeline ends with a $out stage, the returned
@@ -471,7 +472,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult : Any> aggregate(clientSession: ClientSession, pipeline: List<Bson>, resultClass: Class<TResult>): AggregateFlow<TResult>
+	fun <TResult : Any> aggregate(clientSession: ClientSession, pipeline: List<Bson>, resultClass: KClass<out TResult>): AggregateFlow<TResult>
 
 	/**
 	 * Creates a change stream for this collection.
@@ -493,7 +494,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult : Any> watch(resultClass: Class<TResult>): ChangeStreamFlow<TResult>
+	fun <TResult : Any> watch(resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a change stream for this collection.
@@ -517,7 +518,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult : Any> watch(pipeline: List<Bson>, resultClass: Class<TResult>): ChangeStreamFlow<TResult>
+	fun <TResult : Any> watch(pipeline: List<Bson>, resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a change stream for this collection.
@@ -541,7 +542,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult : Any> watch(clientSession: ClientSession, resultClass: Class<TResult>): ChangeStreamFlow<TResult>
+	fun <TResult : Any> watch(clientSession: ClientSession, resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a change stream for this collection.
@@ -567,7 +568,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult : Any> watch(clientSession: ClientSession, pipeline: List<Bson>, resultClass: Class<TResult>): ChangeStreamFlow<TResult>
+	fun <TResult : Any> watch(clientSession: ClientSession, pipeline: List<Bson>, resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Aggregates documents according to the specified map-reduce function.
@@ -589,7 +590,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return an iterable containing the result of the map-reduce operation
 	 * @mongodb.driver.manual reference/command/mapReduce/ map-reduce
 	 */
-	fun <TResult : Any> mapReduce(mapFunction: String, reduceFunction: String, resultClass: Class<TResult>): MapReduceFlow<TResult>
+	fun <TResult : Any> mapReduce(mapFunction: String, reduceFunction: String, resultClass: KClass<out TResult>): MapReduceFlow<TResult>
 
 	/**
 	 * Aggregates documents according to the specified map-reduce function.
@@ -618,7 +619,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @mongodb.server.release 3.6
 	 */
 	fun <TResult : Any> mapReduce(clientSession: ClientSession, mapFunction: String, reduceFunction: String,
-	                              resultClass: Class<TResult>): MapReduceFlow<TResult>
+	                              resultClass: KClass<out TResult>): MapReduceFlow<TResult>
 
 	/**
 	 * Executes a mix of inserts, updates, replaces, and deletes.
@@ -1335,7 +1336,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return the list indexes iterable interface
 	 * @mongodb.driver.manual reference/command/listIndexes/ List indexes
 	 */
-	fun <TResult : Any> listIndexes(resultClass: Class<TResult>): ListIndexesFlow<TResult>
+	fun <TResult : Any> listIndexes(resultClass: KClass<out TResult>): ListIndexesFlow<TResult>
 
 	/**
 	 * Get all the indexes in this collection.
@@ -1359,7 +1360,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult : Any> listIndexes(clientSession: ClientSession, resultClass: Class<TResult>): ListIndexesFlow<TResult>
+	fun <TResult : Any> listIndexes(clientSession: ClientSession, resultClass: KClass<out TResult>): ListIndexesFlow<TResult>
 
 	/**
 	 * Drops the index given its name.

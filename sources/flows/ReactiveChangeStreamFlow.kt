@@ -23,11 +23,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.reactive.*
 import org.bson.*
 import java.util.concurrent.*
+import kotlin.reflect.*
 
 
-internal class ReactiveChangeStreamFlow<TResult : Any>(
-	private val source: ChangeStreamPublisher<TResult>
-) : ChangeStreamFlow<TResult>, Flow<ChangeStreamDocument<TResult>> by source.asFlow() {
+internal class ReactiveChangeStreamFlow<out TResult : Any>(
+	private val source: ChangeStreamPublisher<out TResult>
+) : ChangeStreamFlow<TResult>, Flow<ChangeStreamDocument<out TResult>> by source.asFlow() {
 
 	override fun fullDocument(fullDocument: FullDocument) = apply {
 		source.fullDocument(fullDocument)
@@ -64,14 +65,14 @@ internal class ReactiveChangeStreamFlow<TResult : Any>(
 	}
 
 
-	override fun <TDocument : Any> withDocumentClass(clazz: Class<TDocument>): Flow<TDocument> =
-		source.withDocumentClass(clazz).asFlow()
+	override fun <TDocument : Any> withDocumentClass(clazz: KClass<out TDocument>): Flow<TDocument> =
+		source.withDocumentClass(clazz.java).asFlow()
 
 
-	override suspend fun firstOrNull(): ChangeStreamDocument<TResult>? =
+	override suspend fun firstOrNull(): ChangeStreamDocument<out TResult>? =
 		source.first().awaitFirstOrNull()
 }
 
 
-internal fun <TResult : Any> ChangeStreamPublisher<TResult>.wrap() =
+internal fun <TResult : Any> ChangeStreamPublisher<out TResult>.wrap() =
 	ReactiveChangeStreamFlow(this)

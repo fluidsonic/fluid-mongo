@@ -21,6 +21,7 @@ import com.mongodb.client.model.*
 import kotlinx.coroutines.reactive.*
 import org.bson.codecs.configuration.*
 import org.bson.conversions.*
+import kotlin.reflect.*
 
 
 internal class ReactiveMongoDatabase(
@@ -63,8 +64,8 @@ internal class ReactiveMongoDatabase(
 		source.getCollection(collectionName).wrap()
 
 
-	override fun <TDocument : Any> getCollection(collectionName: String, documentClass: Class<TDocument>) =
-		source.getCollection(collectionName, documentClass).wrap()
+	override fun <TDocument : Any> getCollection(collectionName: String, documentClass: KClass<TDocument>) =
+		source.getCollection(collectionName, documentClass.java).wrap()
 
 
 	override suspend fun runCommand(command: Bson) =
@@ -75,12 +76,12 @@ internal class ReactiveMongoDatabase(
 		source.runCommand(command, readPreference).awaitFirst()!!
 
 
-	override suspend fun <TResult : Any> runCommand(command: Bson, resultClass: Class<TResult>) =
-		source.runCommand(command, resultClass).awaitFirst()!!
+	override suspend fun <TResult : Any> runCommand(command: Bson, resultClass: KClass<out TResult>) =
+		source.runCommand(command, resultClass.java).awaitFirst()!!
 
 
-	override suspend fun <TResult : Any> runCommand(command: Bson, readPreference: ReadPreference, resultClass: Class<TResult>) =
-		source.runCommand(command, readPreference, resultClass).awaitFirst()!!
+	override suspend fun <TResult : Any> runCommand(command: Bson, readPreference: ReadPreference, resultClass: KClass<out TResult>) =
+		source.runCommand(command, readPreference, resultClass.java).awaitFirst()!!
 
 
 	override suspend fun runCommand(clientSession: ClientSession, command: Bson) =
@@ -91,12 +92,12 @@ internal class ReactiveMongoDatabase(
 		source.runCommand(clientSession.unwrap(), command, readPreference).awaitFirst()!!
 
 
-	override suspend fun <TResult : Any> runCommand(clientSession: ClientSession, command: Bson, resultClass: Class<TResult>) =
-		source.runCommand(clientSession.unwrap(), command, resultClass).awaitFirst()!!
+	override suspend fun <TResult : Any> runCommand(clientSession: ClientSession, command: Bson, resultClass: KClass<out TResult>) =
+		source.runCommand(clientSession.unwrap(), command, resultClass.java).awaitFirst()!!
 
 
-	override suspend fun <TResult : Any> runCommand(clientSession: ClientSession, command: Bson, readPreference: ReadPreference, resultClass: Class<TResult>) =
-		source.runCommand(clientSession.unwrap(), command, readPreference, resultClass).awaitFirst()!!
+	override suspend fun <TResult : Any> runCommand(clientSession: ClientSession, command: Bson, readPreference: ReadPreference, resultClass: KClass<out TResult>) =
+		source.runCommand(clientSession.unwrap(), command, readPreference, resultClass.java).awaitFirst()!!
 
 
 	override suspend fun drop() {
@@ -121,16 +122,16 @@ internal class ReactiveMongoDatabase(
 		source.listCollections().wrap()
 
 
-	override fun <TResult : Any> listCollections(resultClass: Class<TResult>) =
-		source.listCollections(resultClass).wrap()
+	override fun <TResult : Any> listCollections(resultClass: KClass<out TResult>) =
+		source.listCollections(resultClass.java).wrap()
 
 
 	override fun listCollections(clientSession: ClientSession) =
 		source.listCollections(clientSession.unwrap()).wrap()
 
 
-	override fun <TResult : Any> listCollections(clientSession: ClientSession, resultClass: Class<TResult>) =
-		source.listCollections(clientSession.unwrap(), resultClass).wrap()
+	override fun <TResult : Any> listCollections(clientSession: ClientSession, resultClass: KClass<out TResult>) =
+		source.listCollections(clientSession.unwrap(), resultClass.java).wrap()
 
 
 	override suspend fun createCollection(collectionName: String) {
@@ -177,48 +178,48 @@ internal class ReactiveMongoDatabase(
 		source.watch().wrap()
 
 
-	override fun <TResult : Any> watch(resultClass: Class<TResult>) =
-		source.watch(resultClass).wrap()
+	override fun <TResult : Any> watch(resultClass: KClass<out TResult>) =
+		source.watch(resultClass.java).wrap()
 
 
 	override fun watch(pipeline: List<Bson>) =
 		source.watch(pipeline).wrap()
 
 
-	override fun <TResult : Any> watch(pipeline: List<Bson>, resultClass: Class<TResult>) =
-		source.watch(pipeline, resultClass).wrap()
+	override fun <TResult : Any> watch(pipeline: List<Bson>, resultClass: KClass<out TResult>) =
+		source.watch(pipeline, resultClass.java).wrap()
 
 
 	override fun watch(clientSession: ClientSession) =
 		source.watch(clientSession.unwrap()).wrap()
 
 
-	override fun <TResult : Any> watch(clientSession: ClientSession, resultClass: Class<TResult>) =
-		source.watch(clientSession.unwrap(), resultClass).wrap()
+	override fun <TResult : Any> watch(clientSession: ClientSession, resultClass: KClass<out TResult>) =
+		source.watch(clientSession.unwrap(), resultClass.java).wrap()
 
 
 	override fun watch(clientSession: ClientSession, pipeline: List<Bson>) =
 		source.watch(clientSession.unwrap(), pipeline).wrap()
 
 
-	override fun <TResult : Any> watch(clientSession: ClientSession, pipeline: List<Bson>, resultClass: Class<TResult>) =
-		source.watch(clientSession.unwrap(), pipeline, resultClass).wrap()
+	override fun <TResult : Any> watch(clientSession: ClientSession, pipeline: List<Bson>, resultClass: KClass<out TResult>) =
+		source.watch(clientSession.unwrap(), pipeline, resultClass.java).wrap()
 
 
 	override fun aggregate(pipeline: List<Bson>) =
 		source.aggregate(pipeline).wrap()
 
 
-	override fun <TResult : Any> aggregate(pipeline: List<Bson>, resultClass: Class<TResult>) =
-		source.aggregate(pipeline, resultClass).wrap()
+	override fun <TResult : Any> aggregate(pipeline: List<Bson>, resultClass: KClass<out TResult>) =
+		source.aggregate(pipeline, resultClass.java).wrap()
 
 
 	override fun aggregate(clientSession: ClientSession, pipeline: List<Bson>) =
 		source.aggregate(clientSession.unwrap(), pipeline).wrap()
 
 
-	override fun <TResult : Any> aggregate(clientSession: ClientSession, pipeline: List<Bson>, resultClass: Class<TResult>) =
-		source.aggregate(clientSession.unwrap(), pipeline, resultClass).wrap()
+	override fun <TResult : Any> aggregate(clientSession: ClientSession, pipeline: List<Bson>, resultClass: KClass<out TResult>) =
+		source.aggregate(clientSession.unwrap(), pipeline, resultClass.java).wrap()
 }
 
 

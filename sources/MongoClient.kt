@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.*
 import org.bson.*
 import org.bson.conversions.*
 import java.io.*
+import kotlin.reflect.*
 
 /**
  * A client-side representation of a MongoDB cluster.  Instances can represent either a standalone MongoDB instance, a replica set,
@@ -95,7 +96,7 @@ interface MongoClient : Closeable {
 	 * @param <TResult>   the type of the class to use instead of `Document`.
 	 * @return the list databases iterable interface
 	 */
-	fun <TResult : Any> listDatabases(resultClass: Class<TResult>): ListDatabasesFlow<TResult>
+	fun <TResult : Any> listDatabases(resultClass: KClass<out TResult>): ListDatabasesFlow<TResult>
 
 	/**
 	 * Gets the list of databases
@@ -108,7 +109,7 @@ interface MongoClient : Closeable {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult : Any> listDatabases(clientSession: ClientSession, resultClass: Class<TResult>): ListDatabasesFlow<TResult>
+	fun <TResult : Any> listDatabases(clientSession: ClientSession, resultClass: KClass<out TResult>): ListDatabasesFlow<TResult>
 
 	/**
 	 * Creates a change stream for this client.
@@ -130,7 +131,7 @@ interface MongoClient : Closeable {
 	 * @since 3.8
 	 * @mongodb.server.release 4.0
 	 */
-	fun <TResult : Any> watch(resultClass: Class<TResult>): ChangeStreamFlow<TResult>
+	fun <TResult : Any> watch(resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a change stream for this client.
@@ -154,7 +155,7 @@ interface MongoClient : Closeable {
 	 * @since 3.8
 	 * @mongodb.server.release 4.0
 	 */
-	fun <TResult : Any> watch(pipeline: List<Bson>, resultClass: Class<TResult>): ChangeStreamFlow<TResult>
+	fun <TResult : Any> watch(pipeline: List<Bson>, resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a change stream for this client.
@@ -178,7 +179,7 @@ interface MongoClient : Closeable {
 	 * @mongodb.server.release 4.0
 	 * @mongodb.driver.dochub core/changestreams Change Streams
 	 */
-	fun <TResult : Any> watch(clientSession: ClientSession, resultClass: Class<TResult>): ChangeStreamFlow<TResult>
+	fun <TResult : Any> watch(clientSession: ClientSession, resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a change stream for this client.
@@ -204,7 +205,7 @@ interface MongoClient : Closeable {
 	 * @mongodb.server.release 4.0
 	 * @mongodb.driver.dochub core/changestreams Change Streams
 	 */
-	fun <TResult : Any> watch(clientSession: ClientSession, pipeline: List<Bson>, resultClass: Class<TResult>): ChangeStreamFlow<TResult>
+	fun <TResult : Any> watch(clientSession: ClientSession, pipeline: List<Bson>, resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a client session with default options.

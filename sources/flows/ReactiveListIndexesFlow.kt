@@ -22,8 +22,8 @@ import kotlinx.coroutines.reactive.*
 import java.util.concurrent.*
 
 
-internal class ReactiveListIndexesFlow<TResult : Any>(
-	private val source: ListIndexesPublisher<TResult>
+internal class ReactiveListIndexesFlow<out TResult : Any>(
+	private val source: ListIndexesPublisher<out TResult>
 ) : ListIndexesFlow<TResult>, Flow<TResult> by source.asFlow() {
 
 	override fun maxTime(maxTime: Long, timeUnit: TimeUnit) = apply {
@@ -41,5 +41,5 @@ internal class ReactiveListIndexesFlow<TResult : Any>(
 }
 
 
-internal fun <TResult : Any> ListIndexesPublisher<TResult>.wrap() =
+internal fun <TResult : Any> ListIndexesPublisher<out TResult>.wrap() =
 	ReactiveListIndexesFlow(this)

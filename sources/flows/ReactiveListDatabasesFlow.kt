@@ -23,8 +23,8 @@ import org.bson.conversions.*
 import java.util.concurrent.*
 
 
-internal class ReactiveListDatabasesFlow<TResult : Any>(
-	private val source: ListDatabasesPublisher<TResult>
+internal class ReactiveListDatabasesFlow<out TResult : Any>(
+	private val source: ListDatabasesPublisher<out TResult>
 ) : ListDatabasesFlow<TResult>, Flow<TResult> by source.asFlow() {
 
 	override fun maxTime(maxTime: Long, timeUnit: TimeUnit) = apply {
@@ -52,5 +52,5 @@ internal class ReactiveListDatabasesFlow<TResult : Any>(
 }
 
 
-internal fun <TResult : Any> ListDatabasesPublisher<TResult>.wrap() =
+internal fun <TResult : Any> ListDatabasesPublisher<out TResult>.wrap() =
 	ReactiveListDatabasesFlow(this)

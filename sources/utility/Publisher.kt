@@ -5,11 +5,11 @@ import kotlinx.coroutines.reactive.*
 import org.reactivestreams.*
 
 
-internal suspend fun Publisher<Success>.awaitSuccess() {
+internal suspend fun Publisher<out Success>.awaitSuccess() {
 	awaitFirst()
 }
 
 
-internal suspend fun Publisher<Void>.awaitUnit() {
+internal suspend fun Publisher<out Void>.awaitUnit() {
 	awaitFirst()
 }

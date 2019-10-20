@@ -24,8 +24,8 @@ import org.bson.conversions.*
 import java.util.concurrent.*
 
 
-internal class ReactiveAggregateFlow<TResult : Any>(
-	private val source: AggregatePublisher<TResult>
+internal class ReactiveAggregateFlow<out TResult : Any>(
+	private val source: AggregatePublisher<out TResult>
 ) : AggregateFlow<TResult>, Flow<TResult> by source.asFlow() {
 
 	override fun allowDiskUse(allowDiskUse: Boolean?) = apply {
@@ -78,5 +78,5 @@ internal class ReactiveAggregateFlow<TResult : Any>(
 }
 
 
-internal fun <TResult : Any> AggregatePublisher<TResult>.wrap() =
+internal fun <TResult : Any> AggregatePublisher<out TResult>.wrap() =
 	ReactiveAggregateFlow(this)

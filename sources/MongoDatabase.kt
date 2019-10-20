@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.*
 import org.bson.*
 import org.bson.codecs.configuration.*
 import org.bson.conversions.*
+import kotlin.reflect.*
 
 /**
  * The MongoDatabase interface.
@@ -125,7 +126,7 @@ interface MongoDatabase {
 	 * @param <TDocument>   the type of the class to use instead of `Document`.
 	 * @return the collection
 	 */
-	fun <TDocument : Any> getCollection(collectionName: String, documentClass: Class<TDocument>): MongoCollection<TDocument>
+	fun <TDocument : Any> getCollection(collectionName: String, documentClass: KClass<TDocument>): MongoCollection<TDocument>
 
 	/**
 	 * Executes the given command in the context of the current database with a read preference of [ReadPreference.primary].
@@ -149,7 +150,7 @@ interface MongoDatabase {
 	 * @param resultClass the default class to cast any documents returned from the database into.
 	 * @param <TResult>   the type of the class to use instead of `Document`.
 	 */
-	suspend fun <TResult : Any> runCommand(command: Bson, resultClass: Class<TResult>): TResult
+	suspend fun <TResult : Any> runCommand(command: Bson, resultClass: KClass<out TResult>): TResult
 
 	/**
 	 * Executes the given command in the context of the current database with the given read preference.
@@ -159,7 +160,7 @@ interface MongoDatabase {
 	 * @param resultClass    the default class to cast any documents returned from the database into.
 	 * @param <TResult>      the type of the class to use instead of `Document`.
 	 */
-	suspend fun <TResult : Any> runCommand(command: Bson, readPreference: ReadPreference, resultClass: Class<TResult>): TResult
+	suspend fun <TResult : Any> runCommand(command: Bson, readPreference: ReadPreference, resultClass: KClass<out TResult>): TResult
 
 	/**
 	 * Executes the given command in the context of the current database with a read preference of [ReadPreference.primary].
@@ -192,7 +193,7 @@ interface MongoDatabase {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun <TResult : Any> runCommand(clientSession: ClientSession, command: Bson, resultClass: Class<TResult>): TResult
+	suspend fun <TResult : Any> runCommand(clientSession: ClientSession, command: Bson, resultClass: KClass<out TResult>): TResult
 
 	/**
 	 * Executes the given command in the context of the current database with the given read preference.
@@ -205,7 +206,7 @@ interface MongoDatabase {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun <TResult : Any> runCommand(clientSession: ClientSession, command: Bson, readPreference: ReadPreference, resultClass: Class<TResult>): TResult
+	suspend fun <TResult : Any> runCommand(clientSession: ClientSession, command: Bson, readPreference: ReadPreference, resultClass: KClass<out TResult>): TResult
 
 	/**
 	 * Drops this database.
@@ -257,7 +258,7 @@ interface MongoDatabase {
 	 * @return the list collections iterable interface
 	 * @mongodb.driver.manual reference/command/listCollections listCollections
 	 */
-	fun <TResult : Any> listCollections(resultClass: Class<TResult>): ListCollectionsFlow<TResult>
+	fun <TResult : Any> listCollections(resultClass: KClass<out TResult>): ListCollectionsFlow<TResult>
 
 	/**
 	 * Finds all the collections in this database.
@@ -281,7 +282,7 @@ interface MongoDatabase {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult : Any> listCollections(clientSession: ClientSession, resultClass: Class<TResult>): ListCollectionsFlow<TResult>
+	fun <TResult : Any> listCollections(clientSession: ClientSession, resultClass: KClass<out TResult>): ListCollectionsFlow<TResult>
 
 	/**
 	 * Create a new collection with the given name.
@@ -396,7 +397,7 @@ interface MongoDatabase {
 	 * @since 3.8
 	 * @mongodb.server.release 4.0
 	 */
-	fun <TResult : Any> watch(resultClass: Class<TResult>): ChangeStreamFlow<TResult>
+	fun <TResult : Any> watch(resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a change stream for this database.
@@ -420,7 +421,7 @@ interface MongoDatabase {
 	 * @since 3.8
 	 * @mongodb.server.release 4.0
 	 */
-	fun <TResult : Any> watch(pipeline: List<Bson>, resultClass: Class<TResult>): ChangeStreamFlow<TResult>
+	fun <TResult : Any> watch(pipeline: List<Bson>, resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a change stream for this database.
@@ -444,7 +445,7 @@ interface MongoDatabase {
 	 * @mongodb.server.release 4.0
 	 * @mongodb.driver.dochub core/changestreams Change Streams
 	 */
-	fun <TResult : Any> watch(clientSession: ClientSession, resultClass: Class<TResult>): ChangeStreamFlow<TResult>
+	fun <TResult : Any> watch(clientSession: ClientSession, resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a change stream for this database.
@@ -470,7 +471,7 @@ interface MongoDatabase {
 	 * @mongodb.server.release 4.0
 	 * @mongodb.driver.dochub core/changestreams Change Streams
 	 */
-	fun <TResult : Any> watch(clientSession: ClientSession, pipeline: List<Bson>, resultClass: Class<TResult>): ChangeStreamFlow<TResult>
+	fun <TResult : Any> watch(clientSession: ClientSession, pipeline: List<Bson>, resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Runs an aggregation framework pipeline on the database for pipeline stages
@@ -496,7 +497,7 @@ interface MongoDatabase {
 	 * @mongodb.driver.manual reference/command/aggregate/#dbcmd.aggregate Aggregate Command
 	 * @mongodb.server.release 3.6
 	</TResult> */
-	fun <TResult : Any> aggregate(pipeline: List<Bson>, resultClass: Class<TResult>): AggregateFlow<TResult>
+	fun <TResult : Any> aggregate(pipeline: List<Bson>, resultClass: KClass<out TResult>): AggregateFlow<TResult>
 
 	/**
 	 * Runs an aggregation framework pipeline on the database for pipeline stages
@@ -524,5 +525,5 @@ interface MongoDatabase {
 	 * @mongodb.driver.manual reference/command/aggregate/#dbcmd.aggregate Aggregate Command
 	 * @mongodb.server.release 3.6
 	</TResult> */
-	fun <TResult : Any> aggregate(clientSession: ClientSession, pipeline: List<Bson>, resultClass: Class<TResult>): AggregateFlow<TResult>
+	fun <TResult : Any> aggregate(clientSession: ClientSession, pipeline: List<Bson>, resultClass: KClass<out TResult>): AggregateFlow<TResult>
 }

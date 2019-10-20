@@ -19,6 +19,7 @@ package io.fluidsonic.mongo
 import com.mongodb.*
 import kotlinx.coroutines.reactive.*
 import org.bson.conversions.*
+import kotlin.reflect.*
 
 
 internal class ReactiveMongoClient(
@@ -49,44 +50,44 @@ internal class ReactiveMongoClient(
 		source.listDatabases(clientSession.unwrap()).wrap()
 
 
-	override fun <TResult : Any> listDatabases(resultClass: Class<TResult>) =
-		source.listDatabases(resultClass).wrap()
+	override fun <TResult : Any> listDatabases(resultClass: KClass<out TResult>) =
+		source.listDatabases(resultClass.java).wrap()
 
 
-	override fun <TResult : Any> listDatabases(clientSession: ClientSession, resultClass: Class<TResult>) =
-		source.listDatabases(clientSession.unwrap(), resultClass).wrap()
+	override fun <TResult : Any> listDatabases(clientSession: ClientSession, resultClass: KClass<out TResult>) =
+		source.listDatabases(clientSession.unwrap(), resultClass.java).wrap()
 
 
 	override fun watch() =
 		source.watch().wrap()
 
 
-	override fun <TResult : Any> watch(resultClass: Class<TResult>) =
-		source.watch(resultClass).wrap()
+	override fun <TResult : Any> watch(resultClass: KClass<out TResult>) =
+		source.watch(resultClass.java).wrap()
 
 
 	override fun watch(pipeline: List<Bson>) =
 		source.watch(pipeline).wrap()
 
 
-	override fun <TResult : Any> watch(pipeline: List<Bson>, resultClass: Class<TResult>) =
-		source.watch(pipeline, resultClass).wrap()
+	override fun <TResult : Any> watch(pipeline: List<Bson>, resultClass: KClass<out TResult>) =
+		source.watch(pipeline, resultClass.java).wrap()
 
 
 	override fun watch(clientSession: ClientSession) =
 		source.watch(clientSession.unwrap()).wrap()
 
 
-	override fun <TResult : Any> watch(clientSession: ClientSession, resultClass: Class<TResult>) =
-		source.watch(clientSession.unwrap(), resultClass).wrap()
+	override fun <TResult : Any> watch(clientSession: ClientSession, resultClass: KClass<out TResult>) =
+		source.watch(clientSession.unwrap(), resultClass.java).wrap()
 
 
 	override fun watch(clientSession: ClientSession, pipeline: List<Bson>) =
 		source.watch(clientSession.unwrap(), pipeline).wrap()
 
 
-	override fun <TResult : Any> watch(clientSession: ClientSession, pipeline: List<Bson>, resultClass: Class<TResult>) =
-		source.watch(clientSession.unwrap(), pipeline, resultClass).wrap()
+	override fun <TResult : Any> watch(clientSession: ClientSession, pipeline: List<Bson>, resultClass: KClass<out TResult>) =
+		source.watch(clientSession.unwrap(), pipeline, resultClass.java).wrap()
 
 
 	override suspend fun startSession() =

@@ -25,8 +25,8 @@ import org.bson.conversions.*
 import java.util.concurrent.*
 
 
-internal class ReactiveFindFlow<TResult : Any>(
-	private val source: FindPublisher<TResult>
+internal class ReactiveFindFlow<out TResult : Any>(
+	private val source: FindPublisher<out TResult>
 ) : FindFlow<TResult>, Flow<TResult> by source.asFlow() {
 
 	override fun filter(filter: Bson?) = apply {
@@ -129,5 +129,5 @@ internal class ReactiveFindFlow<TResult : Any>(
 }
 
 
-internal fun <TResult : Any> FindPublisher<TResult>.wrap() =
+internal fun <TResult : Any> FindPublisher<out TResult>.wrap() =
 	ReactiveFindFlow(this)

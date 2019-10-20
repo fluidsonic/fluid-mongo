@@ -21,6 +21,7 @@ import com.mongodb.client.model.*
 import kotlinx.coroutines.reactive.*
 import org.bson.codecs.configuration.*
 import org.bson.conversions.*
+import kotlin.reflect.*
 
 
 internal class ReactiveMongoCollection<TDocument : Any>(
@@ -30,8 +31,8 @@ internal class ReactiveMongoCollection<TDocument : Any>(
 	override val namespace: MongoNamespace
 		get() = source.namespace
 
-	override val documentClass: Class<TDocument>
-		get() = source.documentClass
+	override val documentClass: KClass<TDocument>
+		get() = source.documentClass.kotlin
 
 	override val codecRegistry: CodecRegistry
 		get() = source.codecRegistry
@@ -46,8 +47,8 @@ internal class ReactiveMongoCollection<TDocument : Any>(
 		get() = source.readConcern
 
 
-	override fun <NewTDocument : Any> withDocumentClass(newDocumentClass: Class<NewTDocument>) =
-		source.withDocumentClass(newDocumentClass).wrap()
+	override fun <NewTDocument : Any> withDocumentClass(newDocumentClass: KClass<NewTDocument>) =
+		source.withDocumentClass(newDocumentClass.java).wrap()
 
 
 	override fun withCodecRegistry(codecRegistry: CodecRegistry) =
@@ -98,116 +99,116 @@ internal class ReactiveMongoCollection<TDocument : Any>(
 		source.estimatedDocumentCount(options).awaitFirst()!!
 
 
-	override fun <TResult : Any> distinct(fieldName: String, resultClass: Class<TResult>) =
-		source.distinct(fieldName, resultClass).wrap()
+	override fun <TResult : Any> distinct(fieldName: String, resultClass: KClass<out TResult>) =
+		source.distinct(fieldName, resultClass.java).wrap()
 
 
-	override fun <TResult : Any> distinct(fieldName: String, filter: Bson, resultClass: Class<TResult>) =
-		source.distinct(fieldName, filter, resultClass).wrap()
+	override fun <TResult : Any> distinct(fieldName: String, filter: Bson, resultClass: KClass<out TResult>) =
+		source.distinct(fieldName, filter, resultClass.java).wrap()
 
 
-	override fun <TResult : Any> distinct(clientSession: ClientSession, fieldName: String, resultClass: Class<TResult>) =
-		source.distinct(clientSession.unwrap(), fieldName, resultClass).wrap()
+	override fun <TResult : Any> distinct(clientSession: ClientSession, fieldName: String, resultClass: KClass<out TResult>) =
+		source.distinct(clientSession.unwrap(), fieldName, resultClass.java).wrap()
 
 
-	override fun <TResult : Any> distinct(clientSession: ClientSession, fieldName: String, filter: Bson, resultClass: Class<TResult>) =
-		source.distinct(clientSession.unwrap(), fieldName, filter, resultClass).wrap()
+	override fun <TResult : Any> distinct(clientSession: ClientSession, fieldName: String, filter: Bson, resultClass: KClass<out TResult>) =
+		source.distinct(clientSession.unwrap(), fieldName, filter, resultClass.java).wrap()
 
 
 	override fun find() =
 		source.find().wrap()
 
 
-	override fun <TResult : Any> find(resultClass: Class<TResult>) =
-		source.find(resultClass).wrap()
+	override fun <TResult : Any> find(resultClass: KClass<out TResult>) =
+		source.find(resultClass.java).wrap()
 
 
 	override fun find(filter: Bson) =
 		source.find(filter).wrap()
 
 
-	override fun <TResult : Any> find(filter: Bson, resultClass: Class<TResult>) =
-		source.find(filter, resultClass).wrap()
+	override fun <TResult : Any> find(filter: Bson, resultClass: KClass<out TResult>) =
+		source.find(filter, resultClass.java).wrap()
 
 
 	override fun find(clientSession: ClientSession) =
 		source.find(clientSession.unwrap()).wrap()
 
 
-	override fun <TResult : Any> find(clientSession: ClientSession, resultClass: Class<TResult>) =
-		source.find(clientSession.unwrap(), resultClass).wrap()
+	override fun <TResult : Any> find(clientSession: ClientSession, resultClass: KClass<out TResult>) =
+		source.find(clientSession.unwrap(), resultClass.java).wrap()
 
 
 	override fun find(clientSession: ClientSession, filter: Bson) =
 		source.find(clientSession.unwrap(), filter).wrap()
 
 
-	override fun <TResult : Any> find(clientSession: ClientSession, filter: Bson, resultClass: Class<TResult>) =
-		source.find(clientSession.unwrap(), filter, resultClass).wrap()
+	override fun <TResult : Any> find(clientSession: ClientSession, filter: Bson, resultClass: KClass<out TResult>) =
+		source.find(clientSession.unwrap(), filter, resultClass.java).wrap()
 
 
 	override fun aggregate(pipeline: List<Bson>) =
 		source.aggregate(pipeline).wrap()
 
 
-	override fun <TResult : Any> aggregate(pipeline: List<Bson>, resultClass: Class<TResult>) =
-		source.aggregate(pipeline, resultClass).wrap()
+	override fun <TResult : Any> aggregate(pipeline: List<Bson>, resultClass: KClass<out TResult>) =
+		source.aggregate(pipeline, resultClass.java).wrap()
 
 
 	override fun aggregate(clientSession: ClientSession, pipeline: List<Bson>) =
 		source.aggregate(clientSession.unwrap(), pipeline).wrap()
 
 
-	override fun <TResult : Any> aggregate(clientSession: ClientSession, pipeline: List<Bson>, resultClass: Class<TResult>) =
-		source.aggregate(clientSession.unwrap(), pipeline, resultClass).wrap()
+	override fun <TResult : Any> aggregate(clientSession: ClientSession, pipeline: List<Bson>, resultClass: KClass<out TResult>) =
+		source.aggregate(clientSession.unwrap(), pipeline, resultClass.java).wrap()
 
 
 	override fun watch() =
 		source.watch().wrap()
 
 
-	override fun <TResult : Any> watch(resultClass: Class<TResult>) =
-		source.watch(resultClass).wrap()
+	override fun <TResult : Any> watch(resultClass: KClass<out TResult>) =
+		source.watch(resultClass.java).wrap()
 
 
 	override fun watch(pipeline: List<Bson>) =
 		source.watch(pipeline).wrap()
 
 
-	override fun <TResult : Any> watch(pipeline: List<Bson>, resultClass: Class<TResult>) =
-		source.watch(pipeline, resultClass).wrap()
+	override fun <TResult : Any> watch(pipeline: List<Bson>, resultClass: KClass<out TResult>) =
+		source.watch(pipeline, resultClass.java).wrap()
 
 
 	override fun watch(clientSession: ClientSession) =
 		source.watch(clientSession.unwrap()).wrap()
 
 
-	override fun <TResult : Any> watch(clientSession: ClientSession, resultClass: Class<TResult>) =
-		source.watch(clientSession.unwrap(), resultClass).wrap()
+	override fun <TResult : Any> watch(clientSession: ClientSession, resultClass: KClass<out TResult>) =
+		source.watch(clientSession.unwrap(), resultClass.java).wrap()
 
 
 	override fun watch(clientSession: ClientSession, pipeline: List<Bson>) =
 		source.watch(clientSession.unwrap(), pipeline).wrap()
 
 
-	override fun <TResult : Any> watch(clientSession: ClientSession, pipeline: List<Bson>, resultClass: Class<TResult>) =
-		source.watch(clientSession.unwrap(), pipeline, resultClass).wrap()
+	override fun <TResult : Any> watch(clientSession: ClientSession, pipeline: List<Bson>, resultClass: KClass<out TResult>) =
+		source.watch(clientSession.unwrap(), pipeline, resultClass.java).wrap()
 
 
 	override fun mapReduce(mapFunction: String, reduceFunction: String) =
 		source.mapReduce(mapFunction, reduceFunction).wrap()
 
 
-	override fun <TResult : Any> mapReduce(mapFunction: String, reduceFunction: String, resultClass: Class<TResult>) =
-		source.mapReduce(mapFunction, reduceFunction, resultClass).wrap()
+	override fun <TResult : Any> mapReduce(mapFunction: String, reduceFunction: String, resultClass: KClass<out TResult>) =
+		source.mapReduce(mapFunction, reduceFunction, resultClass.java).wrap()
 
 
 	override fun mapReduce(clientSession: ClientSession, mapFunction: String, reduceFunction: String) =
 		source.mapReduce(clientSession.unwrap(), mapFunction, reduceFunction).wrap()
 
 
-	override fun <TResult : Any> mapReduce(clientSession: ClientSession, mapFunction: String, reduceFunction: String, resultClass: Class<TResult>) =
-		source.mapReduce(clientSession.unwrap(), mapFunction, reduceFunction, resultClass).wrap()
+	override fun <TResult : Any> mapReduce(clientSession: ClientSession, mapFunction: String, reduceFunction: String, resultClass: KClass<out TResult>) =
+		source.mapReduce(clientSession.unwrap(), mapFunction, reduceFunction, resultClass.java).wrap()
 
 
 	override suspend fun bulkWrite(requests: List<WriteModel<out TDocument>>) =
@@ -440,16 +441,16 @@ internal class ReactiveMongoCollection<TDocument : Any>(
 		source.listIndexes().wrap()
 
 
-	override fun <TResult : Any> listIndexes(resultClass: Class<TResult>) =
-		source.listIndexes(resultClass).wrap()
+	override fun <TResult : Any> listIndexes(resultClass: KClass<out TResult>) =
+		source.listIndexes(resultClass.java).wrap()
 
 
 	override fun listIndexes(clientSession: ClientSession) =
 		source.listIndexes(clientSession.unwrap()).wrap()
 
 
-	override fun <TResult : Any> listIndexes(clientSession: ClientSession, resultClass: Class<TResult>) =
-		source.listIndexes(clientSession.unwrap(), resultClass).wrap()
+	override fun <TResult : Any> listIndexes(clientSession: ClientSession, resultClass: KClass<out TResult>) =
+		source.listIndexes(clientSession.unwrap(), resultClass.java).wrap()
 
 
 	override suspend fun dropIndex(indexName: String) {

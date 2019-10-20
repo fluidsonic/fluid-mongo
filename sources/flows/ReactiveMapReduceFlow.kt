@@ -24,8 +24,8 @@ import org.bson.conversions.*
 import java.util.concurrent.*
 
 
-internal class ReactiveMapReduceFlow<TResult : Any>(
-	private val source: MapReducePublisher<TResult>
+internal class ReactiveMapReduceFlow<out TResult : Any>(
+	private val source: MapReducePublisher<out TResult>
 ) : MapReduceFlow<TResult>, Flow<TResult> by source.asFlow() {
 
 	override fun collectionName(collectionName: String) = apply {
@@ -118,5 +118,5 @@ internal class ReactiveMapReduceFlow<TResult : Any>(
 }
 
 
-internal fun <TResult : Any> MapReducePublisher<TResult>.wrap() =
+internal fun <TResult : Any> MapReducePublisher<out TResult>.wrap() =
 	ReactiveMapReduceFlow(this)

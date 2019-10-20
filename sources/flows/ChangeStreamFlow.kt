@@ -21,6 +21,7 @@ import com.mongodb.client.model.changestream.*
 import kotlinx.coroutines.flow.Flow
 import org.bson.*
 import java.util.concurrent.*
+import kotlin.reflect.*
 
 /**
  * Flow for change streams.
@@ -29,7 +30,7 @@ import java.util.concurrent.*
  * @mongodb.server.release 3.6
  * @since 3.6
  */
-interface ChangeStreamFlow<TResult : Any> : Flow<ChangeStreamDocument<TResult>> {
+interface ChangeStreamFlow<out TResult : Any> : Flow<ChangeStreamDocument<out TResult>> {
 
 	/**
 	 * Sets the fullDocument value.
@@ -109,7 +110,7 @@ interface ChangeStreamFlow<TResult : Any> : Flow<ChangeStreamDocument<TResult>> 
 	 * @param <TDocument> the result type
 	 * @return the new Flow
 	 */
-	fun <TDocument : Any> withDocumentClass(clazz: Class<TDocument>): Flow<TDocument>
+	fun <TDocument : Any> withDocumentClass(clazz: KClass<out TDocument>): Flow<TDocument>
 
 	/**
 	 * Sets the number of documents to return per batch.
@@ -130,5 +131,5 @@ interface ChangeStreamFlow<TResult : Any> : Flow<ChangeStreamDocument<TResult>> 
 	 * @return the first result or null
 	 * @since 1.8
 	 */
-	suspend fun firstOrNull(): ChangeStreamDocument<TResult>?
+	suspend fun firstOrNull(): ChangeStreamDocument<out TResult>?
 }

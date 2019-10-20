@@ -23,8 +23,8 @@ import org.bson.conversions.*
 import java.util.concurrent.*
 
 
-internal class ReactiveListCollectionsFlow<TResult : Any>(
-	private val source: ListCollectionsPublisher<TResult>
+internal class ReactiveListCollectionsFlow<out TResult : Any>(
+	private val source: ListCollectionsPublisher<out TResult>
 ) : ListCollectionsFlow<TResult>, Flow<TResult> by source.asFlow() {
 
 	override fun filter(filter: Bson?) = apply {
@@ -47,5 +47,5 @@ internal class ReactiveListCollectionsFlow<TResult : Any>(
 }
 
 
-internal fun <TResult : Any> ListCollectionsPublisher<TResult>.wrap() =
+internal fun <TResult : Any> ListCollectionsPublisher<out TResult>.wrap() =
 	ReactiveListCollectionsFlow(this)
