@@ -1,7 +1,7 @@
 import io.fluidsonic.gradle.*
 
 plugins {
-	id("io.fluidsonic.gradle") version "1.0.3"
+	id("io.fluidsonic.gradle") version "1.0.6"
 }
 
 fluidJvmLibrary(name = "mongo", version = "1.0.0-beta.2")
@@ -11,11 +11,11 @@ fluidJvmLibraryVariant(JvmTarget.jdk8) {
 }
 
 dependencies {
-	implementation(kotlinx("coroutines-reactive", "1.3.2"))
-	implementation(mongodb("driver-reactivestreams", "1.12.0"))
+	implementation(kotlinx("coroutines-reactive", "1.3.3"))
+	implementation(mongodb("driver-reactivestreams", "1.13.0"))
 
-	api(kotlinx("coroutines-core", "1.3.2"))
-	api(mongodb("driver-core", "3.11.1"))
+	api(kotlinx("coroutines-core", "1.3.3"))
+	api(mongodb("driver-core", "3.12.1"))
 }
 
 
