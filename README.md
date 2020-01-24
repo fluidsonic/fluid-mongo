@@ -17,7 +17,7 @@ Installation
 `build.gradle.kts`:
 ```kotlin
 dependencies {
-    implementation("io.fluidsonic.mongo:fluid-mongo:1.0.0-beta.3")
+    implementation("io.fluidsonic.mongo:fluid-mongo:1.0.0-beta.4")
 }
 ```
 
