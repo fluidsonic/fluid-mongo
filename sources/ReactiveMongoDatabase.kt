@@ -60,12 +60,12 @@ internal class ReactiveMongoDatabase(
 		source.withReadConcern(readConcern).wrap()
 
 
-	override fun getCollection(collectionName: String) =
-		source.getCollection(collectionName).wrap()
+	override fun getCollection(name: String) =
+		source.getCollection(name).wrap()
 
 
-	override fun <TDocument : Any> getCollection(collectionName: String, documentClass: KClass<TDocument>) =
-		source.getCollection(collectionName, documentClass.java).wrap()
+	override fun <TDocument : Any> getCollection(name: String, documentClass: KClass<TDocument>) =
+		source.getCollection(name, documentClass.java).wrap()
 
 
 	override suspend fun runCommand(command: Bson) =

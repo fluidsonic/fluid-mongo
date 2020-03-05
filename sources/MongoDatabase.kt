@@ -111,22 +111,22 @@ interface MongoDatabase {
 	/**
 	 * Gets a collection.
 	 *
-	 * @param collectionName the name of the collection to return
+	 * @param name the name of the collection to return
 	 * @return the collection
 	 * @throws IllegalArgumentException if collectionName is invalid
 	 * @see com.mongodb.MongoNamespace.checkCollectionNameValidity
 	 */
-	fun getCollection(collectionName: String): MongoCollection<Document>
+	fun getCollection(name: String): MongoCollection<Document>
 
 	/**
 	 * Gets a collection, with a specific default document class.
 	 *
-	 * @param collectionName the name of the collection to return
+	 * @param name the name of the collection to return
 	 * @param documentClass the default class to cast any documents returned from the database into.
 	 * @param <TDocument>   the type of the class to use instead of `Document`.
 	 * @return the collection
 	 */
-	fun <TDocument : Any> getCollection(collectionName: String, documentClass: KClass<TDocument>): MongoCollection<TDocument>
+	fun <TDocument : Any> getCollection(name: String, documentClass: KClass<TDocument>): MongoCollection<TDocument>
 
 	/**
 	 * Executes the given command in the context of the current database with a read preference of [ReadPreference.primary].
@@ -527,3 +527,14 @@ interface MongoDatabase {
 	</TResult> */
 	fun <TResult : Any> aggregate(clientSession: ClientSession, pipeline: List<Bson>, resultClass: KClass<out TResult>): AggregateFlow<TResult>
 }
+
+
+/**
+ * Gets a collection, with a specific default document class.
+ *
+ * @param name the name of the collection to return
+ * @param <TDocument>   the type of the class to use instead of `Document`.
+ * @return the collection
+ */
+inline fun <reified TDocument : Any> MongoDatabase.getCollectionOf(name: String): MongoCollection<TDocument> =
+	getCollection(name = name, documentClass = TDocument::class)
