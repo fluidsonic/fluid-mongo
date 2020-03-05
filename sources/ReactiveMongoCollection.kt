@@ -348,51 +348,51 @@ internal class ReactiveMongoCollection<TDocument : Any>(
 
 
 	override suspend fun findOneAndDelete(filter: Bson) =
-		source.findOneAndDelete(filter).awaitFirst()!!
+		source.findOneAndDelete(filter).awaitFirstOrNull()
 
 
 	override suspend fun findOneAndDelete(filter: Bson, options: FindOneAndDeleteOptions) =
-		source.findOneAndDelete(filter, options).awaitFirst()!!
+		source.findOneAndDelete(filter, options).awaitFirstOrNull()
 
 
 	override suspend fun findOneAndDelete(clientSession: ClientSession, filter: Bson) =
-		source.findOneAndDelete(clientSession.unwrap(), filter).awaitFirst()!!
+		source.findOneAndDelete(clientSession.unwrap(), filter).awaitFirstOrNull()
 
 
 	override suspend fun findOneAndDelete(clientSession: ClientSession, filter: Bson, options: FindOneAndDeleteOptions) =
-		source.findOneAndDelete(clientSession.unwrap(), filter, options).awaitFirst()!!
+		source.findOneAndDelete(clientSession.unwrap(), filter, options).awaitFirstOrNull()
 
 
 	override suspend fun findOneAndReplace(filter: Bson, replacement: TDocument) =
-		source.findOneAndReplace(filter, replacement).awaitFirst()!!
+		source.findOneAndReplace(filter, replacement).awaitFirstOrNull()
 
 
 	override suspend fun findOneAndReplace(filter: Bson, replacement: TDocument, options: FindOneAndReplaceOptions) =
-		source.findOneAndReplace(filter, replacement, options).awaitFirst()!!
+		source.findOneAndReplace(filter, replacement, options).awaitFirstOrNull()
 
 
 	override suspend fun findOneAndReplace(clientSession: ClientSession, filter: Bson, replacement: TDocument) =
-		source.findOneAndReplace(clientSession.unwrap(), filter, replacement).awaitFirst()!!
+		source.findOneAndReplace(clientSession.unwrap(), filter, replacement).awaitFirstOrNull()
 
 
 	override suspend fun findOneAndReplace(clientSession: ClientSession, filter: Bson, replacement: TDocument, options: FindOneAndReplaceOptions) =
-		source.findOneAndReplace(clientSession.unwrap(), filter, replacement, options).awaitFirst()!!
+		source.findOneAndReplace(clientSession.unwrap(), filter, replacement, options).awaitFirstOrNull()
 
 
 	override suspend fun findOneAndUpdate(filter: Bson, update: Bson) =
-		source.findOneAndUpdate(filter, update).awaitFirst()!!
+		source.findOneAndUpdate(filter, update).awaitFirstOrNull()
 
 
 	override suspend fun findOneAndUpdate(filter: Bson, update: Bson, options: FindOneAndUpdateOptions) =
-		source.findOneAndUpdate(filter, update, options).awaitFirst()!!
+		source.findOneAndUpdate(filter, update, options).awaitFirstOrNull()
 
 
 	override suspend fun findOneAndUpdate(clientSession: ClientSession, filter: Bson, update: Bson) =
-		source.findOneAndUpdate(clientSession.unwrap(), filter, update).awaitFirst()!!
+		source.findOneAndUpdate(clientSession.unwrap(), filter, update).awaitFirstOrNull()
 
 
 	override suspend fun findOneAndUpdate(clientSession: ClientSession, filter: Bson, update: Bson, options: FindOneAndUpdateOptions) =
-		source.findOneAndUpdate(clientSession.unwrap(), filter, update, options).awaitFirst()!!
+		source.findOneAndUpdate(clientSession.unwrap(), filter, update, options).awaitFirstOrNull()
 
 
 	override suspend fun drop() {
