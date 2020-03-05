@@ -56,11 +56,10 @@ object MongoClients {
 		MongoClients.create().wrap()
 
 	/**
-	 * Create a new client with the given connection string as if by a call to [.create].
+	 * Create a new client with the given connection string.
 	 *
 	 * @param connectionString the connection
 	 * @return the client
-	 * @see .create
 	 */
 	fun create(connectionString: String): MongoClient =
 		MongoClients.create(connectionString).wrap()
@@ -68,25 +67,8 @@ object MongoClients {
 	/**
 	 * Create a new client with the given connection string.
 	 *
-	 * For each of the settings classed configurable via [com.mongodb.MongoClientSettings], the connection string is applied by
-	 * calling the `applyConnectionString` method on an instance of setting's builder class, building the setting, and adding it to
-	 * an instance of [com.mongodb.MongoClientSettings.Builder].
-	 *
-	 * The connection string's stream type is then applied by setting the
-	 * [com.mongodb.connection.StreamFactory] to an instance of NettyStreamFactory,
-	 *
 	 * @param connectionString the settings
 	 * @return the client
-	 * @throws IllegalArgumentException if the connection string's stream type is not one of "netty" or "nio2"
-	 *
-	 * @see ConnectionString.getStreamType
-	 * @see com.mongodb.MongoClientSettings.Builder
-	 *
-	 * @see com.mongodb.connection.ClusterSettings.Builder.applyConnectionString
-	 * @see com.mongodb.connection.ConnectionPoolSettings.Builder.applyConnectionString
-	 * @see com.mongodb.connection.ServerSettings.Builder.applyConnectionString
-	 * @see com.mongodb.connection.SslSettings.Builder.applyConnectionString
-	 * @see com.mongodb.connection.SocketSettings.Builder.applyConnectionString
 	 */
 	fun create(connectionString: ConnectionString): MongoClient =
 		MongoClients.create(connectionString).wrap()
@@ -96,11 +78,10 @@ object MongoClients {
 	 *
 	 * Note: Intended for driver and library authors to associate extra driver metadata with the connections.
 	 *
-	 * @param connectionString       the settings
+	 * @param connectionString the settings
 	 * @param mongoDriverInformation any driver information to associate with the MongoClient
 	 * @return the client
-	 * @throws IllegalArgumentException if the connection string's stream type is not one of "netty" or "nio2"
-	 * @see MongoClients.create
+	 * @since 1.3
 	 */
 	fun create(connectionString: ConnectionString, mongoDriverInformation: MongoDriverInformation?): MongoClient =
 		MongoClients.create(connectionString, mongoDriverInformation).wrap()

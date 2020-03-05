@@ -227,44 +227,36 @@ internal class ReactiveMongoCollection<TDocument : Any>(
 		source.bulkWrite(clientSession.unwrap(), requests, options).awaitFirst()!!
 
 
-	override suspend fun insertOne(document: TDocument) {
-		source.insertOne(document).awaitSuccess()
-	}
+	override suspend fun insertOne(document: TDocument) =
+		source.insertOne(document).awaitFirst()!!
 
 
-	override suspend fun insertOne(document: TDocument, options: InsertOneOptions) {
-		source.insertOne(document, options).awaitSuccess()
-	}
+	override suspend fun insertOne(document: TDocument, options: InsertOneOptions) =
+		source.insertOne(document, options).awaitFirst()!!
 
 
-	override suspend fun insertOne(clientSession: ClientSession, document: TDocument) {
-		source.insertOne(clientSession.unwrap(), document).awaitSuccess()
-	}
+	override suspend fun insertOne(clientSession: ClientSession, document: TDocument) =
+		source.insertOne(clientSession.unwrap(), document).awaitFirst()!!
 
 
-	override suspend fun insertOne(clientSession: ClientSession, document: TDocument, options: InsertOneOptions) {
-		source.insertOne(clientSession.unwrap(), document, options).awaitSuccess()
-	}
+	override suspend fun insertOne(clientSession: ClientSession, document: TDocument, options: InsertOneOptions) =
+		source.insertOne(clientSession.unwrap(), document, options).awaitFirst()!!
 
 
-	override suspend fun insertMany(documents: List<TDocument>) {
-		source.insertMany(documents).awaitSuccess()
-	}
+	override suspend fun insertMany(documents: List<TDocument>) =
+		source.insertMany(documents).awaitFirst()!!
 
 
-	override suspend fun insertMany(documents: List<TDocument>, options: InsertManyOptions) {
-		source.insertMany(documents, options).awaitSuccess()
-	}
+	override suspend fun insertMany(documents: List<TDocument>, options: InsertManyOptions) =
+		source.insertMany(documents, options).awaitFirst()!!
 
 
-	override suspend fun insertMany(clientSession: ClientSession, documents: List<TDocument>) {
-		source.insertMany(clientSession.unwrap(), documents).awaitSuccess()
-	}
+	override suspend fun insertMany(clientSession: ClientSession, documents: List<TDocument>) =
+		source.insertMany(clientSession.unwrap(), documents).awaitFirst()!!
 
 
-	override suspend fun insertMany(clientSession: ClientSession, documents: List<TDocument>, options: InsertManyOptions) {
-		source.insertMany(clientSession.unwrap(), documents, options).awaitSuccess()
-	}
+	override suspend fun insertMany(clientSession: ClientSession, documents: List<TDocument>, options: InsertManyOptions) =
+		source.insertMany(clientSession.unwrap(), documents, options).awaitFirst()!!
 
 
 	override suspend fun deleteOne(filter: Bson) =
@@ -396,12 +388,12 @@ internal class ReactiveMongoCollection<TDocument : Any>(
 
 
 	override suspend fun drop() {
-		source.drop().awaitSuccess()
+		source.drop().awaitUnit()
 	}
 
 
 	override suspend fun drop(clientSession: ClientSession) {
-		source.drop(clientSession.unwrap()).awaitSuccess()
+		source.drop(clientSession.unwrap()).awaitUnit()
 	}
 
 
@@ -454,82 +446,82 @@ internal class ReactiveMongoCollection<TDocument : Any>(
 
 
 	override suspend fun dropIndex(indexName: String) {
-		source.dropIndex(indexName).awaitSuccess()
+		source.dropIndex(indexName).awaitUnit()
 	}
 
 
 	override suspend fun dropIndex(indexName: String, dropIndexOptions: DropIndexOptions) {
-		source.dropIndex(indexName, dropIndexOptions).awaitSuccess()
+		source.dropIndex(indexName, dropIndexOptions).awaitUnit()
 	}
 
 
 	override suspend fun dropIndex(keys: Bson) {
-		source.dropIndex(keys).awaitSuccess()
+		source.dropIndex(keys).awaitUnit()
 	}
 
 
 	override suspend fun dropIndex(keys: Bson, dropIndexOptions: DropIndexOptions) {
-		source.dropIndex(keys, dropIndexOptions).awaitSuccess()
+		source.dropIndex(keys, dropIndexOptions).awaitUnit()
 	}
 
 
 	override suspend fun dropIndex(clientSession: ClientSession, indexName: String) {
-		source.dropIndex(clientSession.unwrap(), indexName).awaitSuccess()
+		source.dropIndex(clientSession.unwrap(), indexName).awaitUnit()
 	}
 
 
 	override suspend fun dropIndex(clientSession: ClientSession, indexName: String, dropIndexOptions: DropIndexOptions) {
-		source.dropIndex(clientSession.unwrap(), indexName, dropIndexOptions).awaitSuccess()
+		source.dropIndex(clientSession.unwrap(), indexName, dropIndexOptions).awaitUnit()
 	}
 
 
 	override suspend fun dropIndex(clientSession: ClientSession, keys: Bson) {
-		source.dropIndex(clientSession.unwrap(), keys).awaitSuccess()
+		source.dropIndex(clientSession.unwrap(), keys).awaitUnit()
 	}
 
 
 	override suspend fun dropIndex(clientSession: ClientSession, keys: Bson, dropIndexOptions: DropIndexOptions) {
-		source.dropIndex(clientSession.unwrap(), keys, dropIndexOptions).awaitSuccess()
+		source.dropIndex(clientSession.unwrap(), keys, dropIndexOptions).awaitUnit()
 	}
 
 
 	override suspend fun dropIndexes() {
-		source.dropIndexes().awaitSuccess()
+		source.dropIndexes().awaitUnit()
 	}
 
 
 	override suspend fun dropIndexes(dropIndexOptions: DropIndexOptions) {
-		source.dropIndexes(dropIndexOptions).awaitSuccess()
+		source.dropIndexes(dropIndexOptions).awaitUnit()
 	}
 
 
 	override suspend fun dropIndexes(clientSession: ClientSession) {
-		source.dropIndexes(clientSession.unwrap()).awaitSuccess()
+		source.dropIndexes(clientSession.unwrap()).awaitUnit()
 	}
 
 
 	override suspend fun dropIndexes(clientSession: ClientSession, dropIndexOptions: DropIndexOptions) {
-		source.dropIndexes(clientSession.unwrap(), dropIndexOptions).awaitSuccess()
+		source.dropIndexes(clientSession.unwrap(), dropIndexOptions).awaitUnit()
 	}
 
 
 	override suspend fun renameCollection(newCollectionNamespace: MongoNamespace) {
-		source.renameCollection(newCollectionNamespace).awaitSuccess()
+		source.renameCollection(newCollectionNamespace).awaitUnit()
 	}
 
 
 	override suspend fun renameCollection(newCollectionNamespace: MongoNamespace, options: RenameCollectionOptions) {
-		source.renameCollection(newCollectionNamespace, options).awaitSuccess()
+		source.renameCollection(newCollectionNamespace, options).awaitUnit()
 	}
 
 
 	override suspend fun renameCollection(clientSession: ClientSession, newCollectionNamespace: MongoNamespace) {
-		source.renameCollection(clientSession.unwrap(), newCollectionNamespace).awaitSuccess()
+		source.renameCollection(clientSession.unwrap(), newCollectionNamespace).awaitUnit()
 	}
 
 
 	override suspend fun renameCollection(clientSession: ClientSession, newCollectionNamespace: MongoNamespace, options: RenameCollectionOptions) {
-		source.renameCollection(clientSession.unwrap(), newCollectionNamespace, options).awaitSuccess()
+		source.renameCollection(clientSession.unwrap(), newCollectionNamespace, options).awaitUnit()
 	}
 }
 

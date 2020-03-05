@@ -429,7 +429,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return an iterable containing the result of the aggregation operation
 	 * @mongodb.driver.manual aggregation/ Aggregation
 	 */
-	fun aggregate(pipeline: List<Bson>): AggregateFlow<Document>
+	fun aggregate(pipeline: List<Bson>): AggregateFlow<TDocument>
 
 	/**
 	 * Aggregates documents according to the specified aggregation pipeline.  If the pipeline ends with a $out stage, the returned
@@ -456,7 +456,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun aggregate(clientSession: ClientSession, pipeline: List<Bson>): AggregateFlow<Document>
+	fun aggregate(clientSession: ClientSession, pipeline: List<Bson>): AggregateFlow<TDocument>
 
 	/**
 	 * Aggregates documents according to the specified aggregation pipeline.  If the pipeline ends with a $out stage, the returned
@@ -578,7 +578,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return an iterable containing the result of the map-reduce operation
 	 * @mongodb.driver.manual reference/command/mapReduce/ map-reduce
 	 */
-	fun mapReduce(mapFunction: String, reduceFunction: String): MapReduceFlow<Document>
+	fun mapReduce(mapFunction: String, reduceFunction: String): MapReduceFlow<TDocument>
 
 	/**
 	 * Aggregates documents according to the specified map-reduce function.
@@ -603,7 +603,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun mapReduce(clientSession: ClientSession, mapFunction: String, reduceFunction: String): MapReduceFlow<Document>
+	fun mapReduce(clientSession: ClientSession, mapFunction: String, reduceFunction: String): MapReduceFlow<TDocument>
 
 	/**
 	 * Aggregates documents according to the specified map-reduce function.
@@ -678,7 +678,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @throws com.mongodb.MongoWriteConcernException
 	 * @throws com.mongodb.MongoException
 	 */
-	suspend fun insertOne(document: TDocument)
+	suspend fun insertOne(document: TDocument): InsertOneResult
 
 	/**
 	 * Inserts the provided document. If the document is missing an identifier, the driver should generate one.
@@ -692,7 +692,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @throws com.mongodb.MongoException
 	 * @since 3.2
 	 */
-	suspend fun insertOne(document: TDocument, options: InsertOneOptions)
+	suspend fun insertOne(document: TDocument, options: InsertOneOptions): InsertOneResult
 
 	/**
 	 * Inserts the provided document. If the document is missing an identifier, the driver should generate one.
@@ -706,7 +706,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun insertOne(clientSession: ClientSession, document: TDocument)
+	suspend fun insertOne(clientSession: ClientSession, document: TDocument): InsertOneResult
 
 	/**
 	 * Inserts the provided document. If the document is missing an identifier, the driver should generate one.
@@ -722,7 +722,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun insertOne(clientSession: ClientSession, document: TDocument, options: InsertOneOptions)
+	suspend fun insertOne(clientSession: ClientSession, document: TDocument, options: InsertOneOptions): InsertOneResult
 
 	/**
 	 * Inserts one or more documents.  A call to this method is equivalent to a call to the `bulkWrite` method
@@ -731,9 +731,9 @@ interface MongoCollection<TDocument : Any> {
 	 * @param documents the documents to insert
 	 * @throws com.mongodb.MongoBulkWriteException if there's an exception in the bulk write operation
 	 * @throws com.mongodb.MongoException          if the write failed due some other failure
-	 * @see com.mongodb.async.client.MongoCollection.bulkWrite
+	 * @see bulkWrite
 	 */
-	suspend fun insertMany(documents: List<TDocument>)
+	suspend fun insertMany(documents: List<TDocument>): InsertManyResult
 
 	/**
 	 * Inserts one or more documents.  A call to this method is equivalent to a call to the `bulkWrite` method
@@ -743,9 +743,9 @@ interface MongoCollection<TDocument : Any> {
 	 * @param options   the options to apply to the operation
 	 * @throws com.mongodb.MongoBulkWriteException if there's an exception in the bulk write operation
 	 * @throws com.mongodb.MongoException          if the write failed due some other failure
-	 * @see com.mongodb.async.client.MongoCollection.bulkWrite
+	 * @see bulkWrite
 	 */
-	suspend fun insertMany(documents: List<TDocument>, options: InsertManyOptions)
+	suspend fun insertMany(documents: List<TDocument>, options: InsertManyOptions): InsertManyResult
 
 	/**
 	 * Inserts one or more documents.  A call to this method is equivalent to a call to the `bulkWrite` method
@@ -755,12 +755,12 @@ interface MongoCollection<TDocument : Any> {
 	 * @param documents the documents to insert
 	 * @throws com.mongodb.MongoBulkWriteException if there's an exception in the bulk write operation
 	 * @throws com.mongodb.MongoException          if the write failed due some other failure
-	 * @see com.mongodb.async.client.MongoCollection.bulkWrite
+	 * @see bulkWrite
 	 *
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun insertMany(clientSession: ClientSession, documents: List<TDocument>)
+	suspend fun insertMany(clientSession: ClientSession, documents: List<TDocument>): InsertManyResult
 
 	/**
 	 * Inserts one or more documents.  A call to this method is equivalent to a call to the `bulkWrite` method
@@ -771,12 +771,12 @@ interface MongoCollection<TDocument : Any> {
 	 * @param options   the options to apply to the operation
 	 * @throws com.mongodb.MongoBulkWriteException if there's an exception in the bulk write operation
 	 * @throws com.mongodb.MongoException          if the write failed due some other failure
-	 * @see com.mongodb.async.client.MongoCollection.bulkWrite
+	 * @see bulkWrite
 	 *
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun insertMany(clientSession: ClientSession, documents: List<TDocument>, options: InsertManyOptions)
+	suspend fun insertMany(clientSession: ClientSession, documents: List<TDocument>, options: InsertManyOptions): InsertManyResult
 
 	/**
 	 * Removes at most one document from the collection that matches the given filter.  If no documents match, the collection is not
