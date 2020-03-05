@@ -4,7 +4,7 @@ plugins {
 	id("io.fluidsonic.gradle") version "1.0.10"
 }
 
-fluidJvmLibrary(name = "mongo", version = "1.0.0-beta.4")
+fluidJvmLibrary(name = "mongo", version = "1.0.0-beta.5")
 
 fluidJvmLibraryVariant(JvmTarget.jdk8) {
 	description = "Kotlin coroutine support for MongoDB built on top of the official MongoDB Asynchronous Java Driver"
