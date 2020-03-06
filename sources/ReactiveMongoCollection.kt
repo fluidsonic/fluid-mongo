@@ -388,12 +388,12 @@ internal class ReactiveMongoCollection<TDocument : Any>(
 
 
 	override suspend fun drop() {
-		source.drop().awaitUnit()
+		source.drop().awaitCompletion()
 	}
 
 
 	override suspend fun drop(clientSession: ClientSession) {
-		source.drop(clientSession.unwrap()).awaitUnit()
+		source.drop(clientSession.unwrap()).awaitCompletion()
 	}
 
 
@@ -446,82 +446,82 @@ internal class ReactiveMongoCollection<TDocument : Any>(
 
 
 	override suspend fun dropIndex(indexName: String) {
-		source.dropIndex(indexName).awaitUnit()
+		source.dropIndex(indexName).awaitCompletion()
 	}
 
 
 	override suspend fun dropIndex(indexName: String, dropIndexOptions: DropIndexOptions) {
-		source.dropIndex(indexName, dropIndexOptions).awaitUnit()
+		source.dropIndex(indexName, dropIndexOptions).awaitCompletion()
 	}
 
 
 	override suspend fun dropIndex(keys: Bson) {
-		source.dropIndex(keys).awaitUnit()
+		source.dropIndex(keys).awaitCompletion()
 	}
 
 
 	override suspend fun dropIndex(keys: Bson, dropIndexOptions: DropIndexOptions) {
-		source.dropIndex(keys, dropIndexOptions).awaitUnit()
+		source.dropIndex(keys, dropIndexOptions).awaitCompletion()
 	}
 
 
 	override suspend fun dropIndex(clientSession: ClientSession, indexName: String) {
-		source.dropIndex(clientSession.unwrap(), indexName).awaitUnit()
+		source.dropIndex(clientSession.unwrap(), indexName).awaitCompletion()
 	}
 
 
 	override suspend fun dropIndex(clientSession: ClientSession, indexName: String, dropIndexOptions: DropIndexOptions) {
-		source.dropIndex(clientSession.unwrap(), indexName, dropIndexOptions).awaitUnit()
+		source.dropIndex(clientSession.unwrap(), indexName, dropIndexOptions).awaitCompletion()
 	}
 
 
 	override suspend fun dropIndex(clientSession: ClientSession, keys: Bson) {
-		source.dropIndex(clientSession.unwrap(), keys).awaitUnit()
+		source.dropIndex(clientSession.unwrap(), keys).awaitCompletion()
 	}
 
 
 	override suspend fun dropIndex(clientSession: ClientSession, keys: Bson, dropIndexOptions: DropIndexOptions) {
-		source.dropIndex(clientSession.unwrap(), keys, dropIndexOptions).awaitUnit()
+		source.dropIndex(clientSession.unwrap(), keys, dropIndexOptions).awaitCompletion()
 	}
 
 
 	override suspend fun dropIndexes() {
-		source.dropIndexes().awaitUnit()
+		source.dropIndexes().awaitCompletion()
 	}
 
 
 	override suspend fun dropIndexes(dropIndexOptions: DropIndexOptions) {
-		source.dropIndexes(dropIndexOptions).awaitUnit()
+		source.dropIndexes(dropIndexOptions).awaitCompletion()
 	}
 
 
 	override suspend fun dropIndexes(clientSession: ClientSession) {
-		source.dropIndexes(clientSession.unwrap()).awaitUnit()
+		source.dropIndexes(clientSession.unwrap()).awaitCompletion()
 	}
 
 
 	override suspend fun dropIndexes(clientSession: ClientSession, dropIndexOptions: DropIndexOptions) {
-		source.dropIndexes(clientSession.unwrap(), dropIndexOptions).awaitUnit()
+		source.dropIndexes(clientSession.unwrap(), dropIndexOptions).awaitCompletion()
 	}
 
 
 	override suspend fun renameCollection(newCollectionNamespace: MongoNamespace) {
-		source.renameCollection(newCollectionNamespace).awaitUnit()
+		source.renameCollection(newCollectionNamespace).awaitCompletion()
 	}
 
 
 	override suspend fun renameCollection(newCollectionNamespace: MongoNamespace, options: RenameCollectionOptions) {
-		source.renameCollection(newCollectionNamespace, options).awaitUnit()
+		source.renameCollection(newCollectionNamespace, options).awaitCompletion()
 	}
 
 
 	override suspend fun renameCollection(clientSession: ClientSession, newCollectionNamespace: MongoNamespace) {
-		source.renameCollection(clientSession.unwrap(), newCollectionNamespace).awaitUnit()
+		source.renameCollection(clientSession.unwrap(), newCollectionNamespace).awaitCompletion()
 	}
 
 
 	override suspend fun renameCollection(clientSession: ClientSession, newCollectionNamespace: MongoNamespace, options: RenameCollectionOptions) {
-		source.renameCollection(clientSession.unwrap(), newCollectionNamespace, options).awaitUnit()
+		source.renameCollection(clientSession.unwrap(), newCollectionNamespace, options).awaitCompletion()
 	}
 }
 

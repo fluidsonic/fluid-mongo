@@ -101,12 +101,12 @@ internal class ReactiveMongoDatabase(
 
 
 	override suspend fun drop() {
-		source.drop().awaitUnit()
+		source.drop().awaitCompletion()
 	}
 
 
 	override suspend fun drop(clientSession: ClientSession) {
-		source.drop(clientSession.unwrap()).awaitUnit()
+		source.drop(clientSession.unwrap()).awaitCompletion()
 	}
 
 
@@ -135,42 +135,42 @@ internal class ReactiveMongoDatabase(
 
 
 	override suspend fun createCollection(collectionName: String) {
-		source.createCollection(collectionName).awaitUnit()
+		source.createCollection(collectionName).awaitCompletion()
 	}
 
 
 	override suspend fun createCollection(collectionName: String, options: CreateCollectionOptions) {
-		source.createCollection(collectionName, options).awaitUnit()
+		source.createCollection(collectionName, options).awaitCompletion()
 	}
 
 
 	override suspend fun createCollection(clientSession: ClientSession, collectionName: String) {
-		source.createCollection(clientSession.unwrap(), collectionName).awaitUnit()
+		source.createCollection(clientSession.unwrap(), collectionName).awaitCompletion()
 	}
 
 
 	override suspend fun createCollection(clientSession: ClientSession, collectionName: String, options: CreateCollectionOptions) {
-		source.createCollection(clientSession.unwrap(), collectionName, options).awaitUnit()
+		source.createCollection(clientSession.unwrap(), collectionName, options).awaitCompletion()
 	}
 
 
 	override suspend fun createView(viewName: String, viewOn: String, pipeline: List<Bson>) {
-		source.createView(viewName, viewOn, pipeline).awaitUnit()
+		source.createView(viewName, viewOn, pipeline).awaitCompletion()
 	}
 
 
 	override suspend fun createView(viewName: String, viewOn: String, pipeline: List<Bson>, createViewOptions: CreateViewOptions) {
-		source.createView(viewName, viewOn, pipeline, createViewOptions).awaitUnit()
+		source.createView(viewName, viewOn, pipeline, createViewOptions).awaitCompletion()
 	}
 
 
 	override suspend fun createView(clientSession: ClientSession, viewName: String, viewOn: String, pipeline: List<Bson>) {
-		source.createView(clientSession.unwrap(), viewName, viewOn, pipeline).awaitUnit()
+		source.createView(clientSession.unwrap(), viewName, viewOn, pipeline).awaitCompletion()
 	}
 
 
 	override suspend fun createView(clientSession: ClientSession, viewName: String, viewOn: String, pipeline: List<Bson>, createViewOptions: CreateViewOptions) {
-		source.createView(clientSession.unwrap(), viewName, viewOn, pipeline, createViewOptions).awaitUnit()
+		source.createView(clientSession.unwrap(), viewName, viewOn, pipeline, createViewOptions).awaitCompletion()
 	}
 
 

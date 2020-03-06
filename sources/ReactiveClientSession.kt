@@ -60,12 +60,12 @@ internal class ReactiveClientSession(
 
 
 	override suspend fun commitTransaction() {
-		source.commitTransaction().awaitUnit()
+		source.commitTransaction().awaitCompletion()
 	}
 
 
 	override suspend fun abortTransaction() {
-		source.abortTransaction().awaitUnit()
+		source.abortTransaction().awaitCompletion()
 	}
 
 

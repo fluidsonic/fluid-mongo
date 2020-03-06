@@ -54,7 +54,7 @@ internal class ReactiveAggregateFlow<out TResult : Any>(
 
 
 	override suspend fun toCollection() {
-		source.toCollection().awaitUnit()
+		source.toCollection().awaitCompletion()
 	}
 
 
