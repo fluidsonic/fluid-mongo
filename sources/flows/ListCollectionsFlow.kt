@@ -16,6 +16,8 @@
 
 package io.fluidsonic.mongo
 
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.Flow
 import org.bson.conversions.*
 import java.util.concurrent.*
@@ -67,4 +69,35 @@ interface ListCollectionsFlow<out TResult : Any> : Flow<TResult> {
 	 * @since 1.8
 	 */
 	suspend fun firstOrNull(): TResult?
+
+
+	companion object {
+
+		fun <TResult : Any> empty(): ListCollectionsFlow<TResult> =
+			Empty
+	}
+
+
+	private object Empty : ListCollectionsFlow<Nothing> {
+
+		override fun filter(filter: Bson?) =
+			this
+
+
+		override fun maxTime(maxTime: Long, timeUnit: TimeUnit) =
+			this
+
+
+		override fun batchSize(batchSize: Int) =
+			this
+
+
+		override suspend fun firstOrNull() =
+			null
+
+
+		@InternalCoroutinesApi
+		override suspend fun collect(collector: FlowCollector<Nothing>) =
+			Unit
+	}
 }

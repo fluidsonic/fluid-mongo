@@ -18,6 +18,8 @@ package io.fluidsonic.mongo
 
 import com.mongodb.client.model.*
 import com.mongodb.client.model.changestream.*
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.Flow
 import org.bson.*
 import java.util.concurrent.*
@@ -132,4 +134,55 @@ interface ChangeStreamFlow<out TResult : Any> : Flow<ChangeStreamDocument<out TR
 	 * @since 1.8
 	 */
 	suspend fun firstOrNull(): ChangeStreamDocument<out TResult>?
+
+
+	companion object {
+
+		fun <TResult : Any> empty(): ChangeStreamFlow<TResult> =
+			Empty
+	}
+
+
+	private object Empty : ChangeStreamFlow<Nothing> {
+
+		override fun fullDocument(fullDocument: FullDocument) =
+			this
+
+
+		override fun resumeAfter(resumeToken: BsonDocument) =
+			this
+
+
+		override fun startAtOperationTime(startAtOperationTime: BsonTimestamp) =
+			this
+
+
+		override fun startAfter(startAfter: BsonDocument) =
+			this
+
+
+		override fun maxAwaitTime(maxAwaitTime: Long, timeUnit: TimeUnit) =
+			this
+
+
+		override fun collation(collation: Collation?) =
+			this
+
+
+		override fun <TDocument : Any> withDocumentClass(clazz: KClass<out TDocument>) =
+			emptyFlow<TDocument>()
+
+
+		override fun batchSize(batchSize: Int) =
+			this
+
+
+		override suspend fun firstOrNull(): Nothing? =
+			null
+
+
+		@InternalCoroutinesApi
+		override suspend fun collect(collector: FlowCollector<ChangeStreamDocument<out Nothing>>) =
+			Unit
+	}
 }

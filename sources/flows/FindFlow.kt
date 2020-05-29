@@ -18,6 +18,8 @@ package io.fluidsonic.mongo
 
 import com.mongodb.*
 import com.mongodb.client.model.*
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.Flow
 import org.bson.conversions.*
 import java.util.concurrent.*
@@ -224,4 +226,99 @@ interface FindFlow<out TResult : Any> : Flow<TResult> {
 	 * @since 1.8
 	 */
 	suspend fun firstOrNull(): TResult?
+
+
+	companion object {
+
+		fun <TResult : Any> empty(): FindFlow<TResult> =
+			Empty
+	}
+
+
+	private object Empty : FindFlow<Nothing> {
+
+		override fun filter(filter: Bson?) =
+			this
+
+
+		override fun limit(limit: Int) =
+			this
+
+
+		override fun skip(skip: Int) =
+			this
+
+
+		override fun maxTime(maxTime: Long, timeUnit: TimeUnit) =
+			this
+
+
+		override fun maxAwaitTime(maxAwaitTime: Long, timeUnit: TimeUnit) =
+			this
+
+
+		override fun projection(projection: Bson?) =
+			this
+
+
+		override fun sort(sort: Bson?) =
+			this
+
+
+		override fun noCursorTimeout(noCursorTimeout: Boolean) =
+			this
+
+
+		override fun oplogReplay(oplogReplay: Boolean) =
+			this
+
+
+		override fun partial(partial: Boolean) =
+			this
+
+
+		override fun cursorType(cursorType: CursorType) =
+			this
+
+
+		override fun collation(collation: Collation?) =
+			this
+
+
+		override fun comment(comment: String?) =
+			this
+
+
+		override fun hint(hint: Bson?) =
+			this
+
+
+		override fun max(max: Bson?) =
+			this
+
+
+		override fun min(min: Bson?) =
+			this
+
+
+		override fun returnKey(returnKey: Boolean) =
+			this
+
+
+		override fun showRecordId(showRecordId: Boolean) =
+			this
+
+
+		override fun batchSize(batchSize: Int) =
+			this
+
+
+		override suspend fun firstOrNull() =
+			null
+
+
+		@InternalCoroutinesApi
+		override suspend fun collect(collector: FlowCollector<Nothing>) =
+			Unit
+	}
 }

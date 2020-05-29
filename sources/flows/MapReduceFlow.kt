@@ -17,6 +17,8 @@
 package io.fluidsonic.mongo
 
 import com.mongodb.client.model.*
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.Flow
 import org.bson.conversions.*
 import java.util.concurrent.*
@@ -205,4 +207,91 @@ interface MapReduceFlow<out TResult : Any> : Flow<TResult> {
 	 * @since 1.8
 	 */
 	suspend fun firstOrNull(): TResult?
+
+
+	companion object {
+
+		fun <TResult : Any> empty(): MapReduceFlow<TResult> =
+			Empty
+	}
+
+
+	private object Empty : MapReduceFlow<Nothing> {
+
+		override fun collectionName(collectionName: String) =
+			this
+
+
+		override fun finalizeFunction(finalizeFunction: String?) =
+			this
+
+
+		override fun scope(scope: Bson?) =
+			this
+
+
+		override fun sort(sort: Bson?) =
+			this
+
+
+		override fun filter(filter: Bson?) =
+			this
+
+
+		override fun limit(limit: Int) =
+			this
+
+
+		override fun jsMode(jsMode: Boolean) =
+			this
+
+
+		override fun verbose(verbose: Boolean) =
+			this
+
+
+		override fun maxTime(maxTime: Long, timeUnit: TimeUnit) =
+			this
+
+
+		override fun action(action: MapReduceAction) =
+			this
+
+
+		override fun databaseName(databaseName: String?) =
+			this
+
+
+		override fun sharded(sharded: Boolean) =
+			this
+
+
+		override fun nonAtomic(nonAtomic: Boolean) =
+			this
+
+
+		override fun bypassDocumentValidation(bypassDocumentValidation: Boolean?) =
+			this
+
+
+		override suspend fun toCollection() =
+			Unit
+
+
+		override fun collation(collation: Collation?) =
+			this
+
+
+		override fun batchSize(batchSize: Int) =
+			this
+
+
+		override suspend fun firstOrNull() =
+			null
+
+
+		@InternalCoroutinesApi
+		override suspend fun collect(collector: FlowCollector<Nothing>) =
+			Unit
+	}
 }
