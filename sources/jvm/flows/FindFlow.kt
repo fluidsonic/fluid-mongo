@@ -30,7 +30,7 @@ import java.util.concurrent.*
  * @param <T> The type of the result.
  * @since 3.0
  */
-interface FindFlow<out TResult : Any> : Flow<TResult> {
+public interface FindFlow<out TResult : Any> : Flow<TResult> {
 
 	/**
 	 * Sets the query filter to apply to the query.
@@ -39,7 +39,7 @@ interface FindFlow<out TResult : Any> : Flow<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/method/db.collection.find/ Filter
 	 */
-	fun filter(filter: Bson?): FindFlow<TResult>
+	public fun filter(filter: Bson?): FindFlow<TResult>
 
 	/**
 	 * Sets the limit to apply.
@@ -48,7 +48,7 @@ interface FindFlow<out TResult : Any> : Flow<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/method/cursor.limit/#cursor.limit Limit
 	 */
-	fun limit(limit: Int): FindFlow<TResult>
+	public fun limit(limit: Int): FindFlow<TResult>
 
 	/**
 	 * Sets the number of documents to skip.
@@ -57,7 +57,7 @@ interface FindFlow<out TResult : Any> : Flow<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/method/cursor.skip/#cursor.skip Skip
 	 */
-	fun skip(skip: Int): FindFlow<TResult>
+	public fun skip(skip: Int): FindFlow<TResult>
 
 	/**
 	 * Sets the maximum execution time on the server for this operation.
@@ -67,7 +67,7 @@ interface FindFlow<out TResult : Any> : Flow<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/method/cursor.maxTimeMS/#cursor.maxTimeMS Max Time
 	 */
-	fun maxTime(maxTime: Long, timeUnit: TimeUnit): FindFlow<TResult>
+	public fun maxTime(maxTime: Long, timeUnit: TimeUnit): FindFlow<TResult>
 
 	/**
 	 * The maximum amount of time for the server to wait on new documents to satisfy a tailable cursor
@@ -87,7 +87,7 @@ interface FindFlow<out TResult : Any> : Flow<TResult> {
 	 * @mongodb.driver.manual reference/method/cursor.maxTimeMS/#cursor.maxTimeMS Max Time
 	 * @since 1.2
 	 */
-	fun maxAwaitTime(maxAwaitTime: Long, timeUnit: TimeUnit): FindFlow<TResult>
+	public fun maxAwaitTime(maxAwaitTime: Long, timeUnit: TimeUnit): FindFlow<TResult>
 
 	/**
 	 * Sets a document describing the fields to return for all matching documents.
@@ -96,7 +96,7 @@ interface FindFlow<out TResult : Any> : Flow<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/method/db.collection.find/ Projection
 	 */
-	fun projection(projection: Bson?): FindFlow<TResult>
+	public fun projection(projection: Bson?): FindFlow<TResult>
 
 	/**
 	 * Sets the sort criteria to apply to the query.
@@ -105,7 +105,7 @@ interface FindFlow<out TResult : Any> : Flow<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/method/cursor.sort/ Sort
 	 */
-	fun sort(sort: Bson?): FindFlow<TResult>
+	public fun sort(sort: Bson?): FindFlow<TResult>
 
 	/**
 	 * The server normally times out idle cursors after an inactivity period (10 minutes)
@@ -114,7 +114,7 @@ interface FindFlow<out TResult : Any> : Flow<TResult> {
 	 * @param noCursorTimeout true if cursor timeout is disabled
 	 * @return this
 	 */
-	fun noCursorTimeout(noCursorTimeout: Boolean): FindFlow<TResult>
+	public fun noCursorTimeout(noCursorTimeout: Boolean): FindFlow<TResult>
 
 	/**
 	 * Users should not set this under normal circumstances.
@@ -122,7 +122,7 @@ interface FindFlow<out TResult : Any> : Flow<TResult> {
 	 * @param oplogReplay if oplog replay is enabled
 	 * @return this
 	 */
-	fun oplogReplay(oplogReplay: Boolean): FindFlow<TResult>
+	public fun oplogReplay(oplogReplay: Boolean): FindFlow<TResult>
 
 	/**
 	 * Get partial results from a sharded cluster if one or more shards are unreachable (instead of throwing an error).
@@ -130,7 +130,7 @@ interface FindFlow<out TResult : Any> : Flow<TResult> {
 	 * @param partial if partial results for sharded clusters is enabled
 	 * @return this
 	 */
-	fun partial(partial: Boolean): FindFlow<TResult>
+	public fun partial(partial: Boolean): FindFlow<TResult>
 
 	/**
 	 * Sets the cursor type.
@@ -138,7 +138,7 @@ interface FindFlow<out TResult : Any> : Flow<TResult> {
 	 * @param cursorType the cursor type
 	 * @return this
 	 */
-	fun cursorType(cursorType: CursorType): FindFlow<TResult>
+	public fun cursorType(cursorType: CursorType): FindFlow<TResult>
 
 	/**
 	 * Sets the collation options
@@ -149,7 +149,7 @@ interface FindFlow<out TResult : Any> : Flow<TResult> {
 	 * @since 1.3
 	 * @mongodb.server.release 3.4
 	 */
-	fun collation(collation: Collation?): FindFlow<TResult>
+	public fun collation(collation: Collation?): FindFlow<TResult>
 
 	/**
 	 * Sets the comment to the query. A null value means no comment is set.
@@ -158,7 +158,7 @@ interface FindFlow<out TResult : Any> : Flow<TResult> {
 	 * @return this
 	 * @since 1.6
 	 */
-	fun comment(comment: String?): FindFlow<TResult>
+	public fun comment(comment: String?): FindFlow<TResult>
 
 	/**
 	 * Sets the hint for which index to use. A null value means no hint is set.
@@ -167,7 +167,7 @@ interface FindFlow<out TResult : Any> : Flow<TResult> {
 	 * @return this
 	 * @since 1.6
 	 */
-	fun hint(hint: Bson?): FindFlow<TResult>
+	public fun hint(hint: Bson?): FindFlow<TResult>
 
 	/**
 	 * Sets the exclusive upper bound for a specific index. A null value means no max is set.
@@ -176,7 +176,7 @@ interface FindFlow<out TResult : Any> : Flow<TResult> {
 	 * @return this
 	 * @since 1.6
 	 */
-	fun max(max: Bson?): FindFlow<TResult>
+	public fun max(max: Bson?): FindFlow<TResult>
 
 	/**
 	 * Sets the minimum inclusive lower bound for a specific index. A null value means no max is set.
@@ -185,7 +185,7 @@ interface FindFlow<out TResult : Any> : Flow<TResult> {
 	 * @return this
 	 * @since 1.6
 	 */
-	fun min(min: Bson?): FindFlow<TResult>
+	public fun min(min: Bson?): FindFlow<TResult>
 
 	/**
 	 * Sets the returnKey. If true the find operation will return only the index keys in the resulting documents.
@@ -194,7 +194,7 @@ interface FindFlow<out TResult : Any> : Flow<TResult> {
 	 * @return this
 	 * @since 1.6
 	 */
-	fun returnKey(returnKey: Boolean): FindFlow<TResult>
+	public fun returnKey(returnKey: Boolean): FindFlow<TResult>
 
 	/**
 	 * Sets the showRecordId. Set to true to add a field `$recordId` to the returned documents.
@@ -203,7 +203,7 @@ interface FindFlow<out TResult : Any> : Flow<TResult> {
 	 * @return this
 	 * @since 1.6
 	 */
-	fun showRecordId(showRecordId: Boolean): FindFlow<TResult>
+	public fun showRecordId(showRecordId: Boolean): FindFlow<TResult>
 
 	/**
 	 * Sets the number of documents to return per batch.
@@ -217,7 +217,7 @@ interface FindFlow<out TResult : Any> : Flow<TResult> {
 	 * @since 1.8
 	 * @mongodb.driver.manual reference/method/cursor.batchSize/#cursor.batchSize Batch Size
 	 */
-	fun batchSize(batchSize: Int): FindFlow<TResult>
+	public fun batchSize(batchSize: Int): FindFlow<TResult>
 
 	/**
 	 * Helper to return first result.
@@ -225,12 +225,12 @@ interface FindFlow<out TResult : Any> : Flow<TResult> {
 	 * @return the first result or null
 	 * @since 1.8
 	 */
-	suspend fun firstOrNull(): TResult?
+	public suspend fun firstOrNull(): TResult?
 
 
-	companion object {
+	public companion object {
 
-		fun <TResult : Any> empty(): FindFlow<TResult> =
+		public fun <TResult : Any> empty(): FindFlow<TResult> =
 			Empty
 	}
 

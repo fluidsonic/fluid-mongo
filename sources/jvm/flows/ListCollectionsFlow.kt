@@ -16,7 +16,6 @@
 
 package io.fluidsonic.mongo
 
-import com.mongodb.client.model.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.Flow
@@ -24,12 +23,12 @@ import org.bson.conversions.*
 import java.util.concurrent.*
 
 /**
- * Flow for distinct.
+ * Flow for ListCollections.
  *
  * @param <TResult> The type of the result.
  * @since 3.0
  */
-interface DistinctFlow<out TResult : Any> : Flow<TResult> {
+public interface ListCollectionsFlow<out TResult : Any> : Flow<TResult> {
 
 	/**
 	 * Sets the query filter to apply to the query.
@@ -38,7 +37,7 @@ interface DistinctFlow<out TResult : Any> : Flow<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/method/db.collection.find/ Filter
 	 */
-	fun filter(filter: Bson?): DistinctFlow<TResult>
+	public fun filter(filter: Bson?): ListCollectionsFlow<TResult>
 
 	/**
 	 * Sets the maximum execution time on the server for this operation.
@@ -46,19 +45,9 @@ interface DistinctFlow<out TResult : Any> : Flow<TResult> {
 	 * @param maxTime  the max time
 	 * @param timeUnit the time unit, which may not be null
 	 * @return this
+	 * @mongodb.driver.manual reference/operator/meta/maxTimeMS/ Max Time
 	 */
-	fun maxTime(maxTime: Long, timeUnit: TimeUnit): DistinctFlow<TResult>
-
-	/**
-	 * Sets the collation options
-	 *
-	 * A null value represents the server default.
-	 * @param collation the collation options to use
-	 * @return this
-	 * @since 1.3
-	 * @mongodb.server.release 3.4
-	 */
-	fun collation(collation: Collation?): DistinctFlow<TResult>
+	public fun maxTime(maxTime: Long, timeUnit: TimeUnit): ListCollectionsFlow<TResult>
 
 	/**
 	 * Sets the number of documents to return per batch.
@@ -71,7 +60,7 @@ interface DistinctFlow<out TResult : Any> : Flow<TResult> {
 	 * @since 1.8
 	 * @mongodb.driver.manual reference/method/cursor.batchSize/#cursor.batchSize Batch Size
 	 */
-	fun batchSize(batchSize: Int): DistinctFlow<TResult>
+	public fun batchSize(batchSize: Int): ListCollectionsFlow<TResult>
 
 	/**
 	 * Helper to return first result.
@@ -79,27 +68,23 @@ interface DistinctFlow<out TResult : Any> : Flow<TResult> {
 	 * @return the first result or null
 	 * @since 1.8
 	 */
-	suspend fun firstOrNull(): TResult?
+	public suspend fun firstOrNull(): TResult?
 
 
-	companion object {
+	public companion object {
 
-		fun <TResult : Any> empty(): DistinctFlow<TResult> =
+		public fun <TResult : Any> empty(): ListCollectionsFlow<TResult> =
 			Empty
 	}
 
 
-	private object Empty : DistinctFlow<Nothing> {
+	private object Empty : ListCollectionsFlow<Nothing> {
 
 		override fun filter(filter: Bson?) =
 			this
 
 
 		override fun maxTime(maxTime: Long, timeUnit: TimeUnit) =
-			this
-
-
-		override fun collation(collation: Collation?) =
 			this
 
 

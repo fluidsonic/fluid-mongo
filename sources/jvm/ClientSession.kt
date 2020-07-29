@@ -23,7 +23,7 @@ import com.mongodb.*
  *
  * @since 3.8
  */
-interface ClientSession : com.mongodb.session.ClientSession {
+public interface ClientSession : com.mongodb.session.ClientSession {
 
 	/**
 	 * Returns true if there is an active transaction on this session, and false otherwise
@@ -31,14 +31,14 @@ interface ClientSession : com.mongodb.session.ClientSession {
 	 * @return true if there is an active transaction on this session
 	 * @mongodb.server.release 4.0
 	 */
-	fun hasActiveTransaction(): Boolean
+	public fun hasActiveTransaction(): Boolean
 
 	/**
 	 * Gets the transaction options.  Only call this method of the session has an active transaction
 	 *
 	 * @return the transaction options
 	 */
-	val transactionOptions: TransactionOptions?
+	public val transactionOptions: TransactionOptions?
 
 	/**
 	 * Start a transaction in the context of this session with default transaction options. A transaction can not be started if there is
@@ -46,7 +46,7 @@ interface ClientSession : com.mongodb.session.ClientSession {
 	 *
 	 * @mongodb.server.release 4.0
 	 */
-	fun startTransaction()
+	public fun startTransaction()
 
 	/**
 	 * Start a transaction in the context of this session with the given transaction options. A transaction can not be started if there is
@@ -56,19 +56,22 @@ interface ClientSession : com.mongodb.session.ClientSession {
 	 *
 	 * @mongodb.server.release 4.0
 	 */
-	fun startTransaction(transactionOptions: TransactionOptions)
+	public fun startTransaction(transactionOptions: TransactionOptions)
 
 	/**
 	 * Commit a transaction in the context of this session.  A transaction can only be commited if one has first been started.
 	 *
 	 * @mongodb.server.release 4.0
 	 */
-	suspend fun commitTransaction()
+	public suspend fun commitTransaction()
 
 	/**
 	 * Abort a transaction in the context of this session.  A transaction can only be aborted if one has first been started.
 	 *
 	 * @mongodb.server.release 4.0
 	 */
-	suspend fun abortTransaction()
+	public suspend fun abortTransaction()
+
+
+	public companion object
 }

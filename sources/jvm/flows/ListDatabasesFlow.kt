@@ -23,21 +23,11 @@ import org.bson.conversions.*
 import java.util.concurrent.*
 
 /**
- * Flow for ListCollections.
+ * Flow for ListDatabases.
  *
- * @param <TResult> The type of the result.
- * @since 3.0
+ * @param <T> The type of the result.
  */
-interface ListCollectionsFlow<out TResult : Any> : Flow<TResult> {
-
-	/**
-	 * Sets the query filter to apply to the query.
-	 *
-	 * @param filter the filter, which may be null.
-	 * @return this
-	 * @mongodb.driver.manual reference/method/db.collection.find/ Filter
-	 */
-	fun filter(filter: Bson?): ListCollectionsFlow<TResult>
+public interface ListDatabasesFlow<out TResult : Any> : Flow<TResult> {
 
 	/**
 	 * Sets the maximum execution time on the server for this operation.
@@ -47,7 +37,28 @@ interface ListCollectionsFlow<out TResult : Any> : Flow<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/operator/meta/maxTimeMS/ Max Time
 	 */
-	fun maxTime(maxTime: Long, timeUnit: TimeUnit): ListCollectionsFlow<TResult>
+	public fun maxTime(maxTime: Long, timeUnit: TimeUnit): ListDatabasesFlow<TResult>
+
+	/**
+	 * Sets the query filter to apply to the returned database names.
+	 *
+	 * @param filter the filter, which may be null.
+	 * @return this
+	 * @mongodb.server.release 3.4.2
+	 * @since 1.7
+	 */
+	public fun filter(filter: Bson?): ListDatabasesFlow<TResult>
+
+	/**
+	 * Sets the nameOnly flag that indicates whether the command should return just the database names or return the database names and
+	 * size information.
+	 *
+	 * @param nameOnly the nameOnly flag, which may be null
+	 * @return this
+	 * @mongodb.server.release 3.4.3
+	 * @since 1.7
+	 */
+	public fun nameOnly(nameOnly: Boolean?): ListDatabasesFlow<TResult>
 
 	/**
 	 * Sets the number of documents to return per batch.
@@ -60,7 +71,7 @@ interface ListCollectionsFlow<out TResult : Any> : Flow<TResult> {
 	 * @since 1.8
 	 * @mongodb.driver.manual reference/method/cursor.batchSize/#cursor.batchSize Batch Size
 	 */
-	fun batchSize(batchSize: Int): ListCollectionsFlow<TResult>
+	public fun batchSize(batchSize: Int): ListDatabasesFlow<TResult>
 
 	/**
 	 * Helper to return first result.
@@ -68,23 +79,27 @@ interface ListCollectionsFlow<out TResult : Any> : Flow<TResult> {
 	 * @return the first result or null
 	 * @since 1.8
 	 */
-	suspend fun firstOrNull(): TResult?
+	public suspend fun firstOrNull(): TResult?
 
 
-	companion object {
+	public companion object {
 
-		fun <TResult : Any> empty(): ListCollectionsFlow<TResult> =
+		public fun <TResult : Any> empty(): ListDatabasesFlow<TResult> =
 			Empty
 	}
 
 
-	private object Empty : ListCollectionsFlow<Nothing> {
+	private object Empty : ListDatabasesFlow<Nothing> {
+
+		override fun maxTime(maxTime: Long, timeUnit: TimeUnit) =
+			this
+
 
 		override fun filter(filter: Bson?) =
 			this
 
 
-		override fun maxTime(maxTime: Long, timeUnit: TimeUnit) =
+		override fun nameOnly(nameOnly: Boolean?) =
 			this
 
 

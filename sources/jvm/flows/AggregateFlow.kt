@@ -29,7 +29,7 @@ import java.util.concurrent.*
  * @param <TResult> The type of the result.
  * @since 3.0
  */
-interface AggregateFlow<out TResult : Any> : Flow<TResult> {
+public interface AggregateFlow<out TResult : Any> : Flow<TResult> {
 
 	/**
 	 * Enables writing to temporary files. A null value indicates that it's unspecified.
@@ -39,7 +39,7 @@ interface AggregateFlow<out TResult : Any> : Flow<TResult> {
 	 * @mongodb.driver.manual reference/command/aggregate/ Aggregation
 	 * @mongodb.server.release 2.6
 	 */
-	fun allowDiskUse(allowDiskUse: Boolean?): AggregateFlow<TResult>
+	public fun allowDiskUse(allowDiskUse: Boolean?): AggregateFlow<TResult>
 
 	/**
 	 * Sets the maximum execution time on the server for this operation.
@@ -49,7 +49,7 @@ interface AggregateFlow<out TResult : Any> : Flow<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/method/cursor.maxTimeMS/#cursor.maxTimeMS Max Time
 	 */
-	fun maxTime(maxTime: Long, timeUnit: TimeUnit): AggregateFlow<TResult>
+	public fun maxTime(maxTime: Long, timeUnit: TimeUnit): AggregateFlow<TResult>
 
 	/**
 	 * The maximum amount of time for the server to wait on new documents to satisfy a `$changeStream` aggregation.
@@ -62,7 +62,7 @@ interface AggregateFlow<out TResult : Any> : Flow<TResult> {
 	 * @mongodb.server.release 3.6
 	 * @since 1.6
 	 */
-	fun maxAwaitTime(maxAwaitTime: Long, timeUnit: TimeUnit): AggregateFlow<TResult>
+	public fun maxAwaitTime(maxAwaitTime: Long, timeUnit: TimeUnit): AggregateFlow<TResult>
 
 	/**
 	 * Sets the bypass document level validation flag.
@@ -75,7 +75,7 @@ interface AggregateFlow<out TResult : Any> : Flow<TResult> {
 	 * @mongodb.driver.manual reference/command/aggregate/ Aggregation
 	 * @mongodb.server.release 3.2
 	 */
-	fun bypassDocumentValidation(bypassDocumentValidation: Boolean?): AggregateFlow<TResult>
+	public fun bypassDocumentValidation(bypassDocumentValidation: Boolean?): AggregateFlow<TResult>
 
 	/**
 	 * Aggregates documents according to the specified aggregation pipeline, which must end with a $out stage.
@@ -83,7 +83,7 @@ interface AggregateFlow<out TResult : Any> : Flow<TResult> {
 	 * @return a publisher with a single element indicating when the operation has completed
 	 * @mongodb.driver.manual aggregation/ Aggregation
 	 */
-	suspend fun toCollection()
+	public suspend fun toCollection()
 
 	/**
 	 * Sets the collation options
@@ -94,7 +94,7 @@ interface AggregateFlow<out TResult : Any> : Flow<TResult> {
 	 * @since 1.3
 	 * @mongodb.server.release 3.4
 	 */
-	fun collation(collation: Collation?): AggregateFlow<TResult>
+	public fun collation(collation: Collation?): AggregateFlow<TResult>
 
 	/**
 	 * Sets the comment to the aggregation. A null value means no comment is set.
@@ -104,7 +104,7 @@ interface AggregateFlow<out TResult : Any> : Flow<TResult> {
 	 * @mongodb.server.release 3.6
 	 * @since 1.7
 	 */
-	fun comment(comment: String?): AggregateFlow<TResult>
+	public fun comment(comment: String?): AggregateFlow<TResult>
 
 	/**
 	 * Sets the hint for which index to use. A null value means no hint is set.
@@ -114,7 +114,7 @@ interface AggregateFlow<out TResult : Any> : Flow<TResult> {
 	 * @mongodb.server.release 3.6
 	 * @since 1.7
 	 */
-	fun hint(hint: Bson?): AggregateFlow<TResult>
+	public fun hint(hint: Bson?): AggregateFlow<TResult>
 
 	/**
 	 * Sets the number of documents to return per batch.
@@ -127,7 +127,7 @@ interface AggregateFlow<out TResult : Any> : Flow<TResult> {
 	 * @since 1.8
 	 * @mongodb.driver.manual reference/method/cursor.batchSize/#cursor.batchSize Batch Size
 	 */
-	fun batchSize(batchSize: Int): AggregateFlow<TResult>
+	public fun batchSize(batchSize: Int): AggregateFlow<TResult>
 
 
 	/**
@@ -136,12 +136,12 @@ interface AggregateFlow<out TResult : Any> : Flow<TResult> {
 	 * @return the first result or null
 	 * @since 1.8
 	 */
-	suspend fun firstOrNull(): TResult?
+	public suspend fun firstOrNull(): TResult?
 
 
-	companion object {
+	public companion object {
 
-		fun <TResult : Any> empty(): AggregateFlow<TResult> =
+		public fun <TResult : Any> empty(): AggregateFlow<TResult> =
 			Empty
 	}
 

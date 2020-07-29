@@ -36,42 +36,42 @@ import kotlin.reflect.*
  * @since 3.0
  */
 @ThreadSafe
-interface MongoCollection<TDocument : Any> {
+public interface MongoCollection<TDocument : Any> {
 
 	/**
 	 * Gets the namespace of this collection.
 	 *
 	 * @return the namespace
 	 */
-	val namespace: MongoNamespace
+	public val namespace: MongoNamespace
 
 	/**
 	 * Get the class of documents stored in this collection.
 	 *
 	 * @return the class
 	 */
-	val documentClass: KClass<TDocument>
+	public val documentClass: KClass<TDocument>
 
 	/**
 	 * Get the codec registry for the MongoCollection.
 	 *
 	 * @return the [org.bson.codecs.configuration.CodecRegistry]
 	 */
-	val codecRegistry: CodecRegistry
+	public val codecRegistry: CodecRegistry
 
 	/**
 	 * Get the read preference for the MongoCollection.
 	 *
 	 * @return the [com.mongodb.ReadPreference]
 	 */
-	val readPreference: ReadPreference
+	public val readPreference: ReadPreference
 
 	/**
 	 * Get the write concern for the MongoCollection.
 	 *
 	 * @return the [com.mongodb.WriteConcern]
 	 */
-	val writeConcern: WriteConcern
+	public val writeConcern: WriteConcern
 
 	/**
 	 * Get the read concern for the MongoCollection.
@@ -81,7 +81,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @mongodb.server.release 3.2
 	 * @mongodb.driver.manual reference/readConcern/ Read Concern
 	 */
-	val readConcern: ReadConcern
+	public val readConcern: ReadConcern
 
 	/**
 	 * Create a new MongoCollection instance with a different default class to cast any documents returned from the database into..
@@ -90,7 +90,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @param <NewTDocument>   the type that the new collection will encode documents from and decode documents to
 	 * @return a new MongoCollection instance with the different default class
 	 */
-	fun <NewTDocument : Any> withDocumentClass(newDocumentClass: KClass<NewTDocument>): MongoCollection<NewTDocument>
+	public fun <NewTDocument : Any> withDocumentClass(newDocumentClass: KClass<NewTDocument>): MongoCollection<NewTDocument>
 
 	/**
 	 * Create a new MongoCollection instance with a different codec registry.
@@ -98,7 +98,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @param codecRegistry the new [org.bson.codecs.configuration.CodecRegistry] for the collection
 	 * @return a new MongoCollection instance with the different codec registry
 	 */
-	fun withCodecRegistry(codecRegistry: CodecRegistry): MongoCollection<TDocument>
+	public fun withCodecRegistry(codecRegistry: CodecRegistry): MongoCollection<TDocument>
 
 	/**
 	 * Create a new MongoCollection instance with a different read preference.
@@ -106,7 +106,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @param readPreference the new [com.mongodb.ReadPreference] for the collection
 	 * @return a new MongoCollection instance with the different readPreference
 	 */
-	fun withReadPreference(readPreference: ReadPreference): MongoCollection<TDocument>
+	public fun withReadPreference(readPreference: ReadPreference): MongoCollection<TDocument>
 
 	/**
 	 * Create a new MongoCollection instance with a different write concern.
@@ -114,7 +114,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @param writeConcern the new [com.mongodb.WriteConcern] for the collection
 	 * @return a new MongoCollection instance with the different writeConcern
 	 */
-	fun withWriteConcern(writeConcern: WriteConcern): MongoCollection<TDocument>
+	public fun withWriteConcern(writeConcern: WriteConcern): MongoCollection<TDocument>
 
 	/**
 	 * Create a new MongoCollection instance with a different read concern.
@@ -125,14 +125,14 @@ interface MongoCollection<TDocument : Any> {
 	 * @mongodb.server.release 3.2
 	 * @mongodb.driver.manual reference/readConcern/ Read Concern
 	 */
-	fun withReadConcern(readConcern: ReadConcern): MongoCollection<TDocument>
+	public fun withReadConcern(readConcern: ReadConcern): MongoCollection<TDocument>
 
 	/**
 	 * Gets an estimate of the count of documents in a collection using collection metadata.
 	 *
 	 * @since 3.8
 	 */
-	suspend fun estimatedDocumentCount(): Long
+	public suspend fun estimatedDocumentCount(): Long
 
 	/**
 	 * Gets an estimate of the count of documents in a collection using collection metadata.
@@ -140,7 +140,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @param options the options describing the count
 	 * @since 3.8
 	 */
-	suspend fun estimatedDocumentCount(options: EstimatedDocumentCountOptions): Long
+	public suspend fun estimatedDocumentCount(options: EstimatedDocumentCountOptions): Long
 
 	/**
 	 * Counts the number of documents in the collection.
@@ -161,7 +161,7 @@ interface MongoCollection<TDocument : Any> {
 	 *
 	 * @since 3.8
 	 */
-	suspend fun countDocuments(): Long
+	public suspend fun countDocuments(): Long
 
 	/**
 	 * Counts the number of documents in the collection according to the given options.
@@ -183,7 +183,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @param filter the query filter
 	 * @since 3.8
 	 */
-	suspend fun countDocuments(filter: Bson): Long
+	public suspend fun countDocuments(filter: Bson): Long
 
 	/**
 	 * Counts the number of documents in the collection according to the given options.
@@ -206,7 +206,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @param options the options describing the count
 	 * @since 3.8
 	 */
-	suspend fun countDocuments(filter: Bson, options: CountOptions): Long
+	public suspend fun countDocuments(filter: Bson, options: CountOptions): Long
 
 	/**
 	 * Counts the number of documents in the collection.
@@ -229,7 +229,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.8
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun countDocuments(clientSession: ClientSession): Long
+	public suspend fun countDocuments(clientSession: ClientSession): Long
 
 	/**
 	 * Counts the number of documents in the collection according to the given options.
@@ -253,7 +253,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.8
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun countDocuments(clientSession: ClientSession, filter: Bson): Long
+	public suspend fun countDocuments(clientSession: ClientSession, filter: Bson): Long
 
 	/**
 	 * Counts the number of documents in the collection according to the given options.
@@ -278,7 +278,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.8
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun countDocuments(clientSession: ClientSession, filter: Bson, options: CountOptions): Long
+	public suspend fun countDocuments(clientSession: ClientSession, filter: Bson, options: CountOptions): Long
 
 	/**
 	 * Gets the distinct values of the specified field name.
@@ -289,7 +289,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return an iterable of distinct values
 	 * @mongodb.driver.manual reference/command/distinct/ Distinct
 	 */
-	fun <TResult : Any> distinct(fieldName: String, resultClass: KClass<out TResult>): DistinctFlow<TResult>
+	public fun <TResult : Any> distinct(fieldName: String, resultClass: KClass<out TResult>): DistinctFlow<TResult>
 
 	/**
 	 * Gets the distinct values of the specified field name.
@@ -301,7 +301,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return an iterable of distinct values
 	 * @mongodb.driver.manual reference/command/distinct/ Distinct
 	 */
-	fun <TResult : Any> distinct(fieldName: String, filter: Bson, resultClass: KClass<out TResult>): DistinctFlow<TResult>
+	public fun <TResult : Any> distinct(fieldName: String, filter: Bson, resultClass: KClass<out TResult>): DistinctFlow<TResult>
 
 	/**
 	 * Gets the distinct values of the specified field name.
@@ -315,7 +315,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult : Any> distinct(clientSession: ClientSession, fieldName: String, resultClass: KClass<out TResult>): DistinctFlow<TResult>
+	public fun <TResult : Any> distinct(clientSession: ClientSession, fieldName: String, resultClass: KClass<out TResult>): DistinctFlow<TResult>
 
 	/**
 	 * Gets the distinct values of the specified field name.
@@ -330,7 +330,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult : Any> distinct(clientSession: ClientSession, fieldName: String, filter: Bson, resultClass: KClass<out TResult>): DistinctFlow<TResult>
+	public fun <TResult : Any> distinct(clientSession: ClientSession, fieldName: String, filter: Bson, resultClass: KClass<out TResult>): DistinctFlow<TResult>
 
 	/**
 	 * Finds all documents in the collection.
@@ -338,7 +338,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return the find iterable interface
 	 * @mongodb.driver.manual tutorial/query-documents/ Find
 	 */
-	fun find(): FindFlow<TDocument>
+	public fun find(): FindFlow<TDocument>
 
 	/**
 	 * Finds all documents in the collection.
@@ -348,7 +348,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return the find iterable interface
 	 * @mongodb.driver.manual tutorial/query-documents/ Find
 	 */
-	fun <TResult : Any> find(resultClass: KClass<out TResult>): FindFlow<TResult>
+	public fun <TResult : Any> find(resultClass: KClass<out TResult>): FindFlow<TResult>
 
 	/**
 	 * Finds all documents in the collection.
@@ -357,7 +357,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return the find iterable interface
 	 * @mongodb.driver.manual tutorial/query-documents/ Find
 	 */
-	fun find(filter: Bson): FindFlow<TDocument>
+	public fun find(filter: Bson): FindFlow<TDocument>
 
 	/**
 	 * Finds all documents in the collection.
@@ -368,7 +368,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return the find iterable interface
 	 * @mongodb.driver.manual tutorial/query-documents/ Find
 	 */
-	fun <TResult : Any> find(filter: Bson, resultClass: KClass<out TResult>): FindFlow<TResult>
+	public fun <TResult : Any> find(filter: Bson, resultClass: KClass<out TResult>): FindFlow<TResult>
 
 	/**
 	 * Finds all documents in the collection.
@@ -379,7 +379,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun find(clientSession: ClientSession): FindFlow<TDocument>
+	public fun find(clientSession: ClientSession): FindFlow<TDocument>
 
 	/**
 	 * Finds all documents in the collection.
@@ -392,7 +392,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult : Any> find(clientSession: ClientSession, resultClass: KClass<out TResult>): FindFlow<TResult>
+	public fun <TResult : Any> find(clientSession: ClientSession, resultClass: KClass<out TResult>): FindFlow<TResult>
 
 	/**
 	 * Finds all documents in the collection.
@@ -404,7 +404,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun find(clientSession: ClientSession, filter: Bson): FindFlow<TDocument>
+	public fun find(clientSession: ClientSession, filter: Bson): FindFlow<TDocument>
 
 	/**
 	 * Finds all documents in the collection.
@@ -418,7 +418,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult : Any> find(clientSession: ClientSession, filter: Bson, resultClass: KClass<out TResult>): FindFlow<TResult>
+	public fun <TResult : Any> find(clientSession: ClientSession, filter: Bson, resultClass: KClass<out TResult>): FindFlow<TResult>
 
 	/**
 	 * Aggregates documents according to the specified aggregation pipeline.  If the pipeline ends with a $out stage, the returned
@@ -429,7 +429,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return an iterable containing the result of the aggregation operation
 	 * @mongodb.driver.manual aggregation/ Aggregation
 	 */
-	fun aggregate(pipeline: List<Bson>): AggregateFlow<TDocument>
+	public fun aggregate(pipeline: List<Bson>): AggregateFlow<TDocument>
 
 	/**
 	 * Aggregates documents according to the specified aggregation pipeline.  If the pipeline ends with a $out stage, the returned
@@ -442,7 +442,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return an iterable containing the result of the aggregation operation
 	 * @mongodb.driver.manual aggregation/ Aggregation
 	 */
-	fun <TResult : Any> aggregate(pipeline: List<Bson>, resultClass: KClass<out TResult>): AggregateFlow<TResult>
+	public fun <TResult : Any> aggregate(pipeline: List<Bson>, resultClass: KClass<out TResult>): AggregateFlow<TResult>
 
 	/**
 	 * Aggregates documents according to the specified aggregation pipeline.  If the pipeline ends with a $out stage, the returned
@@ -456,7 +456,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun aggregate(clientSession: ClientSession, pipeline: List<Bson>): AggregateFlow<TDocument>
+	public fun aggregate(clientSession: ClientSession, pipeline: List<Bson>): AggregateFlow<TDocument>
 
 	/**
 	 * Aggregates documents according to the specified aggregation pipeline.  If the pipeline ends with a $out stage, the returned
@@ -472,7 +472,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult : Any> aggregate(clientSession: ClientSession, pipeline: List<Bson>, resultClass: KClass<out TResult>): AggregateFlow<TResult>
+	public fun <TResult : Any> aggregate(clientSession: ClientSession, pipeline: List<Bson>, resultClass: KClass<out TResult>): AggregateFlow<TResult>
 
 	/**
 	 * Creates a change stream for this collection.
@@ -482,7 +482,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun watch(): ChangeStreamFlow<Document>
+	public fun watch(): ChangeStreamFlow<Document>
 
 	/**
 	 * Creates a change stream for this collection.
@@ -494,7 +494,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult : Any> watch(resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
+	public fun <TResult : Any> watch(resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a change stream for this collection.
@@ -505,7 +505,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun watch(pipeline: List<Bson>): ChangeStreamFlow<Document>
+	public fun watch(pipeline: List<Bson>): ChangeStreamFlow<Document>
 
 	/**
 	 * Creates a change stream for this collection.
@@ -518,7 +518,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult : Any> watch(pipeline: List<Bson>, resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
+	public fun <TResult : Any> watch(pipeline: List<Bson>, resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a change stream for this collection.
@@ -529,7 +529,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun watch(clientSession: ClientSession): ChangeStreamFlow<Document>
+	public fun watch(clientSession: ClientSession): ChangeStreamFlow<Document>
 
 	/**
 	 * Creates a change stream for this collection.
@@ -542,7 +542,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult : Any> watch(clientSession: ClientSession, resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
+	public fun <TResult : Any> watch(clientSession: ClientSession, resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a change stream for this collection.
@@ -554,7 +554,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun watch(clientSession: ClientSession, pipeline: List<Bson>): ChangeStreamFlow<Document>
+	public fun watch(clientSession: ClientSession, pipeline: List<Bson>): ChangeStreamFlow<Document>
 
 	/**
 	 * Creates a change stream for this collection.
@@ -568,7 +568,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult : Any> watch(clientSession: ClientSession, pipeline: List<Bson>, resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
+	public fun <TResult : Any> watch(clientSession: ClientSession, pipeline: List<Bson>, resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Aggregates documents according to the specified map-reduce function.
@@ -578,7 +578,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return an iterable containing the result of the map-reduce operation
 	 * @mongodb.driver.manual reference/command/mapReduce/ map-reduce
 	 */
-	fun mapReduce(mapFunction: String, reduceFunction: String): MapReduceFlow<TDocument>
+	public fun mapReduce(mapFunction: String, reduceFunction: String): MapReduceFlow<TDocument>
 
 	/**
 	 * Aggregates documents according to the specified map-reduce function.
@@ -590,7 +590,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return an iterable containing the result of the map-reduce operation
 	 * @mongodb.driver.manual reference/command/mapReduce/ map-reduce
 	 */
-	fun <TResult : Any> mapReduce(mapFunction: String, reduceFunction: String, resultClass: KClass<out TResult>): MapReduceFlow<TResult>
+	public fun <TResult : Any> mapReduce(mapFunction: String, reduceFunction: String, resultClass: KClass<out TResult>): MapReduceFlow<TResult>
 
 	/**
 	 * Aggregates documents according to the specified map-reduce function.
@@ -603,7 +603,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun mapReduce(clientSession: ClientSession, mapFunction: String, reduceFunction: String): MapReduceFlow<TDocument>
+	public fun mapReduce(clientSession: ClientSession, mapFunction: String, reduceFunction: String): MapReduceFlow<TDocument>
 
 	/**
 	 * Aggregates documents according to the specified map-reduce function.
@@ -618,8 +618,8 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult : Any> mapReduce(clientSession: ClientSession, mapFunction: String, reduceFunction: String,
-	                              resultClass: KClass<out TResult>): MapReduceFlow<TResult>
+	public fun <TResult : Any> mapReduce(clientSession: ClientSession, mapFunction: String, reduceFunction: String,
+	                                     resultClass: KClass<out TResult>): MapReduceFlow<TResult>
 
 	/**
 	 * Executes a mix of inserts, updates, replaces, and deletes.
@@ -629,7 +629,7 @@ interface MongoCollection<TDocument : Any> {
 	 * contain any `UpdateManyModels` or `DeleteManyModels` then the bulk operation will not support retryable writes.
 	 * @param requests the writes to execute
 	 */
-	suspend fun bulkWrite(requests: List<WriteModel<out TDocument>>): BulkWriteResult
+	public suspend fun bulkWrite(requests: List<WriteModel<out TDocument>>): BulkWriteResult
 
 	/**
 	 * Executes a mix of inserts, updates, replaces, and deletes.
@@ -640,7 +640,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @param requests the writes to execute
 	 * @param options  the options to apply to the bulk write operation
 	 */
-	suspend fun bulkWrite(requests: List<WriteModel<out TDocument>>, options: BulkWriteOptions): BulkWriteResult
+	public suspend fun bulkWrite(requests: List<WriteModel<out TDocument>>, options: BulkWriteOptions): BulkWriteResult
 
 	/**
 	 * Executes a mix of inserts, updates, replaces, and deletes.
@@ -653,7 +653,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun bulkWrite(clientSession: ClientSession, requests: List<WriteModel<out TDocument>>): BulkWriteResult
+	public suspend fun bulkWrite(clientSession: ClientSession, requests: List<WriteModel<out TDocument>>): BulkWriteResult
 
 	/**
 	 * Executes a mix of inserts, updates, replaces, and deletes.
@@ -667,7 +667,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun bulkWrite(clientSession: ClientSession, requests: List<WriteModel<out TDocument>>, options: BulkWriteOptions): BulkWriteResult
+	public suspend fun bulkWrite(clientSession: ClientSession, requests: List<WriteModel<out TDocument>>, options: BulkWriteOptions): BulkWriteResult
 
 	/**
 	 * Inserts the provided document. If the document is missing an identifier, the driver should generate one.
@@ -678,7 +678,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @throws com.mongodb.MongoWriteConcernException
 	 * @throws com.mongodb.MongoException
 	 */
-	suspend fun insertOne(document: TDocument): InsertOneResult
+	public suspend fun insertOne(document: TDocument): InsertOneResult
 
 	/**
 	 * Inserts the provided document. If the document is missing an identifier, the driver should generate one.
@@ -692,7 +692,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @throws com.mongodb.MongoException
 	 * @since 3.2
 	 */
-	suspend fun insertOne(document: TDocument, options: InsertOneOptions): InsertOneResult
+	public suspend fun insertOne(document: TDocument, options: InsertOneOptions): InsertOneResult
 
 	/**
 	 * Inserts the provided document. If the document is missing an identifier, the driver should generate one.
@@ -706,7 +706,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun insertOne(clientSession: ClientSession, document: TDocument): InsertOneResult
+	public suspend fun insertOne(clientSession: ClientSession, document: TDocument): InsertOneResult
 
 	/**
 	 * Inserts the provided document. If the document is missing an identifier, the driver should generate one.
@@ -722,7 +722,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun insertOne(clientSession: ClientSession, document: TDocument, options: InsertOneOptions): InsertOneResult
+	public suspend fun insertOne(clientSession: ClientSession, document: TDocument, options: InsertOneOptions): InsertOneResult
 
 	/**
 	 * Inserts one or more documents.  A call to this method is equivalent to a call to the `bulkWrite` method
@@ -733,7 +733,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @throws com.mongodb.MongoException          if the write failed due some other failure
 	 * @see bulkWrite
 	 */
-	suspend fun insertMany(documents: List<TDocument>): InsertManyResult
+	public suspend fun insertMany(documents: List<TDocument>): InsertManyResult
 
 	/**
 	 * Inserts one or more documents.  A call to this method is equivalent to a call to the `bulkWrite` method
@@ -745,7 +745,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @throws com.mongodb.MongoException          if the write failed due some other failure
 	 * @see bulkWrite
 	 */
-	suspend fun insertMany(documents: List<TDocument>, options: InsertManyOptions): InsertManyResult
+	public suspend fun insertMany(documents: List<TDocument>, options: InsertManyOptions): InsertManyResult
 
 	/**
 	 * Inserts one or more documents.  A call to this method is equivalent to a call to the `bulkWrite` method
@@ -760,7 +760,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun insertMany(clientSession: ClientSession, documents: List<TDocument>): InsertManyResult
+	public suspend fun insertMany(clientSession: ClientSession, documents: List<TDocument>): InsertManyResult
 
 	/**
 	 * Inserts one or more documents.  A call to this method is equivalent to a call to the `bulkWrite` method
@@ -776,7 +776,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun insertMany(clientSession: ClientSession, documents: List<TDocument>, options: InsertManyOptions): InsertManyResult
+	public suspend fun insertMany(clientSession: ClientSession, documents: List<TDocument>, options: InsertManyOptions): InsertManyResult
 
 	/**
 	 * Removes at most one document from the collection that matches the given filter.  If no documents match, the collection is not
@@ -788,7 +788,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @throws com.mongodb.MongoWriteConcernException
 	 * @throws com.mongodb.MongoException
 	 */
-	suspend fun deleteOne(filter: Bson): DeleteResult
+	public suspend fun deleteOne(filter: Bson): DeleteResult
 
 	/**
 	 * Removes at most one document from the collection that matches the given filter.  If no documents match, the collection is not
@@ -801,7 +801,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @throws com.mongodb.MongoWriteConcernException
 	 * @throws com.mongodb.MongoException
 	 */
-	suspend fun deleteOne(filter: Bson, options: DeleteOptions): DeleteResult
+	public suspend fun deleteOne(filter: Bson, options: DeleteOptions): DeleteResult
 
 	/**
 	 * Removes at most one document from the collection that matches the given filter.  If no documents match, the collection is not
@@ -816,7 +816,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun deleteOne(clientSession: ClientSession, filter: Bson): DeleteResult
+	public suspend fun deleteOne(clientSession: ClientSession, filter: Bson): DeleteResult
 
 	/**
 	 * Removes at most one document from the collection that matches the given filter.  If no documents match, the collection is not
@@ -832,7 +832,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun deleteOne(clientSession: ClientSession, filter: Bson, options: DeleteOptions): DeleteResult
+	public suspend fun deleteOne(clientSession: ClientSession, filter: Bson, options: DeleteOptions): DeleteResult
 
 	/**
 	 * Removes all documents from the collection that match the given query filter.  If no documents match, the collection is not modified.
@@ -842,7 +842,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @throws com.mongodb.MongoWriteConcernException
 	 * @throws com.mongodb.MongoException
 	 */
-	suspend fun deleteMany(filter: Bson): DeleteResult
+	public suspend fun deleteMany(filter: Bson): DeleteResult
 
 	/**
 	 * Removes all documents from the collection that match the given query filter.  If no documents match, the collection is not modified.
@@ -853,7 +853,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @throws com.mongodb.MongoWriteConcernException
 	 * @throws com.mongodb.MongoException
 	 */
-	suspend fun deleteMany(filter: Bson, options: DeleteOptions): DeleteResult
+	public suspend fun deleteMany(filter: Bson, options: DeleteOptions): DeleteResult
 
 	/**
 	 * Removes all documents from the collection that match the given query filter.  If no documents match, the collection is not modified.
@@ -866,7 +866,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun deleteMany(clientSession: ClientSession, filter: Bson): DeleteResult
+	public suspend fun deleteMany(clientSession: ClientSession, filter: Bson): DeleteResult
 
 	/**
 	 * Removes all documents from the collection that match the given query filter.  If no documents match, the collection is not modified.
@@ -880,7 +880,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun deleteMany(clientSession: ClientSession, filter: Bson, options: DeleteOptions): DeleteResult
+	public suspend fun deleteMany(clientSession: ClientSession, filter: Bson, options: DeleteOptions): DeleteResult
 
 	/**
 	 * Replace a document in the collection according to the specified arguments.
@@ -894,7 +894,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @throws com.mongodb.MongoException
 	 * @mongodb.driver.manual tutorial/modify-documents/#replace-the-document Replace
 	 */
-	suspend fun replaceOne(filter: Bson, replacement: TDocument): UpdateResult
+	public suspend fun replaceOne(filter: Bson, replacement: TDocument): UpdateResult
 
 	/**
 	 * Replace a document in the collection according to the specified arguments.
@@ -909,7 +909,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @mongodb.driver.manual tutorial/modify-documents/#replace-the-document Replace
 	 * @since 3.7
 	 */
-	suspend fun replaceOne(filter: Bson, replacement: TDocument, options: ReplaceOptions): UpdateResult
+	public suspend fun replaceOne(filter: Bson, replacement: TDocument, options: ReplaceOptions): UpdateResult
 
 	/**
 	 * Replace a document in the collection according to the specified arguments.
@@ -925,7 +925,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun replaceOne(clientSession: ClientSession, filter: Bson, replacement: TDocument): UpdateResult
+	public suspend fun replaceOne(clientSession: ClientSession, filter: Bson, replacement: TDocument): UpdateResult
 
 	/**
 	 * Replace a document in the collection according to the specified arguments.
@@ -942,7 +942,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @mongodb.server.release 3.6
 	 * @since 3.7
 	 */
-	suspend fun replaceOne(clientSession: ClientSession, filter: Bson, replacement: TDocument, options: ReplaceOptions): UpdateResult
+	public suspend fun replaceOne(clientSession: ClientSession, filter: Bson, replacement: TDocument, options: ReplaceOptions): UpdateResult
 
 	/**
 	 * Update a single document in the collection according to the specified arguments.
@@ -956,7 +956,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @mongodb.driver.manual tutorial/modify-documents/ Updates
 	 * @mongodb.driver.manual reference/operator/update/ Update Operators
 	 */
-	suspend fun updateOne(filter: Bson, update: Bson): UpdateResult
+	public suspend fun updateOne(filter: Bson, update: Bson): UpdateResult
 
 	/**
 	 * Update a single document in the collection according to the specified arguments.
@@ -971,7 +971,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @mongodb.driver.manual tutorial/modify-documents/ Updates
 	 * @mongodb.driver.manual reference/operator/update/ Update Operators
 	 */
-	suspend fun updateOne(filter: Bson, update: Bson, options: UpdateOptions): UpdateResult
+	public suspend fun updateOne(filter: Bson, update: Bson, options: UpdateOptions): UpdateResult
 
 	/**
 	 * Update a single document in the collection according to the specified arguments.
@@ -988,7 +988,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun updateOne(clientSession: ClientSession, filter: Bson, update: Bson): UpdateResult
+	public suspend fun updateOne(clientSession: ClientSession, filter: Bson, update: Bson): UpdateResult
 
 	/**
 	 * Update a single document in the collection according to the specified arguments.
@@ -1006,7 +1006,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun updateOne(clientSession: ClientSession, filter: Bson, update: Bson, options: UpdateOptions): UpdateResult
+	public suspend fun updateOne(clientSession: ClientSession, filter: Bson, update: Bson, options: UpdateOptions): UpdateResult
 
 	/**
 	 * Update all documents in the collection according to the specified arguments.
@@ -1019,7 +1019,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @mongodb.driver.manual tutorial/modify-documents/ Updates
 	 * @mongodb.driver.manual reference/operator/update/ Update Operators
 	 */
-	suspend fun updateMany(filter: Bson, update: Bson): UpdateResult
+	public suspend fun updateMany(filter: Bson, update: Bson): UpdateResult
 
 	/**
 	 * Update all documents in the collection according to the specified arguments.
@@ -1033,7 +1033,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @mongodb.driver.manual tutorial/modify-documents/ Updates
 	 * @mongodb.driver.manual reference/operator/update/ Update Operators
 	 */
-	suspend fun updateMany(filter: Bson, update: Bson, options: UpdateOptions): UpdateResult
+	public suspend fun updateMany(filter: Bson, update: Bson, options: UpdateOptions): UpdateResult
 
 	/**
 	 * Update all documents in the collection according to the specified arguments.
@@ -1049,7 +1049,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun updateMany(clientSession: ClientSession, filter: Bson, update: Bson): UpdateResult
+	public suspend fun updateMany(clientSession: ClientSession, filter: Bson, update: Bson): UpdateResult
 
 	/**
 	 * Update all documents in the collection according to the specified arguments.
@@ -1066,7 +1066,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun updateMany(clientSession: ClientSession, filter: Bson, update: Bson, options: UpdateOptions): UpdateResult
+	public suspend fun updateMany(clientSession: ClientSession, filter: Bson, update: Bson, options: UpdateOptions): UpdateResult
 
 	/**
 	 * Atomically find a document and remove it.
@@ -1075,7 +1075,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @param filter   the query filter to find the document with
 	 * returned
 	 */
-	suspend fun findOneAndDelete(filter: Bson): TDocument?
+	public suspend fun findOneAndDelete(filter: Bson): TDocument?
 
 	/**
 	 * Atomically find a document and remove it.
@@ -1085,7 +1085,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @param options  the options to apply to the operation
 	 * returned
 	 */
-	suspend fun findOneAndDelete(filter: Bson, options: FindOneAndDeleteOptions): TDocument?
+	public suspend fun findOneAndDelete(filter: Bson, options: FindOneAndDeleteOptions): TDocument?
 
 	/**
 	 * Atomically find a document and remove it.
@@ -1097,7 +1097,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun findOneAndDelete(clientSession: ClientSession, filter: Bson): TDocument?
+	public suspend fun findOneAndDelete(clientSession: ClientSession, filter: Bson): TDocument?
 
 	/**
 	 * Atomically find a document and remove it.
@@ -1110,7 +1110,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun findOneAndDelete(clientSession: ClientSession, filter: Bson, options: FindOneAndDeleteOptions): TDocument?
+	public suspend fun findOneAndDelete(clientSession: ClientSession, filter: Bson, options: FindOneAndDeleteOptions): TDocument?
 
 	/**
 	 * Atomically find a document and replace it.
@@ -1121,7 +1121,7 @@ interface MongoCollection<TDocument : Any> {
 	 * property, this will either be the document as it was before the update or as it is after the update.  If no
 	 * documents matched the query filter, then null will be returned
 	 */
-	suspend fun findOneAndReplace(filter: Bson, replacement: TDocument): TDocument?
+	public suspend fun findOneAndReplace(filter: Bson, replacement: TDocument): TDocument?
 
 	/**
 	 * Atomically find a document and replace it.
@@ -1132,7 +1132,7 @@ interface MongoCollection<TDocument : Any> {
 	 * property, this will either be the document as it was before the update or as it is after the update.  If no
 	 * documents matched the query filter, then null will be returned
 	 */
-	suspend fun findOneAndReplace(filter: Bson, replacement: TDocument, options: FindOneAndReplaceOptions): TDocument?
+	public suspend fun findOneAndReplace(filter: Bson, replacement: TDocument, options: FindOneAndReplaceOptions): TDocument?
 
 	/**
 	 * Atomically find a document and replace it.
@@ -1146,7 +1146,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun findOneAndReplace(clientSession: ClientSession, filter: Bson, replacement: TDocument): TDocument?
+	public suspend fun findOneAndReplace(clientSession: ClientSession, filter: Bson, replacement: TDocument): TDocument?
 
 	/**
 	 * Atomically find a document and replace it.
@@ -1161,7 +1161,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun findOneAndReplace(clientSession: ClientSession, filter: Bson, replacement: TDocument, options: FindOneAndReplaceOptions): TDocument?
+	public suspend fun findOneAndReplace(clientSession: ClientSession, filter: Bson, replacement: TDocument, options: FindOneAndReplaceOptions): TDocument?
 
 	/**
 	 * Atomically find a document and update it.
@@ -1171,7 +1171,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @param update   a document describing the update, which may not be null. The update to apply must include only update operators.
 	 * filter, then null will be returned
 	 */
-	suspend fun findOneAndUpdate(filter: Bson, update: Bson): TDocument?
+	public suspend fun findOneAndUpdate(filter: Bson, update: Bson): TDocument?
 
 	/**
 	 * Atomically find a document and update it.
@@ -1183,7 +1183,7 @@ interface MongoCollection<TDocument : Any> {
 	 * this will either be the document as it was before the update or as it is after the update.  If no documents matched
 	 * the query filter, then null will be returned
 	 */
-	suspend fun findOneAndUpdate(filter: Bson, update: Bson, options: FindOneAndUpdateOptions): TDocument?
+	public suspend fun findOneAndUpdate(filter: Bson, update: Bson, options: FindOneAndUpdateOptions): TDocument?
 
 	/**
 	 * Atomically find a document and update it.
@@ -1196,7 +1196,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun findOneAndUpdate(clientSession: ClientSession, filter: Bson, update: Bson): TDocument?
+	public suspend fun findOneAndUpdate(clientSession: ClientSession, filter: Bson, update: Bson): TDocument?
 
 	/**
 	 * Atomically find a document and update it.
@@ -1211,14 +1211,14 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun findOneAndUpdate(clientSession: ClientSession, filter: Bson, update: Bson, options: FindOneAndUpdateOptions): TDocument?
+	public suspend fun findOneAndUpdate(clientSession: ClientSession, filter: Bson, update: Bson, options: FindOneAndUpdateOptions): TDocument?
 
 	/**
 	 * Drops this collection from the Database.
 	 *
 	 * @mongodb.driver.manual reference/command/drop/ Drop Collection
 	 */
-	suspend fun drop()
+	public suspend fun drop()
 
 	/**
 	 * Drops this collection from the Database.
@@ -1228,7 +1228,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun drop(clientSession: ClientSession)
+	public suspend fun drop(clientSession: ClientSession)
 
 	/**
 	 * Creates an index.
@@ -1237,7 +1237,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return the name of the created index
 	 * @mongodb.driver.manual reference/command/createIndexes/ Create indexes
 	 */
-	suspend fun createIndex(key: Bson): String
+	public suspend fun createIndex(key: Bson): String
 
 	/**
 	 * Creates an index.
@@ -1247,7 +1247,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return the name of the created index
 	 * @mongodb.driver.manual reference/command/createIndexes/ Create indexes
 	 */
-	suspend fun createIndex(key: Bson, options: IndexOptions): String
+	public suspend fun createIndex(key: Bson, options: IndexOptions): String
 
 	/**
 	 * Creates an index.
@@ -1259,7 +1259,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun createIndex(clientSession: ClientSession, key: Bson): String
+	public suspend fun createIndex(clientSession: ClientSession, key: Bson): String
 
 	/**
 	 * Creates an index.
@@ -1272,7 +1272,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun createIndex(clientSession: ClientSession, key: Bson, options: IndexOptions): String
+	public suspend fun createIndex(clientSession: ClientSession, key: Bson, options: IndexOptions): String
 
 	/**
 	 * Create multiple indexes.
@@ -1282,7 +1282,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @mongodb.driver.manual reference/command/createIndexes Create indexes
 	 * @mongodb.server.release 2.6
 	 */
-	suspend fun createIndexes(indexes: List<IndexModel>): Flow<String>
+	public suspend fun createIndexes(indexes: List<IndexModel>): Flow<String>
 
 	/**
 	 * Create multiple indexes.
@@ -1293,7 +1293,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @mongodb.driver.manual reference/command/createIndexes Create indexes
 	 * @since 3.6
 	 */
-	suspend fun createIndexes(indexes: List<IndexModel>, createIndexOptions: CreateIndexOptions): Flow<String>
+	public suspend fun createIndexes(indexes: List<IndexModel>, createIndexOptions: CreateIndexOptions): Flow<String>
 
 	/**
 	 * Create multiple indexes.
@@ -1305,7 +1305,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun createIndexes(clientSession: ClientSession, indexes: List<IndexModel>): Flow<String>
+	public suspend fun createIndexes(clientSession: ClientSession, indexes: List<IndexModel>): Flow<String>
 
 	/**
 	 * Create multiple indexes.
@@ -1318,7 +1318,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun createIndexes(clientSession: ClientSession, indexes: List<IndexModel>, createIndexOptions: CreateIndexOptions): Flow<String>
+	public suspend fun createIndexes(clientSession: ClientSession, indexes: List<IndexModel>, createIndexOptions: CreateIndexOptions): Flow<String>
 
 	/**
 	 * Get all the indexes in this collection.
@@ -1326,7 +1326,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return the list indexes iterable interface
 	 * @mongodb.driver.manual reference/command/listIndexes/ List indexes
 	 */
-	fun listIndexes(): ListIndexesFlow<Document>
+	public fun listIndexes(): ListIndexesFlow<Document>
 
 	/**
 	 * Get all the indexes in this collection.
@@ -1336,7 +1336,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @return the list indexes iterable interface
 	 * @mongodb.driver.manual reference/command/listIndexes/ List indexes
 	 */
-	fun <TResult : Any> listIndexes(resultClass: KClass<out TResult>): ListIndexesFlow<TResult>
+	public fun <TResult : Any> listIndexes(resultClass: KClass<out TResult>): ListIndexesFlow<TResult>
 
 	/**
 	 * Get all the indexes in this collection.
@@ -1347,7 +1347,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun listIndexes(clientSession: ClientSession): ListIndexesFlow<Document>
+	public fun listIndexes(clientSession: ClientSession): ListIndexesFlow<Document>
 
 	/**
 	 * Get all the indexes in this collection.
@@ -1360,7 +1360,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult : Any> listIndexes(clientSession: ClientSession, resultClass: KClass<out TResult>): ListIndexesFlow<TResult>
+	public fun <TResult : Any> listIndexes(clientSession: ClientSession, resultClass: KClass<out TResult>): ListIndexesFlow<TResult>
 
 	/**
 	 * Drops the index given its name.
@@ -1368,7 +1368,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @param indexName the name of the index to remove
 	 * @mongodb.driver.manual reference/command/dropIndexes/ Drop indexes
 	 */
-	suspend fun dropIndex(indexName: String)
+	public suspend fun dropIndex(indexName: String)
 
 	/**
 	 * Drops the index given its name.
@@ -1378,7 +1378,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @mongodb.driver.manual reference/command/dropIndexes/ Drop indexes
 	 * @since 3.6
 	 */
-	suspend fun dropIndex(indexName: String, dropIndexOptions: DropIndexOptions)
+	public suspend fun dropIndex(indexName: String, dropIndexOptions: DropIndexOptions)
 
 	/**
 	 * Drops the index given the keys used to create it.
@@ -1386,7 +1386,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @param keys the keys of the index to remove
 	 * @mongodb.driver.manual reference/command/dropIndexes/ Drop indexes
 	 */
-	suspend fun dropIndex(keys: Bson)
+	public suspend fun dropIndex(keys: Bson)
 
 	/**
 	 * Drops the index given the keys used to create it.
@@ -1396,7 +1396,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @mongodb.driver.manual reference/command/dropIndexes/ Drop indexes
 	 * @since 3.6
 	 */
-	suspend fun dropIndex(keys: Bson, dropIndexOptions: DropIndexOptions)
+	public suspend fun dropIndex(keys: Bson, dropIndexOptions: DropIndexOptions)
 
 	/**
 	 * Drops the index given its name.
@@ -1407,7 +1407,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun dropIndex(clientSession: ClientSession, indexName: String)
+	public suspend fun dropIndex(clientSession: ClientSession, indexName: String)
 
 	/**
 	 * Drops the index given its name.
@@ -1419,7 +1419,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun dropIndex(clientSession: ClientSession, indexName: String, dropIndexOptions: DropIndexOptions)
+	public suspend fun dropIndex(clientSession: ClientSession, indexName: String, dropIndexOptions: DropIndexOptions)
 
 	/**
 	 * Drops the index given the keys used to create it.
@@ -1430,7 +1430,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun dropIndex(clientSession: ClientSession, keys: Bson)
+	public suspend fun dropIndex(clientSession: ClientSession, keys: Bson)
 
 	/**
 	 * Drops the index given the keys used to create it.
@@ -1442,14 +1442,14 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun dropIndex(clientSession: ClientSession, keys: Bson, dropIndexOptions: DropIndexOptions)
+	public suspend fun dropIndex(clientSession: ClientSession, keys: Bson, dropIndexOptions: DropIndexOptions)
 
 	/**
 	 * Drop all the indexes on this collection, except for the default on _id.
 	 *
 	 * @mongodb.driver.manual reference/command/dropIndexes/ Drop indexes
 	 */
-	suspend fun dropIndexes()
+	public suspend fun dropIndexes()
 
 	/**
 	 * Drop all the indexes on this collection, except for the default on _id.
@@ -1458,7 +1458,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @mongodb.driver.manual reference/command/dropIndexes/ Drop indexes
 	 * @since 3.6
 	 */
-	suspend fun dropIndexes(dropIndexOptions: DropIndexOptions)
+	public suspend fun dropIndexes(dropIndexOptions: DropIndexOptions)
 
 	/**
 	 * Drop all the indexes on this collection, except for the default on _id.
@@ -1468,7 +1468,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun dropIndexes(clientSession: ClientSession)
+	public suspend fun dropIndexes(clientSession: ClientSession)
 
 	/**
 	 * Drop all the indexes on this collection, except for the default on _id.
@@ -1479,7 +1479,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun dropIndexes(clientSession: ClientSession, dropIndexOptions: DropIndexOptions)
+	public suspend fun dropIndexes(clientSession: ClientSession, dropIndexOptions: DropIndexOptions)
 
 	/**
 	 * Rename the collection with oldCollectionName to the newCollectionName.
@@ -1489,7 +1489,7 @@ interface MongoCollection<TDocument : Any> {
 	 * oldCollectionName is the name of a collection that doesn't exist
 	 * @mongodb.driver.manual reference/command/renameCollection Rename collection
 	 */
-	suspend fun renameCollection(newCollectionNamespace: MongoNamespace)
+	public suspend fun renameCollection(newCollectionNamespace: MongoNamespace)
 
 	/**
 	 * Rename the collection with oldCollectionName to the newCollectionName.
@@ -1500,7 +1500,7 @@ interface MongoCollection<TDocument : Any> {
 	 * is false, or if the oldCollectionName is the name of a collection that doesn't exist
 	 * @mongodb.driver.manual reference/command/renameCollection Rename collection
 	 */
-	suspend fun renameCollection(newCollectionNamespace: MongoNamespace, options: RenameCollectionOptions)
+	public suspend fun renameCollection(newCollectionNamespace: MongoNamespace, options: RenameCollectionOptions)
 
 	/**
 	 * Rename the collection with oldCollectionName to the newCollectionName.
@@ -1513,7 +1513,7 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun renameCollection(clientSession: ClientSession, newCollectionNamespace: MongoNamespace)
+	public suspend fun renameCollection(clientSession: ClientSession, newCollectionNamespace: MongoNamespace)
 
 	/**
 	 * Rename the collection with oldCollectionName to the newCollectionName.
@@ -1527,5 +1527,8 @@ interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun renameCollection(clientSession: ClientSession, newCollectionNamespace: MongoNamespace, options: RenameCollectionOptions)
+	public suspend fun renameCollection(clientSession: ClientSession, newCollectionNamespace: MongoNamespace, options: RenameCollectionOptions)
+
+
+	public companion object
 }

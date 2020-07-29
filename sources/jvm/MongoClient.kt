@@ -34,7 +34,7 @@ import kotlin.reflect.*
  * @since 3.0
  */
 @Immutable
-interface MongoClient : Closeable {
+public interface MongoClient : Closeable {
 
 	/**
 	 * Gets the database with the given name.
@@ -44,7 +44,7 @@ interface MongoClient : Closeable {
 	 * @throws IllegalArgumentException if databaseName is invalid
 	 * @see com.mongodb.MongoNamespace.checkDatabaseNameValidity
 	 */
-	fun getDatabase(name: String): MongoDatabase
+	public fun getDatabase(name: String): MongoDatabase
 
 	/**
 	 * Close the client, which will close all underlying cached resources, including, for example,
@@ -58,7 +58,7 @@ interface MongoClient : Closeable {
 	 * @return an iterable containing all the names of all the databases
 	 * @mongodb.driver.manual reference/command/listDatabases List Databases
 	 */
-	fun listDatabaseNames(): Flow<String>
+	public fun listDatabaseNames(): Flow<String>
 
 	/**
 	 * Get a list of the database names
@@ -69,14 +69,14 @@ interface MongoClient : Closeable {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun listDatabaseNames(clientSession: ClientSession): Flow<String>
+	public fun listDatabaseNames(clientSession: ClientSession): Flow<String>
 
 	/**
 	 * Gets the list of databases
 	 *
 	 * @return the list databases iterable interface
 	 */
-	fun listDatabases(): ListDatabasesFlow<Document>
+	public fun listDatabases(): ListDatabasesFlow<Document>
 
 	/**
 	 * Gets the list of databases
@@ -87,7 +87,7 @@ interface MongoClient : Closeable {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun listDatabases(clientSession: ClientSession): ListDatabasesFlow<Document>
+	public fun listDatabases(clientSession: ClientSession): ListDatabasesFlow<Document>
 
 	/**
 	 * Gets the list of databases
@@ -96,7 +96,7 @@ interface MongoClient : Closeable {
 	 * @param <TResult>   the type of the class to use instead of `Document`.
 	 * @return the list databases iterable interface
 	 */
-	fun <TResult : Any> listDatabases(resultClass: KClass<out TResult>): ListDatabasesFlow<TResult>
+	public fun <TResult : Any> listDatabases(resultClass: KClass<out TResult>): ListDatabasesFlow<TResult>
 
 	/**
 	 * Gets the list of databases
@@ -109,7 +109,7 @@ interface MongoClient : Closeable {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult : Any> listDatabases(clientSession: ClientSession, resultClass: KClass<out TResult>): ListDatabasesFlow<TResult>
+	public fun <TResult : Any> listDatabases(clientSession: ClientSession, resultClass: KClass<out TResult>): ListDatabasesFlow<TResult>
 
 	/**
 	 * Creates a change stream for this client.
@@ -119,7 +119,7 @@ interface MongoClient : Closeable {
 	 * @since 3.8
 	 * @mongodb.server.release 4.0
 	 */
-	fun watch(): ChangeStreamFlow<Document>
+	public fun watch(): ChangeStreamFlow<Document>
 
 	/**
 	 * Creates a change stream for this client.
@@ -131,7 +131,7 @@ interface MongoClient : Closeable {
 	 * @since 3.8
 	 * @mongodb.server.release 4.0
 	 */
-	fun <TResult : Any> watch(resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
+	public fun <TResult : Any> watch(resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a change stream for this client.
@@ -142,7 +142,7 @@ interface MongoClient : Closeable {
 	 * @since 3.8
 	 * @mongodb.server.release 4.0
 	 */
-	fun watch(pipeline: List<Bson>): ChangeStreamFlow<Document>
+	public fun watch(pipeline: List<Bson>): ChangeStreamFlow<Document>
 
 	/**
 	 * Creates a change stream for this client.
@@ -155,7 +155,7 @@ interface MongoClient : Closeable {
 	 * @since 3.8
 	 * @mongodb.server.release 4.0
 	 */
-	fun <TResult : Any> watch(pipeline: List<Bson>, resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
+	public fun <TResult : Any> watch(pipeline: List<Bson>, resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a change stream for this client.
@@ -166,7 +166,7 @@ interface MongoClient : Closeable {
 	 * @mongodb.server.release 4.0
 	 * @mongodb.driver.dochub core/changestreams Change Streams
 	 */
-	fun watch(clientSession: ClientSession): ChangeStreamFlow<Document>
+	public fun watch(clientSession: ClientSession): ChangeStreamFlow<Document>
 
 	/**
 	 * Creates a change stream for this client.
@@ -179,7 +179,7 @@ interface MongoClient : Closeable {
 	 * @mongodb.server.release 4.0
 	 * @mongodb.driver.dochub core/changestreams Change Streams
 	 */
-	fun <TResult : Any> watch(clientSession: ClientSession, resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
+	public fun <TResult : Any> watch(clientSession: ClientSession, resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a change stream for this client.
@@ -191,7 +191,7 @@ interface MongoClient : Closeable {
 	 * @mongodb.server.release 4.0
 	 * @mongodb.driver.dochub core/changestreams Change Streams
 	 */
-	fun watch(clientSession: ClientSession, pipeline: List<Bson>): ChangeStreamFlow<Document>
+	public fun watch(clientSession: ClientSession, pipeline: List<Bson>): ChangeStreamFlow<Document>
 
 	/**
 	 * Creates a change stream for this client.
@@ -205,7 +205,7 @@ interface MongoClient : Closeable {
 	 * @mongodb.server.release 4.0
 	 * @mongodb.driver.dochub core/changestreams Change Streams
 	 */
-	fun <TResult : Any> watch(clientSession: ClientSession, pipeline: List<Bson>, resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
+	public fun <TResult : Any> watch(clientSession: ClientSession, pipeline: List<Bson>, resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a client session with default options.
@@ -216,7 +216,7 @@ interface MongoClient : Closeable {
 	 * @mongodb.server.release 3.6
 	 * @since 3.8
 	 */
-	suspend fun startSession(): ClientSession
+	public suspend fun startSession(): ClientSession
 
 	/**
 	 * Creates a client session.
@@ -228,5 +228,8 @@ interface MongoClient : Closeable {
 	 * @mongodb.server.release 3.6
 	 * @since 3.6
 	 */
-	suspend fun startSession(options: ClientSessionOptions): ClientSession
+	public suspend fun startSession(options: ClientSessionOptions): ClientSession
+
+
+	public companion object
 }

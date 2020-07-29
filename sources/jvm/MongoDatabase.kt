@@ -33,35 +33,35 @@ import kotlin.reflect.*
  * @since 3.0
  */
 @ThreadSafe
-interface MongoDatabase {
+public interface MongoDatabase {
 
 	/**
 	 * Gets the name of the database.
 	 *
 	 * @return the database name
 	 */
-	val name: String
+	public val name: String
 
 	/**
 	 * Get the codec registry for the MongoDatabase.
 	 *
 	 * @return the [org.bson.codecs.configuration.CodecRegistry]
 	 */
-	val codecRegistry: CodecRegistry
+	public val codecRegistry: CodecRegistry
 
 	/**
 	 * Get the read preference for the MongoDatabase.
 	 *
 	 * @return the [com.mongodb.ReadPreference]
 	 */
-	val readPreference: ReadPreference
+	public val readPreference: ReadPreference
 
 	/**
 	 * Get the write concern for the MongoDatabase.
 	 *
 	 * @return the [com.mongodb.WriteConcern]
 	 */
-	val writeConcern: WriteConcern
+	public val writeConcern: WriteConcern
 
 	/**
 	 * Get the read concern for the MongoDatabase.
@@ -71,7 +71,7 @@ interface MongoDatabase {
 	 * @mongodb.server.release 3.2
 	 * @mongodb.driver.manual reference/readConcern/ Read Concern
 	 */
-	val readConcern: ReadConcern
+	public val readConcern: ReadConcern
 
 	/**
 	 * Create a new MongoDatabase instance with a different codec registry.
@@ -79,7 +79,7 @@ interface MongoDatabase {
 	 * @param codecRegistry the new [org.bson.codecs.configuration.CodecRegistry] for the database
 	 * @return a new MongoDatabase instance with the different codec registry
 	 */
-	fun withCodecRegistry(codecRegistry: CodecRegistry): MongoDatabase
+	public fun withCodecRegistry(codecRegistry: CodecRegistry): MongoDatabase
 
 	/**
 	 * Create a new MongoDatabase instance with a different read preference.
@@ -87,7 +87,7 @@ interface MongoDatabase {
 	 * @param readPreference the new [com.mongodb.ReadPreference] for the database
 	 * @return a new MongoDatabase instance with the different readPreference
 	 */
-	fun withReadPreference(readPreference: ReadPreference): MongoDatabase
+	public fun withReadPreference(readPreference: ReadPreference): MongoDatabase
 
 	/**
 	 * Create a new MongoDatabase instance with a different write concern.
@@ -95,7 +95,7 @@ interface MongoDatabase {
 	 * @param writeConcern the new [com.mongodb.WriteConcern] for the database
 	 * @return a new MongoDatabase instance with the different writeConcern
 	 */
-	fun withWriteConcern(writeConcern: WriteConcern): MongoDatabase
+	public fun withWriteConcern(writeConcern: WriteConcern): MongoDatabase
 
 	/**
 	 * Create a new MongoDatabase instance with a different read concern.
@@ -106,7 +106,7 @@ interface MongoDatabase {
 	 * @mongodb.server.release 3.2
 	 * @mongodb.driver.manual reference/readConcern/ Read Concern
 	 */
-	fun withReadConcern(readConcern: ReadConcern): MongoDatabase
+	public fun withReadConcern(readConcern: ReadConcern): MongoDatabase
 
 	/**
 	 * Gets a collection.
@@ -116,7 +116,7 @@ interface MongoDatabase {
 	 * @throws IllegalArgumentException if collectionName is invalid
 	 * @see com.mongodb.MongoNamespace.checkCollectionNameValidity
 	 */
-	fun getCollection(name: String): MongoCollection<Document>
+	public fun getCollection(name: String): MongoCollection<Document>
 
 	/**
 	 * Gets a collection, with a specific default document class.
@@ -126,14 +126,14 @@ interface MongoDatabase {
 	 * @param <TDocument>   the type of the class to use instead of `Document`.
 	 * @return the collection
 	 */
-	fun <TDocument : Any> getCollection(name: String, documentClass: KClass<TDocument>): MongoCollection<TDocument>
+	public fun <TDocument : Any> getCollection(name: String, documentClass: KClass<TDocument>): MongoCollection<TDocument>
 
 	/**
 	 * Executes the given command in the context of the current database with a read preference of [ReadPreference.primary].
 	 *
 	 * @param command  the command to be run
 	 */
-	suspend fun runCommand(command: Bson): Document
+	public suspend fun runCommand(command: Bson): Document
 
 	/**
 	 * Executes the given command in the context of the current database with the given read preference.
@@ -141,7 +141,7 @@ interface MongoDatabase {
 	 * @param command        the command to be run
 	 * @param readPreference the [com.mongodb.ReadPreference] to be used when executing the command
 	 */
-	suspend fun runCommand(command: Bson, readPreference: ReadPreference): Document
+	public suspend fun runCommand(command: Bson, readPreference: ReadPreference): Document
 
 	/**
 	 * Executes the given command in the context of the current database with a read preference of [ReadPreference.primary].
@@ -150,7 +150,7 @@ interface MongoDatabase {
 	 * @param resultClass the default class to cast any documents returned from the database into.
 	 * @param <TResult>   the type of the class to use instead of `Document`.
 	 */
-	suspend fun <TResult : Any> runCommand(command: Bson, resultClass: KClass<out TResult>): TResult
+	public suspend fun <TResult : Any> runCommand(command: Bson, resultClass: KClass<out TResult>): TResult
 
 	/**
 	 * Executes the given command in the context of the current database with the given read preference.
@@ -160,7 +160,7 @@ interface MongoDatabase {
 	 * @param resultClass    the default class to cast any documents returned from the database into.
 	 * @param <TResult>      the type of the class to use instead of `Document`.
 	 */
-	suspend fun <TResult : Any> runCommand(command: Bson, readPreference: ReadPreference, resultClass: KClass<out TResult>): TResult
+	public suspend fun <TResult : Any> runCommand(command: Bson, readPreference: ReadPreference, resultClass: KClass<out TResult>): TResult
 
 	/**
 	 * Executes the given command in the context of the current database with a read preference of [ReadPreference.primary].
@@ -170,7 +170,7 @@ interface MongoDatabase {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun runCommand(clientSession: ClientSession, command: Bson): Document
+	public suspend fun runCommand(clientSession: ClientSession, command: Bson): Document
 
 	/**
 	 * Executes the given command in the context of the current database with the given read preference.
@@ -181,7 +181,7 @@ interface MongoDatabase {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun runCommand(clientSession: ClientSession, command: Bson, readPreference: ReadPreference): Document
+	public suspend fun runCommand(clientSession: ClientSession, command: Bson, readPreference: ReadPreference): Document
 
 	/**
 	 * Executes the given command in the context of the current database with a read preference of [ReadPreference.primary].
@@ -193,7 +193,7 @@ interface MongoDatabase {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun <TResult : Any> runCommand(clientSession: ClientSession, command: Bson, resultClass: KClass<out TResult>): TResult
+	public suspend fun <TResult : Any> runCommand(clientSession: ClientSession, command: Bson, resultClass: KClass<out TResult>): TResult
 
 	/**
 	 * Executes the given command in the context of the current database with the given read preference.
@@ -206,14 +206,14 @@ interface MongoDatabase {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun <TResult : Any> runCommand(clientSession: ClientSession, command: Bson, readPreference: ReadPreference, resultClass: KClass<out TResult>): TResult
+	public suspend fun <TResult : Any> runCommand(clientSession: ClientSession, command: Bson, readPreference: ReadPreference, resultClass: KClass<out TResult>): TResult
 
 	/**
 	 * Drops this database.
 	 *
 	 * @mongodb.driver.manual reference/command/dropDatabase/#dbcmd.dropDatabase Drop database
 	 */
-	suspend fun drop()
+	public suspend fun drop()
 
 	/**
 	 * Drops this database.
@@ -223,14 +223,14 @@ interface MongoDatabase {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun drop(clientSession: ClientSession)
+	public suspend fun drop(clientSession: ClientSession)
 
 	/**
 	 * Gets the names of all the collections in this database.
 	 *
 	 * @return an iterable containing all the names of all the collections in this database
 	 */
-	fun listCollectionNames(): Flow<String>
+	public fun listCollectionNames(): Flow<String>
 
 	/**
 	 * Gets the names of all the collections in this database.
@@ -240,7 +240,7 @@ interface MongoDatabase {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun listCollectionNames(clientSession: ClientSession): Flow<String>
+	public fun listCollectionNames(clientSession: ClientSession): Flow<String>
 
 	/**
 	 * Finds all the collections in this database.
@@ -248,7 +248,7 @@ interface MongoDatabase {
 	 * @return the list collections iterable interface
 	 * @mongodb.driver.manual reference/command/listCollections listCollections
 	 */
-	fun listCollections(): ListCollectionsFlow<Document>
+	public fun listCollections(): ListCollectionsFlow<Document>
 
 	/**
 	 * Finds all the collections in this database.
@@ -258,7 +258,7 @@ interface MongoDatabase {
 	 * @return the list collections iterable interface
 	 * @mongodb.driver.manual reference/command/listCollections listCollections
 	 */
-	fun <TResult : Any> listCollections(resultClass: KClass<out TResult>): ListCollectionsFlow<TResult>
+	public fun <TResult : Any> listCollections(resultClass: KClass<out TResult>): ListCollectionsFlow<TResult>
 
 	/**
 	 * Finds all the collections in this database.
@@ -269,7 +269,7 @@ interface MongoDatabase {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun listCollections(clientSession: ClientSession): ListCollectionsFlow<Document>
+	public fun listCollections(clientSession: ClientSession): ListCollectionsFlow<Document>
 
 	/**
 	 * Finds all the collections in this database.
@@ -282,7 +282,7 @@ interface MongoDatabase {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	fun <TResult : Any> listCollections(clientSession: ClientSession, resultClass: KClass<out TResult>): ListCollectionsFlow<TResult>
+	public fun <TResult : Any> listCollections(clientSession: ClientSession, resultClass: KClass<out TResult>): ListCollectionsFlow<TResult>
 
 	/**
 	 * Create a new collection with the given name.
@@ -290,7 +290,7 @@ interface MongoDatabase {
 	 * @param collectionName the name for the new collection to create
 	 * @mongodb.driver.manual reference/command/create Create Command
 	 */
-	suspend fun createCollection(collectionName: String)
+	public suspend fun createCollection(collectionName: String)
 
 	/**
 	 * Create a new collection with the selected options
@@ -299,7 +299,7 @@ interface MongoDatabase {
 	 * @param options        various options for creating the collection
 	 * @mongodb.driver.manual reference/command/create Create Command
 	 */
-	suspend fun createCollection(collectionName: String, options: CreateCollectionOptions)
+	public suspend fun createCollection(collectionName: String, options: CreateCollectionOptions)
 
 	/**
 	 * Create a new collection with the given name.
@@ -310,7 +310,7 @@ interface MongoDatabase {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun createCollection(clientSession: ClientSession, collectionName: String)
+	public suspend fun createCollection(clientSession: ClientSession, collectionName: String)
 
 	/**
 	 * Create a new collection with the selected options
@@ -322,7 +322,7 @@ interface MongoDatabase {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun createCollection(clientSession: ClientSession, collectionName: String, options: CreateCollectionOptions)
+	public suspend fun createCollection(clientSession: ClientSession, collectionName: String, options: CreateCollectionOptions)
 
 	/**
 	 * Creates a view with the given name, backing collection/view name, and aggregation pipeline that defines the view.
@@ -334,7 +334,7 @@ interface MongoDatabase {
 	 * @since 3.4
 	 * @mongodb.server.release 3.4
 	 */
-	suspend fun createView(viewName: String, viewOn: String, pipeline: List<Bson>)
+	public suspend fun createView(viewName: String, viewOn: String, pipeline: List<Bson>)
 
 	/**
 	 * Creates a view with the given name, backing collection/view name, aggregation pipeline, and options that defines the view.
@@ -347,7 +347,7 @@ interface MongoDatabase {
 	 * @since 3.4
 	 * @mongodb.server.release 3.4
 	 */
-	suspend fun createView(viewName: String, viewOn: String, pipeline: List<Bson>, createViewOptions: CreateViewOptions)
+	public suspend fun createView(viewName: String, viewOn: String, pipeline: List<Bson>, createViewOptions: CreateViewOptions)
 
 	/**
 	 * Creates a view with the given name, backing collection/view name, and aggregation pipeline that defines the view.
@@ -360,7 +360,7 @@ interface MongoDatabase {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun createView(clientSession: ClientSession, viewName: String, viewOn: String, pipeline: List<Bson>)
+	public suspend fun createView(clientSession: ClientSession, viewName: String, viewOn: String, pipeline: List<Bson>)
 
 	/**
 	 * Creates a view with the given name, backing collection/view name, aggregation pipeline, and options that defines the view.
@@ -374,8 +374,8 @@ interface MongoDatabase {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	suspend fun createView(clientSession: ClientSession, viewName: String, viewOn: String, pipeline: List<Bson>,
-	                       createViewOptions: CreateViewOptions)
+	public suspend fun createView(clientSession: ClientSession, viewName: String, viewOn: String, pipeline: List<Bson>,
+	                              createViewOptions: CreateViewOptions)
 
 	/**
 	 * Creates a change stream for this database.
@@ -385,7 +385,7 @@ interface MongoDatabase {
 	 * @since 3.8
 	 * @mongodb.server.release 4.0
 	 */
-	fun watch(): ChangeStreamFlow<Document>
+	public fun watch(): ChangeStreamFlow<Document>
 
 	/**
 	 * Creates a change stream for this database.
@@ -397,7 +397,7 @@ interface MongoDatabase {
 	 * @since 3.8
 	 * @mongodb.server.release 4.0
 	 */
-	fun <TResult : Any> watch(resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
+	public fun <TResult : Any> watch(resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a change stream for this database.
@@ -408,7 +408,7 @@ interface MongoDatabase {
 	 * @since 3.8
 	 * @mongodb.server.release 4.0
 	 */
-	fun watch(pipeline: List<Bson>): ChangeStreamFlow<Document>
+	public fun watch(pipeline: List<Bson>): ChangeStreamFlow<Document>
 
 	/**
 	 * Creates a change stream for this database.
@@ -421,7 +421,7 @@ interface MongoDatabase {
 	 * @since 3.8
 	 * @mongodb.server.release 4.0
 	 */
-	fun <TResult : Any> watch(pipeline: List<Bson>, resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
+	public fun <TResult : Any> watch(pipeline: List<Bson>, resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a change stream for this database.
@@ -432,7 +432,7 @@ interface MongoDatabase {
 	 * @mongodb.server.release 4.0
 	 * @mongodb.driver.dochub core/changestreams Change Streams
 	 */
-	fun watch(clientSession: ClientSession): ChangeStreamFlow<Document>
+	public fun watch(clientSession: ClientSession): ChangeStreamFlow<Document>
 
 	/**
 	 * Creates a change stream for this database.
@@ -445,7 +445,7 @@ interface MongoDatabase {
 	 * @mongodb.server.release 4.0
 	 * @mongodb.driver.dochub core/changestreams Change Streams
 	 */
-	fun <TResult : Any> watch(clientSession: ClientSession, resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
+	public fun <TResult : Any> watch(clientSession: ClientSession, resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Creates a change stream for this database.
@@ -457,7 +457,7 @@ interface MongoDatabase {
 	 * @mongodb.server.release 4.0
 	 * @mongodb.driver.dochub core/changestreams Change Streams
 	 */
-	fun watch(clientSession: ClientSession, pipeline: List<Bson>): ChangeStreamFlow<Document>
+	public fun watch(clientSession: ClientSession, pipeline: List<Bson>): ChangeStreamFlow<Document>
 
 	/**
 	 * Creates a change stream for this database.
@@ -471,7 +471,7 @@ interface MongoDatabase {
 	 * @mongodb.server.release 4.0
 	 * @mongodb.driver.dochub core/changestreams Change Streams
 	 */
-	fun <TResult : Any> watch(clientSession: ClientSession, pipeline: List<Bson>, resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
+	public fun <TResult : Any> watch(clientSession: ClientSession, pipeline: List<Bson>, resultClass: KClass<out TResult>): ChangeStreamFlow<TResult>
 
 	/**
 	 * Runs an aggregation framework pipeline on the database for pipeline stages
@@ -483,7 +483,7 @@ interface MongoDatabase {
 	 * @mongodb.driver.manual reference/command/aggregate/#dbcmd.aggregate Aggregate Command
 	 * @mongodb.server.release 3.6
 	 */
-	fun aggregate(pipeline: List<Bson>): AggregateFlow<Document>
+	public fun aggregate(pipeline: List<Bson>): AggregateFlow<Document>
 
 	/**
 	 * Runs an aggregation framework pipeline on the database for pipeline stages
@@ -497,7 +497,7 @@ interface MongoDatabase {
 	 * @mongodb.driver.manual reference/command/aggregate/#dbcmd.aggregate Aggregate Command
 	 * @mongodb.server.release 3.6
 	</TResult> */
-	fun <TResult : Any> aggregate(pipeline: List<Bson>, resultClass: KClass<out TResult>): AggregateFlow<TResult>
+	public fun <TResult : Any> aggregate(pipeline: List<Bson>, resultClass: KClass<out TResult>): AggregateFlow<TResult>
 
 	/**
 	 * Runs an aggregation framework pipeline on the database for pipeline stages
@@ -510,7 +510,7 @@ interface MongoDatabase {
 	 * @mongodb.driver.manual reference/command/aggregate/#dbcmd.aggregate Aggregate Command
 	 * @mongodb.server.release 3.6
 	 */
-	fun aggregate(clientSession: ClientSession, pipeline: List<Bson>): AggregateFlow<Document>
+	public fun aggregate(clientSession: ClientSession, pipeline: List<Bson>): AggregateFlow<Document>
 
 	/**
 	 * Runs an aggregation framework pipeline on the database for pipeline stages
@@ -525,7 +525,10 @@ interface MongoDatabase {
 	 * @mongodb.driver.manual reference/command/aggregate/#dbcmd.aggregate Aggregate Command
 	 * @mongodb.server.release 3.6
 	</TResult> */
-	fun <TResult : Any> aggregate(clientSession: ClientSession, pipeline: List<Bson>, resultClass: KClass<out TResult>): AggregateFlow<TResult>
+	public fun <TResult : Any> aggregate(clientSession: ClientSession, pipeline: List<Bson>, resultClass: KClass<out TResult>): AggregateFlow<TResult>
+
+
+	public companion object
 }
 
 
@@ -536,5 +539,5 @@ interface MongoDatabase {
  * @param <TDocument>   the type of the class to use instead of `Document`.
  * @return the collection
  */
-inline fun <reified TDocument : Any> MongoDatabase.getCollectionOf(name: String): MongoCollection<TDocument> =
+public inline fun <reified TDocument : Any> MongoDatabase.getCollectionOf(name: String): MongoCollection<TDocument> =
 	getCollection(name = name, documentClass = TDocument::class)

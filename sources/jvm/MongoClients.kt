@@ -25,7 +25,7 @@ import org.bson.codecs.configuration.*
  *
  * @since 3.0
  */
-object MongoClients {
+public object MongoClients {
 
 	/**
 	 * Gets the default codec registry.  It includes the following providers:
@@ -44,7 +44,7 @@ object MongoClients {
 	 * @see com.mongodb.MongoClientSettings.getCodecRegistry
 	 * @since 3.1
 	 */
-	val defaultCodecRegistry: CodecRegistry
+	public val defaultCodecRegistry: CodecRegistry
 		get() = MongoClients.getDefaultCodecRegistry()
 
 	/**
@@ -52,7 +52,7 @@ object MongoClients {
 	 *
 	 * @return the client
 	 */
-	fun create(): MongoClient =
+	public fun create(): MongoClient =
 		MongoClients.create().wrap()
 
 	/**
@@ -61,7 +61,7 @@ object MongoClients {
 	 * @param connectionString the connection
 	 * @return the client
 	 */
-	fun create(connectionString: String): MongoClient =
+	public fun create(connectionString: String): MongoClient =
 		MongoClients.create(connectionString).wrap()
 
 	/**
@@ -70,7 +70,7 @@ object MongoClients {
 	 * @param connectionString the settings
 	 * @return the client
 	 */
-	fun create(connectionString: ConnectionString): MongoClient =
+	public fun create(connectionString: ConnectionString): MongoClient =
 		MongoClients.create(connectionString).wrap()
 
 	/**
@@ -83,7 +83,7 @@ object MongoClients {
 	 * @return the client
 	 * @since 1.3
 	 */
-	fun create(connectionString: ConnectionString, mongoDriverInformation: MongoDriverInformation?): MongoClient =
+	public fun create(connectionString: ConnectionString, mongoDriverInformation: MongoDriverInformation?): MongoClient =
 		MongoClients.create(connectionString, mongoDriverInformation).wrap()
 
 	/**
@@ -93,7 +93,7 @@ object MongoClients {
 	 * @return the client
 	 * @since 3.7
 	 */
-	fun create(settings: MongoClientSettings): MongoClient =
+	public fun create(settings: MongoClientSettings): MongoClient =
 		MongoClients.create(settings).wrap()
 
 	/**
@@ -106,6 +106,6 @@ object MongoClients {
 	 * @return the client
 	 * @since 3.7
 	 */
-	fun create(settings: MongoClientSettings, mongoDriverInformation: MongoDriverInformation?): MongoClient =
+	public fun create(settings: MongoClientSettings, mongoDriverInformation: MongoDriverInformation?): MongoClient =
 		MongoClients.create(settings, mongoDriverInformation).wrap()
 }

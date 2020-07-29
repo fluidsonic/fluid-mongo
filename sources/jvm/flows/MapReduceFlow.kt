@@ -29,7 +29,7 @@ import java.util.concurrent.*
  * @param <TResult> The type of the result.
  * @since 3.0
  */
-interface MapReduceFlow<out TResult : Any> : Flow<TResult> {
+public interface MapReduceFlow<out TResult : Any> : Flow<TResult> {
 
 	/**
 	 * Sets the collectionName for the output of the MapReduce
@@ -39,7 +39,7 @@ interface MapReduceFlow<out TResult : Any> : Flow<TResult> {
 	 * @param collectionName the name of the collection that you want the map-reduce operation to write its output.
 	 * @return this
 	 */
-	fun collectionName(collectionName: String): MapReduceFlow<TResult>
+	public fun collectionName(collectionName: String): MapReduceFlow<TResult>
 
 	/**
 	 * Sets the JavaScript function that follows the reduce method and modifies the output.
@@ -48,7 +48,7 @@ interface MapReduceFlow<out TResult : Any> : Flow<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/command/mapReduce/#mapreduce-finalize-cmd Requirements for the finalize Function
 	 */
-	fun finalizeFunction(finalizeFunction: String?): MapReduceFlow<TResult>
+	public fun finalizeFunction(finalizeFunction: String?): MapReduceFlow<TResult>
 
 	/**
 	 * Sets the global variables that are accessible in the map, reduce and finalize functions.
@@ -57,7 +57,7 @@ interface MapReduceFlow<out TResult : Any> : Flow<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/command/mapReduce mapReduce
 	 */
-	fun scope(scope: Bson?): MapReduceFlow<TResult>
+	public fun scope(scope: Bson?): MapReduceFlow<TResult>
 
 	/**
 	 * Sets the sort criteria to apply to the query.
@@ -66,7 +66,7 @@ interface MapReduceFlow<out TResult : Any> : Flow<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/method/cursor.sort/ Sort
 	 */
-	fun sort(sort: Bson?): MapReduceFlow<TResult>
+	public fun sort(sort: Bson?): MapReduceFlow<TResult>
 
 	/**
 	 * Sets the query filter to apply to the query.
@@ -75,7 +75,7 @@ interface MapReduceFlow<out TResult : Any> : Flow<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/method/db.collection.find/ Filter
 	 */
-	fun filter(filter: Bson?): MapReduceFlow<TResult>
+	public fun filter(filter: Bson?): MapReduceFlow<TResult>
 
 	/**
 	 * Sets the limit to apply.
@@ -84,7 +84,7 @@ interface MapReduceFlow<out TResult : Any> : Flow<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/method/cursor.limit/#cursor.limit Limit
 	 */
-	fun limit(limit: Int): MapReduceFlow<TResult>
+	public fun limit(limit: Int): MapReduceFlow<TResult>
 
 	/**
 	 * Sets the flag that specifies whether to convert intermediate data into BSON format between the execution of the map and reduce
@@ -95,7 +95,7 @@ interface MapReduceFlow<out TResult : Any> : Flow<TResult> {
 	 * @return jsMode
 	 * @mongodb.driver.manual reference/command/mapReduce mapReduce
 	 */
-	fun jsMode(jsMode: Boolean): MapReduceFlow<TResult>
+	public fun jsMode(jsMode: Boolean): MapReduceFlow<TResult>
 
 	/**
 	 * Sets whether to include the timing information in the result information.
@@ -103,7 +103,7 @@ interface MapReduceFlow<out TResult : Any> : Flow<TResult> {
 	 * @param verbose whether to include the timing information in the result information.
 	 * @return this
 	 */
-	fun verbose(verbose: Boolean): MapReduceFlow<TResult>
+	public fun verbose(verbose: Boolean): MapReduceFlow<TResult>
 
 	/**
 	 * Sets the maximum execution time on the server for this operation.
@@ -113,7 +113,7 @@ interface MapReduceFlow<out TResult : Any> : Flow<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/method/cursor.maxTimeMS/#cursor.maxTimeMS Max Time
 	 */
-	fun maxTime(maxTime: Long, timeUnit: TimeUnit): MapReduceFlow<TResult>
+	public fun maxTime(maxTime: Long, timeUnit: TimeUnit): MapReduceFlow<TResult>
 
 	/**
 	 * Specify the `MapReduceAction` to be used when writing to a collection.
@@ -121,7 +121,7 @@ interface MapReduceFlow<out TResult : Any> : Flow<TResult> {
 	 * @param action an [com.mongodb.client.model.MapReduceAction] to perform on the collection
 	 * @return this
 	 */
-	fun action(action: MapReduceAction): MapReduceFlow<TResult>
+	public fun action(action: MapReduceAction): MapReduceFlow<TResult>
 
 	/**
 	 * Sets the name of the database to output into.
@@ -130,7 +130,7 @@ interface MapReduceFlow<out TResult : Any> : Flow<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/command/mapReduce/#output-to-a-collection-with-an-action output with an action
 	 */
-	fun databaseName(databaseName: String?): MapReduceFlow<TResult>
+	public fun databaseName(databaseName: String?): MapReduceFlow<TResult>
 
 	/**
 	 * Sets if the output database is sharded
@@ -139,7 +139,7 @@ interface MapReduceFlow<out TResult : Any> : Flow<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/command/mapReduce/#output-to-a-collection-with-an-action output with an action
 	 */
-	fun sharded(sharded: Boolean): MapReduceFlow<TResult>
+	public fun sharded(sharded: Boolean): MapReduceFlow<TResult>
 
 	/**
 	 * Sets if the post-processing step will prevent MongoDB from locking the database.
@@ -150,7 +150,7 @@ interface MapReduceFlow<out TResult : Any> : Flow<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/command/mapReduce/#output-to-a-collection-with-an-action output with an action
 	 */
-	fun nonAtomic(nonAtomic: Boolean): MapReduceFlow<TResult>
+	public fun nonAtomic(nonAtomic: Boolean): MapReduceFlow<TResult>
 
 	/**
 	 * Sets the bypass document level validation flag.
@@ -164,7 +164,7 @@ interface MapReduceFlow<out TResult : Any> : Flow<TResult> {
 	 * @mongodb.driver.manual reference/command/aggregate/ Aggregation
 	 * @mongodb.server.release 3.2
 	 */
-	fun bypassDocumentValidation(bypassDocumentValidation: Boolean?): MapReduceFlow<TResult>
+	public fun bypassDocumentValidation(bypassDocumentValidation: Boolean?): MapReduceFlow<TResult>
 
 	/**
 	 * Aggregates documents to a collection according to the specified map-reduce function with the given options, which must specify a
@@ -172,7 +172,7 @@ interface MapReduceFlow<out TResult : Any> : Flow<TResult> {
 	 *
 	 * @mongodb.driver.manual aggregation/ Aggregation
 	 */
-	suspend fun toCollection()
+	public suspend fun toCollection()
 
 	/**
 	 * Sets the collation options
@@ -184,7 +184,7 @@ interface MapReduceFlow<out TResult : Any> : Flow<TResult> {
 	 * @since 1.3
 	 * @mongodb.server.release 3.4
 	 */
-	fun collation(collation: Collation?): MapReduceFlow<TResult>
+	public fun collation(collation: Collation?): MapReduceFlow<TResult>
 
 	/**
 	 * Sets the number of documents to return per batch.
@@ -198,7 +198,7 @@ interface MapReduceFlow<out TResult : Any> : Flow<TResult> {
 	 * @since 1.8
 	 * @mongodb.driver.manual reference/method/cursor.batchSize/#cursor.batchSize Batch Size
 	 */
-	fun batchSize(batchSize: Int): MapReduceFlow<TResult>
+	public fun batchSize(batchSize: Int): MapReduceFlow<TResult>
 
 	/**
 	 * Helper to return first result.
@@ -206,12 +206,12 @@ interface MapReduceFlow<out TResult : Any> : Flow<TResult> {
 	 * @return the first result or null
 	 * @since 1.8
 	 */
-	suspend fun firstOrNull(): TResult?
+	public suspend fun firstOrNull(): TResult?
 
 
-	companion object {
+	public companion object {
 
-		fun <TResult : Any> empty(): MapReduceFlow<TResult> =
+		public fun <TResult : Any> empty(): MapReduceFlow<TResult> =
 			Empty
 	}
 

@@ -32,7 +32,7 @@ import kotlin.reflect.*
  * @mongodb.server.release 3.6
  * @since 3.6
  */
-interface ChangeStreamFlow<out TResult : Any> : Flow<ChangeStreamDocument<out TResult>> {
+public interface ChangeStreamFlow<out TResult : Any> : Flow<ChangeStreamDocument<out TResult>> {
 
 	/**
 	 * Sets the fullDocument value.
@@ -40,7 +40,7 @@ interface ChangeStreamFlow<out TResult : Any> : Flow<ChangeStreamDocument<out TR
 	 * @param fullDocument the fullDocument
 	 * @return this
 	 */
-	fun fullDocument(fullDocument: FullDocument): ChangeStreamFlow<TResult>
+	public fun fullDocument(fullDocument: FullDocument): ChangeStreamFlow<TResult>
 
 	/**
 	 * Sets the logical starting point for the new change stream.
@@ -48,7 +48,7 @@ interface ChangeStreamFlow<out TResult : Any> : Flow<ChangeStreamDocument<out TR
 	 * @param resumeToken the resume token
 	 * @return this
 	 */
-	fun resumeAfter(resumeToken: BsonDocument): ChangeStreamFlow<TResult>
+	public fun resumeAfter(resumeToken: BsonDocument): ChangeStreamFlow<TResult>
 
 	/**
 	 * The change stream will only provide changes that occurred after the specified timestamp.
@@ -64,7 +64,7 @@ interface ChangeStreamFlow<out TResult : Any> : Flow<ChangeStreamDocument<out TR
 	 * @mongodb.server.release 4.0
 	 * @mongodb.driver.manual reference/method/db.runCommand/
 	 */
-	fun startAtOperationTime(startAtOperationTime: BsonTimestamp): ChangeStreamFlow<TResult>
+	public fun startAtOperationTime(startAtOperationTime: BsonTimestamp): ChangeStreamFlow<TResult>
 
 	/**
 	 * Similar to `resumeAfter`, this option takes a resume token and starts a
@@ -83,7 +83,7 @@ interface ChangeStreamFlow<out TResult : Any> : Flow<ChangeStreamDocument<out TR
 	 * @mongodb.server.release 4.2
 	 * @mongodb.driver.manual changeStreams/#change-stream-start-after
 	 */
-	fun startAfter(startAfter: BsonDocument): ChangeStreamFlow<TResult>
+	public fun startAfter(startAfter: BsonDocument): ChangeStreamFlow<TResult>
 
 	/**
 	 * Sets the maximum await execution time on the server for this operation.
@@ -93,7 +93,7 @@ interface ChangeStreamFlow<out TResult : Any> : Flow<ChangeStreamDocument<out TR
 	 * @param timeUnit the time unit, which may not be null
 	 * @return this
 	 */
-	fun maxAwaitTime(maxAwaitTime: Long, timeUnit: TimeUnit): ChangeStreamFlow<TResult>
+	public fun maxAwaitTime(maxAwaitTime: Long, timeUnit: TimeUnit): ChangeStreamFlow<TResult>
 
 	/**
 	 * Sets the collation options
@@ -103,7 +103,7 @@ interface ChangeStreamFlow<out TResult : Any> : Flow<ChangeStreamDocument<out TR
 	 * @param collation the collation options to use
 	 * @return this
 	 */
-	fun collation(collation: Collation?): ChangeStreamFlow<TResult>
+	public fun collation(collation: Collation?): ChangeStreamFlow<TResult>
 
 	/**
 	 * Returns a `Flow` containing the results of the change stream based on the document class provided.
@@ -112,7 +112,7 @@ interface ChangeStreamFlow<out TResult : Any> : Flow<ChangeStreamDocument<out TR
 	 * @param <TDocument> the result type
 	 * @return the new Flow
 	 */
-	fun <TDocument : Any> withDocumentClass(clazz: KClass<out TDocument>): Flow<TDocument>
+	public fun <TDocument : Any> withDocumentClass(clazz: KClass<out TDocument>): Flow<TDocument>
 
 	/**
 	 * Sets the number of documents to return per batch.
@@ -125,7 +125,7 @@ interface ChangeStreamFlow<out TResult : Any> : Flow<ChangeStreamDocument<out TR
 	 * @since 1.8
 	 * @mongodb.driver.manual reference/method/cursor.batchSize/#cursor.batchSize Batch Size
 	 */
-	fun batchSize(batchSize: Int): ChangeStreamFlow<TResult>
+	public fun batchSize(batchSize: Int): ChangeStreamFlow<TResult>
 
 	/**
 	 * Helper to return first result.
@@ -133,12 +133,12 @@ interface ChangeStreamFlow<out TResult : Any> : Flow<ChangeStreamDocument<out TR
 	 * @return the first result or null
 	 * @since 1.8
 	 */
-	suspend fun firstOrNull(): ChangeStreamDocument<out TResult>?
+	public suspend fun firstOrNull(): ChangeStreamDocument<out TResult>?
 
 
-	companion object {
+	public companion object {
 
-		fun <TResult : Any> empty(): ChangeStreamFlow<TResult> =
+		public fun <TResult : Any> empty(): ChangeStreamFlow<TResult> =
 			Empty
 	}
 

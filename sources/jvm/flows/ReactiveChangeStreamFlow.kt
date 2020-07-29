@@ -74,5 +74,5 @@ internal class ReactiveChangeStreamFlow<out TResult : Any>(
 }
 
 
-internal fun <TResult : Any> ChangeStreamPublisher<out TResult>.wrap() =
+internal fun <TResult : Any> ChangeStreamPublisher<out TResult>.wrap(): ChangeStreamFlow<TResult> =
 	ReactiveChangeStreamFlow(this)

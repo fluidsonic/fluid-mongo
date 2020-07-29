@@ -27,7 +27,7 @@ import java.util.concurrent.*
  * @param <TResult> The type of the result.
  * @since 3.0
  */
-interface ListIndexesFlow<out TResult : Any> : Flow<TResult> {
+public interface ListIndexesFlow<out TResult : Any> : Flow<TResult> {
 
 	/**
 	 * Sets the maximum execution time on the server for this operation.
@@ -37,7 +37,7 @@ interface ListIndexesFlow<out TResult : Any> : Flow<TResult> {
 	 * @return this
 	 * @mongodb.driver.manual reference/operator/meta/maxTimeMS/ Max Time
 	 */
-	fun maxTime(maxTime: Long, timeUnit: TimeUnit): ListIndexesFlow<TResult>
+	public fun maxTime(maxTime: Long, timeUnit: TimeUnit): ListIndexesFlow<TResult>
 
 	/**
 	 * Sets the number of documents to return per batch.
@@ -50,7 +50,7 @@ interface ListIndexesFlow<out TResult : Any> : Flow<TResult> {
 	 * @since 1.8
 	 * @mongodb.driver.manual reference/method/cursor.batchSize/#cursor.batchSize Batch Size
 	 */
-	fun batchSize(batchSize: Int): ListIndexesFlow<TResult>
+	public fun batchSize(batchSize: Int): ListIndexesFlow<TResult>
 
 	/**
 	 * Helper to return first result.
@@ -58,12 +58,12 @@ interface ListIndexesFlow<out TResult : Any> : Flow<TResult> {
 	 * @return the first result or null
 	 * @since 1.8
 	 */
-	suspend fun firstOrNull(): TResult?
+	public suspend fun firstOrNull(): TResult?
 
 
-	companion object {
+	public companion object {
 
-		fun <TResult : Any> empty(): ListIndexesFlow<TResult> =
+		public fun <TResult : Any> empty(): ListIndexesFlow<TResult> =
 			Empty
 	}
 

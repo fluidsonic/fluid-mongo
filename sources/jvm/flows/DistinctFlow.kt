@@ -16,6 +16,7 @@
 
 package io.fluidsonic.mongo
 
+import com.mongodb.client.model.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.Flow
@@ -23,11 +24,21 @@ import org.bson.conversions.*
 import java.util.concurrent.*
 
 /**
- * Flow for ListDatabases.
+ * Flow for distinct.
  *
- * @param <T> The type of the result.
+ * @param <TResult> The type of the result.
+ * @since 3.0
  */
-interface ListDatabasesFlow<out TResult : Any> : Flow<TResult> {
+public interface DistinctFlow<out TResult : Any> : Flow<TResult> {
+
+	/**
+	 * Sets the query filter to apply to the query.
+	 *
+	 * @param filter the filter, which may be null.
+	 * @return this
+	 * @mongodb.driver.manual reference/method/db.collection.find/ Filter
+	 */
+	public fun filter(filter: Bson?): DistinctFlow<TResult>
 
 	/**
 	 * Sets the maximum execution time on the server for this operation.
@@ -35,30 +46,19 @@ interface ListDatabasesFlow<out TResult : Any> : Flow<TResult> {
 	 * @param maxTime  the max time
 	 * @param timeUnit the time unit, which may not be null
 	 * @return this
-	 * @mongodb.driver.manual reference/operator/meta/maxTimeMS/ Max Time
 	 */
-	fun maxTime(maxTime: Long, timeUnit: TimeUnit): ListDatabasesFlow<TResult>
+	public fun maxTime(maxTime: Long, timeUnit: TimeUnit): DistinctFlow<TResult>
 
 	/**
-	 * Sets the query filter to apply to the returned database names.
+	 * Sets the collation options
 	 *
-	 * @param filter the filter, which may be null.
+	 * A null value represents the server default.
+	 * @param collation the collation options to use
 	 * @return this
-	 * @mongodb.server.release 3.4.2
-	 * @since 1.7
+	 * @since 1.3
+	 * @mongodb.server.release 3.4
 	 */
-	fun filter(filter: Bson?): ListDatabasesFlow<TResult>
-
-	/**
-	 * Sets the nameOnly flag that indicates whether the command should return just the database names or return the database names and
-	 * size information.
-	 *
-	 * @param nameOnly the nameOnly flag, which may be null
-	 * @return this
-	 * @mongodb.server.release 3.4.3
-	 * @since 1.7
-	 */
-	fun nameOnly(nameOnly: Boolean?): ListDatabasesFlow<TResult>
+	public fun collation(collation: Collation?): DistinctFlow<TResult>
 
 	/**
 	 * Sets the number of documents to return per batch.
@@ -71,7 +71,7 @@ interface ListDatabasesFlow<out TResult : Any> : Flow<TResult> {
 	 * @since 1.8
 	 * @mongodb.driver.manual reference/method/cursor.batchSize/#cursor.batchSize Batch Size
 	 */
-	fun batchSize(batchSize: Int): ListDatabasesFlow<TResult>
+	public fun batchSize(batchSize: Int): DistinctFlow<TResult>
 
 	/**
 	 * Helper to return first result.
@@ -79,27 +79,27 @@ interface ListDatabasesFlow<out TResult : Any> : Flow<TResult> {
 	 * @return the first result or null
 	 * @since 1.8
 	 */
-	suspend fun firstOrNull(): TResult?
+	public suspend fun firstOrNull(): TResult?
 
 
-	companion object {
+	public companion object {
 
-		fun <TResult : Any> empty(): ListDatabasesFlow<TResult> =
+		public fun <TResult : Any> empty(): DistinctFlow<TResult> =
 			Empty
 	}
 
 
-	private object Empty : ListDatabasesFlow<Nothing> {
-
-		override fun maxTime(maxTime: Long, timeUnit: TimeUnit) =
-			this
-
+	private object Empty : DistinctFlow<Nothing> {
 
 		override fun filter(filter: Bson?) =
 			this
 
 
-		override fun nameOnly(nameOnly: Boolean?) =
+		override fun maxTime(maxTime: Long, timeUnit: TimeUnit) =
+			this
+
+
+		override fun collation(collation: Collation?) =
 			this
 
 
