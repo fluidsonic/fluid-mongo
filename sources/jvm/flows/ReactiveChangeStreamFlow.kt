@@ -29,7 +29,7 @@ import kotlin.reflect.*
 internal class ReactiveChangeStreamFlow<out TResult : Any>(
 	private val source: ChangeStreamPublisher<out TResult>
 ) : ChangeStreamFlow<TResult>,
-	Flow<ChangeStreamDocument<out TResult>> by (source as ChangeStreamPublisher<TResult>).asFlow() { // https://youtrack.jetbrains.com/issue/KT-40693
+	Flow<ChangeStreamDocument<out TResult>> by source.asFlow() {
 
 	override fun fullDocument(fullDocument: FullDocument) = apply {
 		source.fullDocument(fullDocument)

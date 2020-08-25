@@ -83,11 +83,15 @@ internal class ReactiveMapReduceFlow<out TResult : Any>(
 	}
 
 
+	@Deprecated("this option will no longer be supported in MongoDB 4.4")
+	@Suppress("DEPRECATION")
 	override fun sharded(sharded: Boolean) = apply {
 		source.sharded(sharded)
 	}
 
 
+	@Deprecated("this option will no longer be supported in MongoDB 4.4 as it will no longer hold a global or database level write lock.")
+	@Suppress("DEPRECATION")
 	override fun nonAtomic(nonAtomic: Boolean) = apply {
 		source.nonAtomic(nonAtomic)
 	}
