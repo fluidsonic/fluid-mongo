@@ -4,7 +4,7 @@ plugins {
 	id("io.fluidsonic.gradle") version "1.1.11"
 }
 
-fluidLibrary(name = "mongo", version = "1.1.2")
+fluidLibrary(name = "mongo", version = "1.1.3")
 
 fluidLibraryModule(description = "Kotlin coroutine support for MongoDB built on top of the official Reactive Streams Java Driver") {
 	publishSingleTargetAsModule()
