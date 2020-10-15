@@ -12,6 +12,8 @@
     <option name="configurationPath" value="" />
     <option name="exclusions">
       <set>
+        <option value=".*\.md" />
+        <option value="README\.md" />
         <option value="\.idea/.*" />
       </set>
     </option>

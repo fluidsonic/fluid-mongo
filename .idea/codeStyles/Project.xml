@@ -52,6 +52,11 @@
       <option name="NAME_COUNT_TO_USE_STAR_IMPORT" value="1" />
       <option name="NAME_COUNT_TO_USE_STAR_IMPORT_FOR_MEMBERS" value="1" />
     </JetCodeStyleSettings>
+    <Markdown>
+      <option name="MIN_LINES_AROUND_HEADER" value="2" />
+      <option name="MIN_LINES_AROUND_BLOCK_ELEMENTS" value="2" />
+      <option name="MIN_LINES_BETWEEN_PARAGRAPHS" value="2" />
+    </Markdown>
     <MarkdownNavigatorCodeStyleSettings>
       <option name="KEEP_TRAILING_SPACES" value="0" />
       <option name="RIGHT_MARGIN" value="-1" />
@@ -145,6 +150,14 @@
     <codeStyleSettings language="JavaScript">
       <indentOptions>
         <option name="USE_TAB_CHARACTER" value="true" />
+        <option name="SMART_TABS" value="true" />
+      </indentOptions>
+    </codeStyleSettings>
+    <codeStyleSettings language="Markdown">
+      <option name="RIGHT_MARGIN" value="160" />
+      <option name="WRAP_ON_TYPING" value="0" />
+      <indentOptions>
+        <option name="CONTINUATION_INDENT_SIZE" value="4" />
         <option name="SMART_TABS" value="true" />
       </indentOptions>
     </codeStyleSettings>
