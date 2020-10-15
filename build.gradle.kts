@@ -1,7 +1,7 @@
 import io.fluidsonic.gradle.*
 
 plugins {
-	id("io.fluidsonic.gradle") version "1.1.8"
+	id("io.fluidsonic.gradle") version "1.1.11"
 }
 
 fluidLibrary(name = "mongo", version = "1.1.2")
@@ -23,5 +23,5 @@ fluidLibraryModule(description = "Kotlin coroutine support for MongoDB built on 
 }
 
 
-fun mongodb(name: String, version: String = "4.1.0") =
+fun mongodb(name: String, version: String = "4.1.1") =
 	"org.mongodb:mongodb-$name:$version"
