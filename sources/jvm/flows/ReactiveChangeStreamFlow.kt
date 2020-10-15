@@ -19,17 +19,16 @@ package io.fluidsonic.mongo
 import com.mongodb.client.model.*
 import com.mongodb.client.model.changestream.*
 import com.mongodb.reactivestreams.client.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.reactive.*
-import org.bson.*
 import java.util.concurrent.*
 import kotlin.reflect.*
+import kotlinx.coroutines.flow.Flow
+import org.bson.*
 
 
 internal class ReactiveChangeStreamFlow<out TResult : Any>(
-	private val source: ChangeStreamPublisher<out TResult>
+	private val source: ChangeStreamPublisher<out TResult>,
 ) : ChangeStreamFlow<TResult>,
-	Flow<ChangeStreamDocument<out TResult>> by source.asFlow() {
+	Flow<ChangeStreamDocument<out TResult>> by source.ioAsFlow() {
 
 	override fun fullDocument(fullDocument: FullDocument) = apply {
 		source.fullDocument(fullDocument)
@@ -67,11 +66,11 @@ internal class ReactiveChangeStreamFlow<out TResult : Any>(
 
 
 	override fun <TDocument : Any> withDocumentClass(clazz: KClass<out TDocument>): Flow<TDocument> =
-		source.withDocumentClass(clazz.java).asFlow()
+		source.withDocumentClass(clazz.java).ioAsFlow()
 
 
 	override suspend fun firstOrNull(): ChangeStreamDocument<out TResult>? =
-		source.first().awaitFirstOrNull()
+		source.first().ioAwaitFirstOrNull()
 }
 
 

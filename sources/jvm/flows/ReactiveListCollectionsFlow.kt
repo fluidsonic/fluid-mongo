@@ -17,15 +17,14 @@
 package io.fluidsonic.mongo
 
 import com.mongodb.reactivestreams.client.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.reactive.*
-import org.bson.conversions.*
 import java.util.concurrent.*
+import kotlinx.coroutines.flow.Flow
+import org.bson.conversions.*
 
 
 internal class ReactiveListCollectionsFlow<out TResult : Any>(
-	private val source: ListCollectionsPublisher<out TResult>
-) : ListCollectionsFlow<TResult>, Flow<TResult> by source.asFlow() {
+	private val source: ListCollectionsPublisher<out TResult>,
+) : ListCollectionsFlow<TResult>, Flow<TResult> by source.ioAsFlow() {
 
 	override fun filter(filter: Bson?) = apply {
 		source.filter(filter)
@@ -43,7 +42,7 @@ internal class ReactiveListCollectionsFlow<out TResult : Any>(
 
 
 	override suspend fun firstOrNull(): TResult? =
-		source.first().awaitFirstOrNull()
+		source.first().ioAwaitFirstOrNull()
 }
 
 

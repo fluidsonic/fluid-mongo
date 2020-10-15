@@ -17,13 +17,12 @@
 package io.fluidsonic.mongo
 
 import com.mongodb.*
-import kotlinx.coroutines.reactive.*
-import org.bson.conversions.*
 import kotlin.reflect.*
+import org.bson.conversions.*
 
 
 internal class ReactiveMongoClient(
-	val source: com.mongodb.reactivestreams.client.MongoClient
+	val source: com.mongodb.reactivestreams.client.MongoClient,
 ) : MongoClient {
 
 	override fun getDatabase(name: String) =
@@ -35,11 +34,11 @@ internal class ReactiveMongoClient(
 
 
 	override fun listDatabaseNames() =
-		source.listDatabaseNames().asFlow()
+		source.listDatabaseNames().ioAsFlow()
 
 
 	override fun listDatabaseNames(clientSession: ClientSession) =
-		source.listDatabaseNames(clientSession.unwrap()).asFlow()
+		source.listDatabaseNames(clientSession.unwrap()).ioAsFlow()
 
 
 	override fun listDatabases() =
@@ -91,11 +90,11 @@ internal class ReactiveMongoClient(
 
 
 	override suspend fun startSession() =
-		source.startSession().awaitFirst().wrap()
+		source.startSession().ioAwaitFirst().wrap()
 
 
 	override suspend fun startSession(options: ClientSessionOptions) =
-		source.startSession(options).awaitFirst().wrap()
+		source.startSession(options).ioAwaitFirst().wrap()
 }
 
 

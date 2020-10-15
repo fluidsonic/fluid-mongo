@@ -17,14 +17,13 @@
 package io.fluidsonic.mongo
 
 import com.mongodb.reactivestreams.client.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.reactive.*
 import java.util.concurrent.*
+import kotlinx.coroutines.flow.Flow
 
 
 internal class ReactiveListIndexesFlow<out TResult : Any>(
-	private val source: ListIndexesPublisher<out TResult>
-) : ListIndexesFlow<TResult>, Flow<TResult> by source.asFlow() {
+	private val source: ListIndexesPublisher<out TResult>,
+) : ListIndexesFlow<TResult>, Flow<TResult> by source.ioAsFlow() {
 
 	override fun maxTime(maxTime: Long, timeUnit: TimeUnit) = apply {
 		source.maxTime(maxTime, timeUnit)
@@ -37,7 +36,7 @@ internal class ReactiveListIndexesFlow<out TResult : Any>(
 
 
 	override suspend fun firstOrNull(): TResult? =
-		source.first().awaitFirstOrNull()
+		source.first().ioAwaitFirstOrNull()
 }
 
 

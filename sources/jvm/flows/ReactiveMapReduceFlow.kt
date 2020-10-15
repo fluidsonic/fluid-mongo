@@ -18,15 +18,14 @@ package io.fluidsonic.mongo
 
 import com.mongodb.client.model.*
 import com.mongodb.reactivestreams.client.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.reactive.*
-import org.bson.conversions.*
 import java.util.concurrent.*
+import kotlinx.coroutines.flow.Flow
+import org.bson.conversions.*
 
 
 internal class ReactiveMapReduceFlow<out TResult : Any>(
-	private val source: MapReducePublisher<out TResult>
-) : MapReduceFlow<TResult>, Flow<TResult> by source.asFlow() {
+	private val source: MapReducePublisher<out TResult>,
+) : MapReduceFlow<TResult>, Flow<TResult> by source.ioAsFlow() {
 
 	override fun collectionName(collectionName: String) = apply {
 		source.collectionName(collectionName)
@@ -103,7 +102,7 @@ internal class ReactiveMapReduceFlow<out TResult : Any>(
 
 
 	override suspend fun toCollection() {
-		source.toCollection().awaitCompletion()
+		source.toCollection().ioAwaitCompletion()
 	}
 
 
@@ -118,7 +117,7 @@ internal class ReactiveMapReduceFlow<out TResult : Any>(
 
 
 	override suspend fun firstOrNull(): TResult? =
-		source.first().awaitFirstOrNull()
+		source.first().ioAwaitFirstOrNull()
 }
 
 

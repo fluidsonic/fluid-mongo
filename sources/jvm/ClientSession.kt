@@ -59,7 +59,7 @@ public interface ClientSession : com.mongodb.session.ClientSession {
 	public fun startTransaction(transactionOptions: TransactionOptions)
 
 	/**
-	 * Commit a transaction in the context of this session.  A transaction can only be commited if one has first been started.
+	 * Commit a transaction in the context of this session.  A transaction can only be committed if one has first been started.
 	 *
 	 * @mongodb.server.release 4.0
 	 */

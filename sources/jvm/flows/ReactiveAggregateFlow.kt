@@ -18,15 +18,14 @@ package io.fluidsonic.mongo
 
 import com.mongodb.client.model.*
 import com.mongodb.reactivestreams.client.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.reactive.*
-import org.bson.conversions.*
 import java.util.concurrent.*
+import kotlinx.coroutines.flow.Flow
+import org.bson.conversions.*
 
 
 internal class ReactiveAggregateFlow<out TResult : Any>(
-	private val source: AggregatePublisher<out TResult>
-) : AggregateFlow<TResult>, Flow<TResult> by source.asFlow() {
+	private val source: AggregatePublisher<out TResult>,
+) : AggregateFlow<TResult>, Flow<TResult> by source.ioAsFlow() {
 
 	override fun allowDiskUse(allowDiskUse: Boolean?) = apply {
 		source.allowDiskUse(allowDiskUse)
@@ -54,7 +53,7 @@ internal class ReactiveAggregateFlow<out TResult : Any>(
 
 
 	override suspend fun toCollection() {
-		source.toCollection().awaitCompletion()
+		source.toCollection().ioAwaitCompletion()
 	}
 
 
@@ -74,7 +73,7 @@ internal class ReactiveAggregateFlow<out TResult : Any>(
 
 
 	override suspend fun firstOrNull(): TResult? =
-		source.first().awaitFirstOrNull()
+		source.first().ioAwaitFirstOrNull()
 }
 
 

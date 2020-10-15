@@ -22,7 +22,7 @@ import org.bson.*
 
 
 internal class ReactiveClientSession(
-	val source: com.mongodb.reactivestreams.client.ClientSession
+	val source: com.mongodb.reactivestreams.client.ClientSession,
 ) : ClientSession {
 
 	override val transactionOptions: TransactionOptions?
@@ -60,12 +60,12 @@ internal class ReactiveClientSession(
 
 
 	override suspend fun commitTransaction() {
-		source.commitTransaction().awaitCompletion()
+		source.commitTransaction().ioAwaitCompletion()
 	}
 
 
 	override suspend fun abortTransaction() {
-		source.abortTransaction().awaitCompletion()
+		source.abortTransaction().ioAwaitCompletion()
 	}
 
 

@@ -18,14 +18,14 @@ package io.fluidsonic.mongo
 
 import com.mongodb.*
 import com.mongodb.client.model.*
-import kotlinx.coroutines.reactive.*
+import kotlin.reflect.*
+import org.bson.*
 import org.bson.codecs.configuration.*
 import org.bson.conversions.*
-import kotlin.reflect.*
 
 
 internal class ReactiveMongoDatabase(
-	val source: com.mongodb.reactivestreams.client.MongoDatabase
+	val source: com.mongodb.reactivestreams.client.MongoDatabase,
 ) : MongoDatabase {
 
 	override val name: String
@@ -68,54 +68,54 @@ internal class ReactiveMongoDatabase(
 		source.getCollection(name, documentClass.java).wrap()
 
 
-	override suspend fun runCommand(command: Bson) =
-		source.runCommand(command).awaitFirst()!!
+	override suspend fun runCommand(command: Bson): Document =
+		source.runCommand(command).ioAwaitFirst()
 
 
-	override suspend fun runCommand(command: Bson, readPreference: ReadPreference) =
-		source.runCommand(command, readPreference).awaitFirst()!!
+	override suspend fun runCommand(command: Bson, readPreference: ReadPreference): Document =
+		source.runCommand(command, readPreference).ioAwaitFirst()
 
 
-	override suspend fun <TResult : Any> runCommand(command: Bson, resultClass: KClass<out TResult>) =
-		source.runCommand(command, resultClass.java).awaitFirst()!!
+	override suspend fun <TResult : Any> runCommand(command: Bson, resultClass: KClass<out TResult>): TResult =
+		source.runCommand(command, resultClass.java).ioAwaitFirst()
 
 
-	override suspend fun <TResult : Any> runCommand(command: Bson, readPreference: ReadPreference, resultClass: KClass<out TResult>) =
-		source.runCommand(command, readPreference, resultClass.java).awaitFirst()!!
+	override suspend fun <TResult : Any> runCommand(command: Bson, readPreference: ReadPreference, resultClass: KClass<out TResult>): TResult =
+		source.runCommand(command, readPreference, resultClass.java).ioAwaitFirst()
 
 
-	override suspend fun runCommand(clientSession: ClientSession, command: Bson) =
-		source.runCommand(clientSession.unwrap(), command).awaitFirst()!!
+	override suspend fun runCommand(clientSession: ClientSession, command: Bson): Document =
+		source.runCommand(clientSession.unwrap(), command).ioAwaitFirst()
 
 
-	override suspend fun runCommand(clientSession: ClientSession, command: Bson, readPreference: ReadPreference) =
-		source.runCommand(clientSession.unwrap(), command, readPreference).awaitFirst()!!
+	override suspend fun runCommand(clientSession: ClientSession, command: Bson, readPreference: ReadPreference): Document =
+		source.runCommand(clientSession.unwrap(), command, readPreference).ioAwaitFirst()
 
 
-	override suspend fun <TResult : Any> runCommand(clientSession: ClientSession, command: Bson, resultClass: KClass<out TResult>) =
-		source.runCommand(clientSession.unwrap(), command, resultClass.java).awaitFirst()!!
+	override suspend fun <TResult : Any> runCommand(clientSession: ClientSession, command: Bson, resultClass: KClass<out TResult>): TResult =
+		source.runCommand(clientSession.unwrap(), command, resultClass.java).ioAwaitFirst()
 
 
-	override suspend fun <TResult : Any> runCommand(clientSession: ClientSession, command: Bson, readPreference: ReadPreference, resultClass: KClass<out TResult>) =
-		source.runCommand(clientSession.unwrap(), command, readPreference, resultClass.java).awaitFirst()!!
+	override suspend fun <TResult : Any> runCommand(clientSession: ClientSession, command: Bson, readPreference: ReadPreference, resultClass: KClass<out TResult>): TResult =
+		source.runCommand(clientSession.unwrap(), command, readPreference, resultClass.java).ioAwaitFirst()
 
 
 	override suspend fun drop() {
-		source.drop().awaitCompletion()
+		source.drop().ioAwaitCompletion()
 	}
 
 
 	override suspend fun drop(clientSession: ClientSession) {
-		source.drop(clientSession.unwrap()).awaitCompletion()
+		source.drop(clientSession.unwrap()).ioAwaitCompletion()
 	}
 
 
 	override fun listCollectionNames() =
-		source.listCollectionNames().asFlow()
+		source.listCollectionNames().ioAsFlow()
 
 
 	override fun listCollectionNames(clientSession: ClientSession) =
-		source.listCollectionNames(clientSession.unwrap()).asFlow()
+		source.listCollectionNames(clientSession.unwrap()).ioAsFlow()
 
 
 	override fun listCollections() =
@@ -135,42 +135,42 @@ internal class ReactiveMongoDatabase(
 
 
 	override suspend fun createCollection(collectionName: String) {
-		source.createCollection(collectionName).awaitCompletion()
+		source.createCollection(collectionName).ioAwaitCompletion()
 	}
 
 
 	override suspend fun createCollection(collectionName: String, options: CreateCollectionOptions) {
-		source.createCollection(collectionName, options).awaitCompletion()
+		source.createCollection(collectionName, options).ioAwaitCompletion()
 	}
 
 
 	override suspend fun createCollection(clientSession: ClientSession, collectionName: String) {
-		source.createCollection(clientSession.unwrap(), collectionName).awaitCompletion()
+		source.createCollection(clientSession.unwrap(), collectionName).ioAwaitCompletion()
 	}
 
 
 	override suspend fun createCollection(clientSession: ClientSession, collectionName: String, options: CreateCollectionOptions) {
-		source.createCollection(clientSession.unwrap(), collectionName, options).awaitCompletion()
+		source.createCollection(clientSession.unwrap(), collectionName, options).ioAwaitCompletion()
 	}
 
 
 	override suspend fun createView(viewName: String, viewOn: String, pipeline: List<Bson>) {
-		source.createView(viewName, viewOn, pipeline).awaitCompletion()
+		source.createView(viewName, viewOn, pipeline).ioAwaitCompletion()
 	}
 
 
 	override suspend fun createView(viewName: String, viewOn: String, pipeline: List<Bson>, createViewOptions: CreateViewOptions) {
-		source.createView(viewName, viewOn, pipeline, createViewOptions).awaitCompletion()
+		source.createView(viewName, viewOn, pipeline, createViewOptions).ioAwaitCompletion()
 	}
 
 
 	override suspend fun createView(clientSession: ClientSession, viewName: String, viewOn: String, pipeline: List<Bson>) {
-		source.createView(clientSession.unwrap(), viewName, viewOn, pipeline).awaitCompletion()
+		source.createView(clientSession.unwrap(), viewName, viewOn, pipeline).ioAwaitCompletion()
 	}
 
 
 	override suspend fun createView(clientSession: ClientSession, viewName: String, viewOn: String, pipeline: List<Bson>, createViewOptions: CreateViewOptions) {
-		source.createView(clientSession.unwrap(), viewName, viewOn, pipeline, createViewOptions).awaitCompletion()
+		source.createView(clientSession.unwrap(), viewName, viewOn, pipeline, createViewOptions).ioAwaitCompletion()
 	}
 
 
