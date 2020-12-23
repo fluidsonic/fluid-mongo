@@ -16,29 +16,32 @@
 
 package io.fluidsonic.mongo
 
+import com.mongodb.reactivestreams.client.MongoClient as ReactiveMongoClient
 import com.mongodb.*
 import kotlin.reflect.*
+import kotlinx.coroutines.reactive.*
 import org.bson.conversions.*
 
 
-internal class ReactiveMongoClient(
-	val source: com.mongodb.reactivestreams.client.MongoClient,
+internal class ReactiveCoroutineMongoClient(
+	private val source: ReactiveMongoClient,
 ) : MongoClient {
 
 	override fun getDatabase(name: String) =
 		source.getDatabase(name).wrap()
 
 
-	override fun close() =
+	override fun close() {
 		source.close()
+	}
 
 
 	override fun listDatabaseNames() =
-		source.listDatabaseNames().ioAsFlow()
+		source.listDatabaseNames().asFlow()
 
 
 	override fun listDatabaseNames(clientSession: ClientSession) =
-		source.listDatabaseNames(clientSession.unwrap()).ioAsFlow()
+		source.listDatabaseNames(clientSession.unwrap()).asFlow()
 
 
 	override fun listDatabases() =
@@ -90,13 +93,13 @@ internal class ReactiveMongoClient(
 
 
 	override suspend fun startSession() =
-		source.startSession().ioAwaitFirst().wrap()
+		source.startSession().awaitFirst().wrap()
 
 
 	override suspend fun startSession(options: ClientSessionOptions) =
-		source.startSession(options).ioAwaitFirst().wrap()
+		source.startSession(options).awaitFirst().wrap()
 }
 
 
-internal fun com.mongodb.reactivestreams.client.MongoClient.wrap() =
-	ReactiveMongoClient(this)
+internal fun ReactiveMongoClient.wrap() =
+	ReactiveCoroutineMongoClient(source = this)

@@ -19,12 +19,18 @@ package io.fluidsonic.mongo
 import com.mongodb.reactivestreams.client.*
 import java.util.concurrent.*
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.reactive.*
 import org.bson.conversions.*
 
 
-internal class ReactiveListDatabasesFlow<out TResult : Any>(
-	private val source: ListDatabasesPublisher<out TResult>,
-) : ListDatabasesFlow<TResult>, Flow<TResult> by source.ioAsFlow() {
+internal class ReactiveCoroutineListCollectionsFlow<out TResult : Any>(
+	private val source: ListCollectionsPublisher<out TResult>,
+) : ListCollectionsFlow<TResult>, Flow<TResult> by source.asFlow() {
+
+	override fun filter(filter: Bson?) = apply {
+		source.filter(filter)
+	}
+
 
 	override fun maxTime(maxTime: Long, timeUnit: TimeUnit) = apply {
 		source.maxTime(maxTime, timeUnit)
@@ -36,20 +42,10 @@ internal class ReactiveListDatabasesFlow<out TResult : Any>(
 	}
 
 
-	override fun filter(filter: Bson?) = apply {
-		source.filter(filter)
-	}
-
-
-	override fun nameOnly(nameOnly: Boolean?) = apply {
-		source.nameOnly(nameOnly)
-	}
-
-
 	override suspend fun firstOrNull(): TResult? =
-		source.first().ioAwaitFirstOrNull()
+		source.first().awaitFirstOrNull()
 }
 
 
-internal fun <TResult : Any> ListDatabasesPublisher<out TResult>.wrap() =
-	ReactiveListDatabasesFlow(this)
+internal fun <TResult : Any> ListCollectionsPublisher<out TResult>.wrap() =
+	ReactiveCoroutineListCollectionsFlow(source = this)

@@ -20,12 +20,13 @@ import com.mongodb.client.model.*
 import com.mongodb.reactivestreams.client.*
 import java.util.concurrent.*
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.reactive.*
 import org.bson.conversions.*
 
 
-internal class ReactiveAggregateFlow<out TResult : Any>(
+internal class ReactiveCoroutineAggregateFlow<out TResult : Any>(
 	private val source: AggregatePublisher<out TResult>,
-) : AggregateFlow<TResult>, Flow<TResult> by source.ioAsFlow() {
+) : AggregateFlow<TResult>, Flow<TResult> by source.asFlow() {
 
 	override fun allowDiskUse(allowDiskUse: Boolean?) = apply {
 		source.allowDiskUse(allowDiskUse)
@@ -53,7 +54,7 @@ internal class ReactiveAggregateFlow<out TResult : Any>(
 
 
 	override suspend fun toCollection() {
-		source.toCollection().ioAwaitCompletion()
+		source.toCollection().awaitCompletion()
 	}
 
 
@@ -73,9 +74,9 @@ internal class ReactiveAggregateFlow<out TResult : Any>(
 
 
 	override suspend fun firstOrNull(): TResult? =
-		source.first().ioAwaitFirstOrNull()
+		source.first().awaitFirstOrNull()
 }
 
 
 internal fun <TResult : Any> AggregatePublisher<out TResult>.wrap() =
-	ReactiveAggregateFlow(this)
+	ReactiveCoroutineAggregateFlow(source = this)

@@ -18,11 +18,11 @@ package io.fluidsonic.mongo
 
 import com.mongodb.*
 import com.mongodb.annotations.*
+import java.io.*
+import kotlin.reflect.*
 import kotlinx.coroutines.flow.*
 import org.bson.*
 import org.bson.conversions.*
-import java.io.*
-import kotlin.reflect.*
 
 /**
  * A client-side representation of a MongoDB cluster.  Instances can represent either a standalone MongoDB instance, a replica set,

@@ -16,14 +16,20 @@
 
 package io.fluidsonic.mongo
 
+import com.mongodb.reactivestreams.client.ClientSession as ReactiveClientSession
+import com.mongodb.session.ClientSession as BaseClientSession
 import com.mongodb.*
 import com.mongodb.session.*
 import org.bson.*
 
 
-internal class ReactiveClientSession(
-	val source: com.mongodb.reactivestreams.client.ClientSession,
+internal class ReactiveCoroutineClientSession(
+	private val source: ReactiveClientSession,
 ) : ClientSession {
+
+	fun unwrap() =
+		source
+
 
 	override val transactionOptions: TransactionOptions?
 		get() = source.transactionOptions
@@ -60,12 +66,12 @@ internal class ReactiveClientSession(
 
 
 	override suspend fun commitTransaction() {
-		source.commitTransaction().ioAwaitCompletion()
+		source.commitTransaction().awaitCompletion()
 	}
 
 
 	override suspend fun abortTransaction() {
-		source.abortTransaction().ioAwaitCompletion()
+		source.abortTransaction().awaitCompletion()
 	}
 
 
@@ -93,8 +99,9 @@ internal class ReactiveClientSession(
 		source.operationTime
 
 
-	override fun close() =
+	override fun close() {
 		source.close()
+	}
 
 
 	override fun getServerSession(): ServerSession? =
@@ -106,9 +113,9 @@ internal class ReactiveClientSession(
 }
 
 
-internal fun com.mongodb.reactivestreams.client.ClientSession.wrap() =
-	ReactiveClientSession(this)
+internal fun BaseClientSession.unwrap() =
+	(this as ReactiveCoroutineClientSession).unwrap()
 
 
-internal fun com.mongodb.session.ClientSession.unwrap() =
-	(this as ReactiveClientSession).source
+internal fun ReactiveClientSession.wrap() =
+	ReactiveCoroutineClientSession(source = this)

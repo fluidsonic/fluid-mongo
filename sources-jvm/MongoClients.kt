@@ -16,8 +16,8 @@
 
 package io.fluidsonic.mongo
 
+import com.mongodb.reactivestreams.client.MongoClients as ReactiveMongoClients
 import com.mongodb.*
-import com.mongodb.reactivestreams.client.MongoClients
 import org.bson.codecs.configuration.*
 
 /**
@@ -45,7 +45,7 @@ public object MongoClients {
 	 * @since 3.1
 	 */
 	public val defaultCodecRegistry: CodecRegistry
-		get() = MongoClients.getDefaultCodecRegistry()
+		get() = ReactiveMongoClients.getDefaultCodecRegistry()
 
 	/**
 	 * Creates a new client with the default connection string "mongodb://localhost".
@@ -53,7 +53,7 @@ public object MongoClients {
 	 * @return the client
 	 */
 	public fun create(): MongoClient =
-		MongoClients.create().wrap()
+		ReactiveMongoClients.create().wrap()
 
 	/**
 	 * Create a new client with the given connection string.
@@ -62,7 +62,7 @@ public object MongoClients {
 	 * @return the client
 	 */
 	public fun create(connectionString: String): MongoClient =
-		MongoClients.create(connectionString).wrap()
+		ReactiveMongoClients.create(connectionString).wrap()
 
 	/**
 	 * Create a new client with the given connection string.
@@ -71,7 +71,7 @@ public object MongoClients {
 	 * @return the client
 	 */
 	public fun create(connectionString: ConnectionString): MongoClient =
-		MongoClients.create(connectionString).wrap()
+		ReactiveMongoClients.create(connectionString).wrap()
 
 	/**
 	 * Create a new client with the given connection string.
@@ -84,7 +84,7 @@ public object MongoClients {
 	 * @since 1.3
 	 */
 	public fun create(connectionString: ConnectionString, mongoDriverInformation: MongoDriverInformation?): MongoClient =
-		MongoClients.create(connectionString, mongoDriverInformation).wrap()
+		ReactiveMongoClients.create(connectionString, mongoDriverInformation).wrap()
 
 	/**
 	 * Create a new client with the given client settings.
@@ -94,7 +94,7 @@ public object MongoClients {
 	 * @since 3.7
 	 */
 	public fun create(settings: MongoClientSettings): MongoClient =
-		MongoClients.create(settings).wrap()
+		ReactiveMongoClients.create(settings).wrap()
 
 	/**
 	 * Creates a new client with the given client settings.
@@ -107,5 +107,5 @@ public object MongoClients {
 	 * @since 3.7
 	 */
 	public fun create(settings: MongoClientSettings, mongoDriverInformation: MongoDriverInformation?): MongoClient =
-		MongoClients.create(settings, mongoDriverInformation).wrap()
+		ReactiveMongoClients.create(settings, mongoDriverInformation).wrap()
 }

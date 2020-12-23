@@ -20,12 +20,13 @@ import com.mongodb.client.model.*
 import com.mongodb.reactivestreams.client.*
 import java.util.concurrent.*
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.reactive.*
 import org.bson.conversions.*
 
 
-internal class ReactiveMapReduceFlow<out TResult : Any>(
+internal class ReactiveCoroutineMapReduceFlow<out TResult : Any>(
 	private val source: MapReducePublisher<out TResult>,
-) : MapReduceFlow<TResult>, Flow<TResult> by source.ioAsFlow() {
+) : MapReduceFlow<TResult>, Flow<TResult> by source.asFlow() {
 
 	override fun collectionName(collectionName: String) = apply {
 		source.collectionName(collectionName)
@@ -102,7 +103,7 @@ internal class ReactiveMapReduceFlow<out TResult : Any>(
 
 
 	override suspend fun toCollection() {
-		source.toCollection().ioAwaitCompletion()
+		source.toCollection().awaitCompletion()
 	}
 
 
@@ -117,9 +118,9 @@ internal class ReactiveMapReduceFlow<out TResult : Any>(
 
 
 	override suspend fun firstOrNull(): TResult? =
-		source.first().ioAwaitFirstOrNull()
+		source.first().awaitFirstOrNull()
 }
 
 
 internal fun <TResult : Any> MapReducePublisher<out TResult>.wrap() =
-	ReactiveMapReduceFlow(this)
+	ReactiveCoroutineMapReduceFlow(source = this)

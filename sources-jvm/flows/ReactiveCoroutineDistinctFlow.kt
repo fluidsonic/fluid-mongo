@@ -16,15 +16,17 @@
 
 package io.fluidsonic.mongo
 
+import com.mongodb.client.model.*
 import com.mongodb.reactivestreams.client.*
 import java.util.concurrent.*
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.reactive.*
 import org.bson.conversions.*
 
 
-internal class ReactiveListCollectionsFlow<out TResult : Any>(
-	private val source: ListCollectionsPublisher<out TResult>,
-) : ListCollectionsFlow<TResult>, Flow<TResult> by source.ioAsFlow() {
+internal class ReactiveCoroutineDistinctFlow<out TResult : Any>(
+	private val source: DistinctPublisher<out TResult>,
+) : DistinctFlow<TResult>, Flow<TResult> by source.asFlow() {
 
 	override fun filter(filter: Bson?) = apply {
 		source.filter(filter)
@@ -36,15 +38,20 @@ internal class ReactiveListCollectionsFlow<out TResult : Any>(
 	}
 
 
+	override fun collation(collation: Collation?) = apply {
+		source.collation(collation)
+	}
+
+
 	override fun batchSize(batchSize: Int) = apply {
 		source.batchSize(batchSize)
 	}
 
 
 	override suspend fun firstOrNull(): TResult? =
-		source.first().ioAwaitFirstOrNull()
+		source.first().awaitFirstOrNull()
 }
 
 
-internal fun <TResult : Any> ListCollectionsPublisher<out TResult>.wrap() =
-	ReactiveListCollectionsFlow(this)
+internal fun <TResult : Any> DistinctPublisher<out TResult>.wrap() =
+	ReactiveCoroutineDistinctFlow(source = this)

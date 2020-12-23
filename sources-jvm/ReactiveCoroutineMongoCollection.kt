@@ -16,17 +16,19 @@
 
 package io.fluidsonic.mongo
 
+import com.mongodb.reactivestreams.client.MongoCollection as ReactiveMongoCollection
 import com.mongodb.*
 import com.mongodb.bulk.*
 import com.mongodb.client.model.*
 import com.mongodb.client.result.*
 import kotlin.reflect.*
+import kotlinx.coroutines.reactive.*
 import org.bson.codecs.configuration.*
 import org.bson.conversions.*
 
 
-internal class ReactiveMongoCollection<TDocument : Any>(
-	val source: com.mongodb.reactivestreams.client.MongoCollection<TDocument>,
+internal class ReactiveCoroutineMongoCollection<TDocument : Any>(
+	private val source: ReactiveMongoCollection<TDocument>,
 ) : MongoCollection<TDocument> {
 
 	override val namespace: MongoNamespace
@@ -69,35 +71,35 @@ internal class ReactiveMongoCollection<TDocument : Any>(
 
 
 	override suspend fun countDocuments(): Long =
-		source.countDocuments().ioAwaitFirst()
+		source.countDocuments().awaitFirst()
 
 
 	override suspend fun countDocuments(filter: Bson): Long =
-		source.countDocuments(filter).ioAwaitFirst()
+		source.countDocuments(filter).awaitFirst()
 
 
 	override suspend fun countDocuments(filter: Bson, options: CountOptions): Long =
-		source.countDocuments(filter, options).ioAwaitFirst()
+		source.countDocuments(filter, options).awaitFirst()
 
 
 	override suspend fun countDocuments(clientSession: ClientSession): Long =
-		source.countDocuments(clientSession.unwrap()).ioAwaitFirst()
+		source.countDocuments(clientSession.unwrap()).awaitFirst()
 
 
 	override suspend fun countDocuments(clientSession: ClientSession, filter: Bson): Long =
-		source.countDocuments(clientSession.unwrap(), filter).ioAwaitFirst()
+		source.countDocuments(clientSession.unwrap(), filter).awaitFirst()
 
 
 	override suspend fun countDocuments(clientSession: ClientSession, filter: Bson, options: CountOptions): Long =
-		source.countDocuments(clientSession.unwrap(), filter, options).ioAwaitFirst()
+		source.countDocuments(clientSession.unwrap(), filter, options).awaitFirst()
 
 
 	override suspend fun estimatedDocumentCount(): Long =
-		source.estimatedDocumentCount().ioAwaitFirst()
+		source.estimatedDocumentCount().awaitFirst()
 
 
 	override suspend fun estimatedDocumentCount(options: EstimatedDocumentCountOptions): Long =
-		source.estimatedDocumentCount(options).ioAwaitFirst()
+		source.estimatedDocumentCount(options).awaitFirst()
 
 
 	override fun <TResult : Any> distinct(fieldName: String, resultClass: KClass<out TResult>) =
@@ -213,221 +215,221 @@ internal class ReactiveMongoCollection<TDocument : Any>(
 
 
 	override suspend fun bulkWrite(requests: List<WriteModel<out TDocument>>): BulkWriteResult =
-		source.bulkWrite(requests).ioAwaitFirst()
+		source.bulkWrite(requests).awaitFirst()
 
 
 	override suspend fun bulkWrite(requests: List<WriteModel<out TDocument>>, options: BulkWriteOptions): BulkWriteResult =
-		source.bulkWrite(requests, options).ioAwaitFirst()
+		source.bulkWrite(requests, options).awaitFirst()
 
 
 	override suspend fun bulkWrite(clientSession: ClientSession, requests: List<WriteModel<out TDocument>>): BulkWriteResult =
-		source.bulkWrite(clientSession.unwrap(), requests).ioAwaitFirst()
+		source.bulkWrite(clientSession.unwrap(), requests).awaitFirst()
 
 
 	override suspend fun bulkWrite(clientSession: ClientSession, requests: List<WriteModel<out TDocument>>, options: BulkWriteOptions): BulkWriteResult =
-		source.bulkWrite(clientSession.unwrap(), requests, options).ioAwaitFirst()
+		source.bulkWrite(clientSession.unwrap(), requests, options).awaitFirst()
 
 
 	override suspend fun insertOne(document: TDocument): InsertOneResult =
-		source.insertOne(document).ioAwaitFirst()
+		source.insertOne(document).awaitFirst()
 
 
 	override suspend fun insertOne(document: TDocument, options: InsertOneOptions): InsertOneResult =
-		source.insertOne(document, options).ioAwaitFirst()
+		source.insertOne(document, options).awaitFirst()
 
 
 	override suspend fun insertOne(clientSession: ClientSession, document: TDocument): InsertOneResult =
-		source.insertOne(clientSession.unwrap(), document).ioAwaitFirst()
+		source.insertOne(clientSession.unwrap(), document).awaitFirst()
 
 
 	override suspend fun insertOne(clientSession: ClientSession, document: TDocument, options: InsertOneOptions): InsertOneResult =
-		source.insertOne(clientSession.unwrap(), document, options).ioAwaitFirst()
+		source.insertOne(clientSession.unwrap(), document, options).awaitFirst()
 
 
 	override suspend fun insertMany(documents: List<TDocument>): InsertManyResult =
-		source.insertMany(documents).ioAwaitFirst()
+		source.insertMany(documents).awaitFirst()
 
 
 	override suspend fun insertMany(documents: List<TDocument>, options: InsertManyOptions): InsertManyResult =
-		source.insertMany(documents, options).ioAwaitFirst()
+		source.insertMany(documents, options).awaitFirst()
 
 
 	override suspend fun insertMany(clientSession: ClientSession, documents: List<TDocument>): InsertManyResult =
-		source.insertMany(clientSession.unwrap(), documents).ioAwaitFirst()
+		source.insertMany(clientSession.unwrap(), documents).awaitFirst()
 
 
 	override suspend fun insertMany(clientSession: ClientSession, documents: List<TDocument>, options: InsertManyOptions): InsertManyResult =
-		source.insertMany(clientSession.unwrap(), documents, options).ioAwaitFirst()
+		source.insertMany(clientSession.unwrap(), documents, options).awaitFirst()
 
 
 	override suspend fun deleteOne(filter: Bson): DeleteResult =
-		source.deleteOne(filter).ioAwaitFirst()
+		source.deleteOne(filter).awaitFirst()
 
 
 	override suspend fun deleteOne(filter: Bson, options: DeleteOptions): DeleteResult =
-		source.deleteOne(filter, options).ioAwaitFirst()
+		source.deleteOne(filter, options).awaitFirst()
 
 
 	override suspend fun deleteOne(clientSession: ClientSession, filter: Bson): DeleteResult =
-		source.deleteOne(clientSession.unwrap(), filter).ioAwaitFirst()
+		source.deleteOne(clientSession.unwrap(), filter).awaitFirst()
 
 
 	override suspend fun deleteOne(clientSession: ClientSession, filter: Bson, options: DeleteOptions): DeleteResult =
-		source.deleteOne(clientSession.unwrap(), filter, options).ioAwaitFirst()
+		source.deleteOne(clientSession.unwrap(), filter, options).awaitFirst()
 
 
 	override suspend fun deleteMany(filter: Bson): DeleteResult =
-		source.deleteMany(filter).ioAwaitFirst()
+		source.deleteMany(filter).awaitFirst()
 
 
 	override suspend fun deleteMany(filter: Bson, options: DeleteOptions): DeleteResult =
-		source.deleteMany(filter, options).ioAwaitFirst()
+		source.deleteMany(filter, options).awaitFirst()
 
 
 	override suspend fun deleteMany(clientSession: ClientSession, filter: Bson): DeleteResult =
-		source.deleteMany(clientSession.unwrap(), filter).ioAwaitFirst()
+		source.deleteMany(clientSession.unwrap(), filter).awaitFirst()
 
 
 	override suspend fun deleteMany(clientSession: ClientSession, filter: Bson, options: DeleteOptions): DeleteResult =
-		source.deleteMany(clientSession.unwrap(), filter, options).ioAwaitFirst()
+		source.deleteMany(clientSession.unwrap(), filter, options).awaitFirst()
 
 
 	override suspend fun replaceOne(filter: Bson, replacement: TDocument): UpdateResult =
-		source.replaceOne(filter, replacement).ioAwaitFirst()
+		source.replaceOne(filter, replacement).awaitFirst()
 
 
 	override suspend fun replaceOne(filter: Bson, replacement: TDocument, options: ReplaceOptions): UpdateResult =
-		source.replaceOne(filter, replacement, options).ioAwaitFirst()
+		source.replaceOne(filter, replacement, options).awaitFirst()
 
 
 	override suspend fun replaceOne(clientSession: ClientSession, filter: Bson, replacement: TDocument): UpdateResult =
-		source.replaceOne(clientSession.unwrap(), filter, replacement).ioAwaitFirst()
+		source.replaceOne(clientSession.unwrap(), filter, replacement).awaitFirst()
 
 
 	override suspend fun replaceOne(clientSession: ClientSession, filter: Bson, replacement: TDocument, options: ReplaceOptions): UpdateResult =
-		source.replaceOne(clientSession.unwrap(), filter, replacement, options).ioAwaitFirst()
+		source.replaceOne(clientSession.unwrap(), filter, replacement, options).awaitFirst()
 
 
 	override suspend fun updateOne(filter: Bson, update: Bson): UpdateResult =
-		source.updateOne(filter, update).ioAwaitFirst()
+		source.updateOne(filter, update).awaitFirst()
 
 
 	override suspend fun updateOne(filter: Bson, update: Bson, options: UpdateOptions): UpdateResult =
-		source.updateOne(filter, update, options).ioAwaitFirst()
+		source.updateOne(filter, update, options).awaitFirst()
 
 
 	override suspend fun updateOne(clientSession: ClientSession, filter: Bson, update: Bson): UpdateResult =
-		source.updateOne(clientSession.unwrap(), filter, update).ioAwaitFirst()
+		source.updateOne(clientSession.unwrap(), filter, update).awaitFirst()
 
 
 	override suspend fun updateOne(clientSession: ClientSession, filter: Bson, update: Bson, options: UpdateOptions): UpdateResult =
-		source.updateOne(clientSession.unwrap(), filter, update).ioAwaitFirst()
+		source.updateOne(clientSession.unwrap(), filter, update).awaitFirst()
 
 
 	override suspend fun updateMany(filter: Bson, update: Bson): UpdateResult =
-		source.updateMany(filter, update).ioAwaitFirst()
+		source.updateMany(filter, update).awaitFirst()
 
 
 	override suspend fun updateMany(filter: Bson, update: Bson, options: UpdateOptions): UpdateResult =
-		source.updateMany(filter, update, options).ioAwaitFirst()
+		source.updateMany(filter, update, options).awaitFirst()
 
 
 	override suspend fun updateMany(clientSession: ClientSession, filter: Bson, update: Bson): UpdateResult =
-		source.updateMany(clientSession.unwrap(), filter, update).ioAwaitFirst()
+		source.updateMany(clientSession.unwrap(), filter, update).awaitFirst()
 
 
 	override suspend fun updateMany(clientSession: ClientSession, filter: Bson, update: Bson, options: UpdateOptions): UpdateResult =
-		source.updateMany(clientSession.unwrap(), filter, update, options).ioAwaitFirst()
+		source.updateMany(clientSession.unwrap(), filter, update, options).awaitFirst()
 
 
 	override suspend fun findOneAndDelete(filter: Bson) =
-		source.findOneAndDelete(filter).ioAwaitFirstOrNull()
+		source.findOneAndDelete(filter).awaitFirstOrNull()
 
 
 	override suspend fun findOneAndDelete(filter: Bson, options: FindOneAndDeleteOptions) =
-		source.findOneAndDelete(filter, options).ioAwaitFirstOrNull()
+		source.findOneAndDelete(filter, options).awaitFirstOrNull()
 
 
 	override suspend fun findOneAndDelete(clientSession: ClientSession, filter: Bson) =
-		source.findOneAndDelete(clientSession.unwrap(), filter).ioAwaitFirstOrNull()
+		source.findOneAndDelete(clientSession.unwrap(), filter).awaitFirstOrNull()
 
 
 	override suspend fun findOneAndDelete(clientSession: ClientSession, filter: Bson, options: FindOneAndDeleteOptions) =
-		source.findOneAndDelete(clientSession.unwrap(), filter, options).ioAwaitFirstOrNull()
+		source.findOneAndDelete(clientSession.unwrap(), filter, options).awaitFirstOrNull()
 
 
 	override suspend fun findOneAndReplace(filter: Bson, replacement: TDocument) =
-		source.findOneAndReplace(filter, replacement).ioAwaitFirstOrNull()
+		source.findOneAndReplace(filter, replacement).awaitFirstOrNull()
 
 
 	override suspend fun findOneAndReplace(filter: Bson, replacement: TDocument, options: FindOneAndReplaceOptions) =
-		source.findOneAndReplace(filter, replacement, options).ioAwaitFirstOrNull()
+		source.findOneAndReplace(filter, replacement, options).awaitFirstOrNull()
 
 
 	override suspend fun findOneAndReplace(clientSession: ClientSession, filter: Bson, replacement: TDocument) =
-		source.findOneAndReplace(clientSession.unwrap(), filter, replacement).ioAwaitFirstOrNull()
+		source.findOneAndReplace(clientSession.unwrap(), filter, replacement).awaitFirstOrNull()
 
 
 	override suspend fun findOneAndReplace(clientSession: ClientSession, filter: Bson, replacement: TDocument, options: FindOneAndReplaceOptions) =
-		source.findOneAndReplace(clientSession.unwrap(), filter, replacement, options).ioAwaitFirstOrNull()
+		source.findOneAndReplace(clientSession.unwrap(), filter, replacement, options).awaitFirstOrNull()
 
 
 	override suspend fun findOneAndUpdate(filter: Bson, update: Bson) =
-		source.findOneAndUpdate(filter, update).ioAwaitFirstOrNull()
+		source.findOneAndUpdate(filter, update).awaitFirstOrNull()
 
 
 	override suspend fun findOneAndUpdate(filter: Bson, update: Bson, options: FindOneAndUpdateOptions) =
-		source.findOneAndUpdate(filter, update, options).ioAwaitFirstOrNull()
+		source.findOneAndUpdate(filter, update, options).awaitFirstOrNull()
 
 
 	override suspend fun findOneAndUpdate(clientSession: ClientSession, filter: Bson, update: Bson) =
-		source.findOneAndUpdate(clientSession.unwrap(), filter, update).ioAwaitFirstOrNull()
+		source.findOneAndUpdate(clientSession.unwrap(), filter, update).awaitFirstOrNull()
 
 
 	override suspend fun findOneAndUpdate(clientSession: ClientSession, filter: Bson, update: Bson, options: FindOneAndUpdateOptions) =
-		source.findOneAndUpdate(clientSession.unwrap(), filter, update, options).ioAwaitFirstOrNull()
+		source.findOneAndUpdate(clientSession.unwrap(), filter, update, options).awaitFirstOrNull()
 
 
 	override suspend fun drop() {
-		source.drop().ioAwaitCompletion()
+		source.drop().awaitCompletion()
 	}
 
 
 	override suspend fun drop(clientSession: ClientSession) {
-		source.drop(clientSession.unwrap()).ioAwaitCompletion()
+		source.drop(clientSession.unwrap()).awaitCompletion()
 	}
 
 
 	override suspend fun createIndex(key: Bson): String =
-		source.createIndex(key).ioAwaitFirst()
+		source.createIndex(key).awaitFirst()
 
 
 	override suspend fun createIndex(key: Bson, options: IndexOptions): String =
-		source.createIndex(key, options).ioAwaitFirst()
+		source.createIndex(key, options).awaitFirst()
 
 
 	override suspend fun createIndex(clientSession: ClientSession, key: Bson): String =
-		source.createIndex(clientSession.unwrap(), key).ioAwaitFirst()
+		source.createIndex(clientSession.unwrap(), key).awaitFirst()
 
 
 	override suspend fun createIndex(clientSession: ClientSession, key: Bson, options: IndexOptions): String =
-		source.createIndex(clientSession.unwrap(), key, options).ioAwaitFirst()
+		source.createIndex(clientSession.unwrap(), key, options).awaitFirst()
 
 
 	override suspend fun createIndexes(indexes: List<IndexModel>) =
-		source.createIndexes(indexes).ioAsFlow()
+		source.createIndexes(indexes).asFlow()
 
 
 	override suspend fun createIndexes(indexes: List<IndexModel>, createIndexOptions: CreateIndexOptions) =
-		source.createIndexes(indexes, createIndexOptions).ioAsFlow()
+		source.createIndexes(indexes, createIndexOptions).asFlow()
 
 
 	override suspend fun createIndexes(clientSession: ClientSession, indexes: List<IndexModel>) =
-		source.createIndexes(clientSession.unwrap(), indexes).ioAsFlow()
+		source.createIndexes(clientSession.unwrap(), indexes).asFlow()
 
 
 	override suspend fun createIndexes(clientSession: ClientSession, indexes: List<IndexModel>, createIndexOptions: CreateIndexOptions) =
-		source.createIndexes(clientSession.unwrap(), indexes, createIndexOptions).ioAsFlow()
+		source.createIndexes(clientSession.unwrap(), indexes, createIndexOptions).asFlow()
 
 
 	override fun listIndexes() =
@@ -447,85 +449,85 @@ internal class ReactiveMongoCollection<TDocument : Any>(
 
 
 	override suspend fun dropIndex(indexName: String) {
-		source.dropIndex(indexName).ioAwaitCompletion()
+		source.dropIndex(indexName).awaitCompletion()
 	}
 
 
 	override suspend fun dropIndex(indexName: String, dropIndexOptions: DropIndexOptions) {
-		source.dropIndex(indexName, dropIndexOptions).ioAwaitCompletion()
+		source.dropIndex(indexName, dropIndexOptions).awaitCompletion()
 	}
 
 
 	override suspend fun dropIndex(keys: Bson) {
-		source.dropIndex(keys).ioAwaitCompletion()
+		source.dropIndex(keys).awaitCompletion()
 	}
 
 
 	override suspend fun dropIndex(keys: Bson, dropIndexOptions: DropIndexOptions) {
-		source.dropIndex(keys, dropIndexOptions).ioAwaitCompletion()
+		source.dropIndex(keys, dropIndexOptions).awaitCompletion()
 	}
 
 
 	override suspend fun dropIndex(clientSession: ClientSession, indexName: String) {
-		source.dropIndex(clientSession.unwrap(), indexName).ioAwaitCompletion()
+		source.dropIndex(clientSession.unwrap(), indexName).awaitCompletion()
 	}
 
 
 	override suspend fun dropIndex(clientSession: ClientSession, indexName: String, dropIndexOptions: DropIndexOptions) {
-		source.dropIndex(clientSession.unwrap(), indexName, dropIndexOptions).ioAwaitCompletion()
+		source.dropIndex(clientSession.unwrap(), indexName, dropIndexOptions).awaitCompletion()
 	}
 
 
 	override suspend fun dropIndex(clientSession: ClientSession, keys: Bson) {
-		source.dropIndex(clientSession.unwrap(), keys).ioAwaitCompletion()
+		source.dropIndex(clientSession.unwrap(), keys).awaitCompletion()
 	}
 
 
 	override suspend fun dropIndex(clientSession: ClientSession, keys: Bson, dropIndexOptions: DropIndexOptions) {
-		source.dropIndex(clientSession.unwrap(), keys, dropIndexOptions).ioAwaitCompletion()
+		source.dropIndex(clientSession.unwrap(), keys, dropIndexOptions).awaitCompletion()
 	}
 
 
 	override suspend fun dropIndexes() {
-		source.dropIndexes().ioAwaitCompletion()
+		source.dropIndexes().awaitCompletion()
 	}
 
 
 	override suspend fun dropIndexes(dropIndexOptions: DropIndexOptions) {
-		source.dropIndexes(dropIndexOptions).ioAwaitCompletion()
+		source.dropIndexes(dropIndexOptions).awaitCompletion()
 	}
 
 
 	override suspend fun dropIndexes(clientSession: ClientSession) {
-		source.dropIndexes(clientSession.unwrap()).ioAwaitCompletion()
+		source.dropIndexes(clientSession.unwrap()).awaitCompletion()
 	}
 
 
 	override suspend fun dropIndexes(clientSession: ClientSession, dropIndexOptions: DropIndexOptions) {
-		source.dropIndexes(clientSession.unwrap(), dropIndexOptions).ioAwaitCompletion()
+		source.dropIndexes(clientSession.unwrap(), dropIndexOptions).awaitCompletion()
 	}
 
 
 	override suspend fun renameCollection(newCollectionNamespace: MongoNamespace) {
-		source.renameCollection(newCollectionNamespace).ioAwaitCompletion()
+		source.renameCollection(newCollectionNamespace).awaitCompletion()
 	}
 
 
 	override suspend fun renameCollection(newCollectionNamespace: MongoNamespace, options: RenameCollectionOptions) {
-		source.renameCollection(newCollectionNamespace, options).ioAwaitCompletion()
+		source.renameCollection(newCollectionNamespace, options).awaitCompletion()
 	}
 
 
 	override suspend fun renameCollection(clientSession: ClientSession, newCollectionNamespace: MongoNamespace) {
-		source.renameCollection(clientSession.unwrap(), newCollectionNamespace).ioAwaitCompletion()
+		source.renameCollection(clientSession.unwrap(), newCollectionNamespace).awaitCompletion()
 	}
 
 
 	override suspend fun renameCollection(clientSession: ClientSession, newCollectionNamespace: MongoNamespace, options: RenameCollectionOptions) {
-		source.renameCollection(clientSession.unwrap(), newCollectionNamespace, options).ioAwaitCompletion()
+		source.renameCollection(clientSession.unwrap(), newCollectionNamespace, options).awaitCompletion()
 	}
 }
 
 
-internal fun <TDocument : Any> com.mongodb.reactivestreams.client.MongoCollection<TDocument>.wrap() =
-	ReactiveMongoCollection(this)
+internal fun <TDocument : Any> ReactiveMongoCollection<TDocument>.wrap() =
+	ReactiveCoroutineMongoCollection(source = this)

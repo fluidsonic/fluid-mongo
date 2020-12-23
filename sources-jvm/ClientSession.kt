@@ -16,6 +16,7 @@
 
 package io.fluidsonic.mongo
 
+import com.mongodb.session.ClientSession as BaseClientSession
 import com.mongodb.*
 
 /**
@@ -23,7 +24,7 @@ import com.mongodb.*
  *
  * @since 3.8
  */
-public interface ClientSession : com.mongodb.session.ClientSession {
+public interface ClientSession : BaseClientSession {
 
 	/**
 	 * Returns true if there is an active transaction on this session, and false otherwise

@@ -16,16 +16,18 @@
 
 package io.fluidsonic.mongo
 
+import com.mongodb.reactivestreams.client.MongoDatabase as ReactiveMongoDatabase
 import com.mongodb.*
 import com.mongodb.client.model.*
 import kotlin.reflect.*
+import kotlinx.coroutines.reactive.*
 import org.bson.*
 import org.bson.codecs.configuration.*
 import org.bson.conversions.*
 
 
-internal class ReactiveMongoDatabase(
-	val source: com.mongodb.reactivestreams.client.MongoDatabase,
+internal class ReactiveCoroutineMongoDatabase(
+	private val source: ReactiveMongoDatabase,
 ) : MongoDatabase {
 
 	override val name: String
@@ -69,53 +71,58 @@ internal class ReactiveMongoDatabase(
 
 
 	override suspend fun runCommand(command: Bson): Document =
-		source.runCommand(command).ioAwaitFirst()
+		source.runCommand(command).awaitFirst()
 
 
 	override suspend fun runCommand(command: Bson, readPreference: ReadPreference): Document =
-		source.runCommand(command, readPreference).ioAwaitFirst()
+		source.runCommand(command, readPreference).awaitFirst()
 
 
 	override suspend fun <TResult : Any> runCommand(command: Bson, resultClass: KClass<out TResult>): TResult =
-		source.runCommand(command, resultClass.java).ioAwaitFirst()
+		source.runCommand(command, resultClass.java).awaitFirst()
 
 
 	override suspend fun <TResult : Any> runCommand(command: Bson, readPreference: ReadPreference, resultClass: KClass<out TResult>): TResult =
-		source.runCommand(command, readPreference, resultClass.java).ioAwaitFirst()
+		source.runCommand(command, readPreference, resultClass.java).awaitFirst()
 
 
 	override suspend fun runCommand(clientSession: ClientSession, command: Bson): Document =
-		source.runCommand(clientSession.unwrap(), command).ioAwaitFirst()
+		source.runCommand(clientSession.unwrap(), command).awaitFirst()
 
 
 	override suspend fun runCommand(clientSession: ClientSession, command: Bson, readPreference: ReadPreference): Document =
-		source.runCommand(clientSession.unwrap(), command, readPreference).ioAwaitFirst()
+		source.runCommand(clientSession.unwrap(), command, readPreference).awaitFirst()
 
 
 	override suspend fun <TResult : Any> runCommand(clientSession: ClientSession, command: Bson, resultClass: KClass<out TResult>): TResult =
-		source.runCommand(clientSession.unwrap(), command, resultClass.java).ioAwaitFirst()
+		source.runCommand(clientSession.unwrap(), command, resultClass.java).awaitFirst()
 
 
-	override suspend fun <TResult : Any> runCommand(clientSession: ClientSession, command: Bson, readPreference: ReadPreference, resultClass: KClass<out TResult>): TResult =
-		source.runCommand(clientSession.unwrap(), command, readPreference, resultClass.java).ioAwaitFirst()
+	override suspend fun <TResult : Any> runCommand(
+		clientSession: ClientSession,
+		command: Bson,
+		readPreference: ReadPreference,
+		resultClass: KClass<out TResult>,
+	): TResult =
+		source.runCommand(clientSession.unwrap(), command, readPreference, resultClass.java).awaitFirst()
 
 
 	override suspend fun drop() {
-		source.drop().ioAwaitCompletion()
+		source.drop().awaitCompletion()
 	}
 
 
 	override suspend fun drop(clientSession: ClientSession) {
-		source.drop(clientSession.unwrap()).ioAwaitCompletion()
+		source.drop(clientSession.unwrap()).awaitCompletion()
 	}
 
 
 	override fun listCollectionNames() =
-		source.listCollectionNames().ioAsFlow()
+		source.listCollectionNames().asFlow()
 
 
 	override fun listCollectionNames(clientSession: ClientSession) =
-		source.listCollectionNames(clientSession.unwrap()).ioAsFlow()
+		source.listCollectionNames(clientSession.unwrap()).asFlow()
 
 
 	override fun listCollections() =
@@ -135,42 +142,48 @@ internal class ReactiveMongoDatabase(
 
 
 	override suspend fun createCollection(collectionName: String) {
-		source.createCollection(collectionName).ioAwaitCompletion()
+		source.createCollection(collectionName).awaitCompletion()
 	}
 
 
 	override suspend fun createCollection(collectionName: String, options: CreateCollectionOptions) {
-		source.createCollection(collectionName, options).ioAwaitCompletion()
+		source.createCollection(collectionName, options).awaitCompletion()
 	}
 
 
 	override suspend fun createCollection(clientSession: ClientSession, collectionName: String) {
-		source.createCollection(clientSession.unwrap(), collectionName).ioAwaitCompletion()
+		source.createCollection(clientSession.unwrap(), collectionName).awaitCompletion()
 	}
 
 
 	override suspend fun createCollection(clientSession: ClientSession, collectionName: String, options: CreateCollectionOptions) {
-		source.createCollection(clientSession.unwrap(), collectionName, options).ioAwaitCompletion()
+		source.createCollection(clientSession.unwrap(), collectionName, options).awaitCompletion()
 	}
 
 
 	override suspend fun createView(viewName: String, viewOn: String, pipeline: List<Bson>) {
-		source.createView(viewName, viewOn, pipeline).ioAwaitCompletion()
+		source.createView(viewName, viewOn, pipeline).awaitCompletion()
 	}
 
 
 	override suspend fun createView(viewName: String, viewOn: String, pipeline: List<Bson>, createViewOptions: CreateViewOptions) {
-		source.createView(viewName, viewOn, pipeline, createViewOptions).ioAwaitCompletion()
+		source.createView(viewName, viewOn, pipeline, createViewOptions).awaitCompletion()
 	}
 
 
 	override suspend fun createView(clientSession: ClientSession, viewName: String, viewOn: String, pipeline: List<Bson>) {
-		source.createView(clientSession.unwrap(), viewName, viewOn, pipeline).ioAwaitCompletion()
+		source.createView(clientSession.unwrap(), viewName, viewOn, pipeline).awaitCompletion()
 	}
 
 
-	override suspend fun createView(clientSession: ClientSession, viewName: String, viewOn: String, pipeline: List<Bson>, createViewOptions: CreateViewOptions) {
-		source.createView(clientSession.unwrap(), viewName, viewOn, pipeline, createViewOptions).ioAwaitCompletion()
+	override suspend fun createView(
+		clientSession: ClientSession,
+		viewName: String,
+		viewOn: String,
+		pipeline: List<Bson>,
+		createViewOptions: CreateViewOptions,
+	) {
+		source.createView(clientSession.unwrap(), viewName, viewOn, pipeline, createViewOptions).awaitCompletion()
 	}
 
 
@@ -223,5 +236,5 @@ internal class ReactiveMongoDatabase(
 }
 
 
-internal fun com.mongodb.reactivestreams.client.MongoDatabase.wrap() =
-	ReactiveMongoDatabase(this)
+internal fun ReactiveMongoDatabase.wrap() =
+	ReactiveCoroutineMongoDatabase(source = this)
