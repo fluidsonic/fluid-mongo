@@ -2,13 +2,12 @@ fluid-mongo
 ===========
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.fluidsonic.mongo/fluid-mongo?label=Maven%20Central)](https://search.maven.org/artifact/io.fluidsonic.mongo/fluid-mongo)
-[![JCenter](https://img.shields.io/bintray/v/fluidsonic/kotlin/mongo?label=JCenter)](https://bintray.com/fluidsonic/kotlin/mongo)
 [![Kotlin](https://img.shields.io/badge/Kotlin-1.4.30-blue.svg)](https://github.com/JetBrains/kotlin/releases/v1.4.30)
-[![MongoDB](https://img.shields.io/badge/MongoDB-Reactive%20Streams%204.1.1-blue.svg)](https://github.com/mongodb/mongo-java-driver/releases/tag/r4.1.1)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Reactive%20Streams%204.2.0-blue.svg)](https://github.com/mongodb/mongo-java-driver/releases/tag/r4.2.0)
 [![#fluid-libraries Slack Channel](https://img.shields.io/badge/slack-%23fluid--libraries-543951.svg?label=Slack)](https://kotlinlang.slack.com/messages/C7UDFSVT2/)
 
 Kotlin coroutine support for MongoDB built on top of the
-official [MongoDB Reactive Streams Java Driver](https://mongodb.github.io/mongo-java-driver/4.0/driver-reactive/).
+official [MongoDB Reactive Streams Java Driver](https://mongodb.github.io/mongo-java-driver/4.2/driver-reactive/).
 
 
 
