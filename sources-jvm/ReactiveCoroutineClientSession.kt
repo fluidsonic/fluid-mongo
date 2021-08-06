@@ -27,12 +27,50 @@ internal class ReactiveCoroutineClientSession(
 	private val source: ReactiveClientSession,
 ) : ClientSession {
 
-	fun unwrap() =
-		source
+	override suspend fun abortTransaction() {
+		source.abortTransaction().awaitCompletion()
+	}
 
 
-	override val transactionOptions: TransactionOptions?
-		get() = source.transactionOptions
+	override fun advanceClusterTime(clusterTime: BsonDocument) {
+		source.advanceClusterTime(clusterTime)
+	}
+
+
+	override fun advanceOperationTime(operationTime: BsonTimestamp) {
+		source.advanceOperationTime(operationTime)
+	}
+
+
+	override fun clearTransactionContext() {
+		source.clearTransactionContext()
+	}
+
+
+	override fun close() {
+		source.close()
+	}
+
+
+	override suspend fun commitTransaction() {
+		source.commitTransaction().awaitCompletion()
+	}
+
+
+	override fun getClusterTime(): BsonDocument =
+		source.clusterTime
+
+
+	override fun getOperationTime(): BsonTimestamp =
+		source.operationTime
+
+
+	override fun getOptions(): ClientSessionOptions =
+		source.options
+
+
+	override fun getOriginator(): Any =
+		source.originator
 
 
 	override fun getPinnedServerAddress(): ServerAddress? =
@@ -43,73 +81,57 @@ internal class ReactiveCoroutineClientSession(
 		source.recoveryToken
 
 
-	override fun hasActiveTransaction() =
+	override fun getServerSession(): ServerSession =
+		source.serverSession
+
+
+	override fun getSnapshotTimestamp(): BsonTimestamp? =
+		source.snapshotTimestamp
+
+
+	override fun getTransactionContext(): Any? =
+		source.transactionContext
+
+
+	override fun hasActiveTransaction(): Boolean =
 		source.hasActiveTransaction()
 
 
-	override fun setPinnedServerAddress(address: ServerAddress?) {
-		source.pinnedServerAddress = address
-	}
+	override fun isCausallyConsistent(): Boolean =
+		source.isCausallyConsistent
 
 
-	override fun setRecoveryToken(recoveryToken: BsonDocument?) {
+	override fun setRecoveryToken(recoveryToken: BsonDocument) {
 		source.recoveryToken = recoveryToken
 	}
 
 
-	override fun startTransaction() =
+	override fun setSnapshotTimestamp(snapshotTimestamp: BsonTimestamp) {
+		source.snapshotTimestamp = snapshotTimestamp
+	}
+
+
+	override fun setTransactionContext(address: ServerAddress, transactionContext: Any) {
+		source.setTransactionContext(address, transactionContext)
+	}
+
+
+	override fun startTransaction() {
 		source.startTransaction()
+	}
 
 
-	override fun startTransaction(transactionOptions: TransactionOptions) =
+	override fun startTransaction(transactionOptions: TransactionOptions) {
 		source.startTransaction(transactionOptions)
-
-
-	override suspend fun commitTransaction() {
-		source.commitTransaction().awaitCompletion()
 	}
 
 
-	override suspend fun abortTransaction() {
-		source.abortTransaction().awaitCompletion()
-	}
+	override val transactionOptions: TransactionOptions
+		get() = source.transactionOptions
 
 
-	override fun getOriginator(): Any? =
-		source.originator
-
-
-	override fun advanceClusterTime(clusterTime: BsonDocument?) =
-		source.advanceClusterTime(clusterTime)
-
-
-	override fun isCausallyConsistent() =
-		source.isCausallyConsistent
-
-
-	override fun getClusterTime(): BsonDocument? =
-		source.clusterTime
-
-
-	override fun getOptions(): ClientSessionOptions =
-		source.options
-
-
-	override fun getOperationTime(): BsonTimestamp? =
-		source.operationTime
-
-
-	override fun close() {
-		source.close()
-	}
-
-
-	override fun getServerSession(): ServerSession? =
-		source.serverSession
-
-
-	override fun advanceOperationTime(operationTime: BsonTimestamp?) =
-		source.advanceOperationTime(operationTime)
+	fun unwrap() =
+		source
 }
 
 
