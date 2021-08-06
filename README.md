@@ -7,7 +7,7 @@ fluid-mongo
 [![#fluid-libraries Slack Channel](https://img.shields.io/badge/slack-%23fluid--libraries-543951.svg?label=Slack)](https://kotlinlang.slack.com/messages/C7UDFSVT2/)
 
 Kotlin coroutine support for MongoDB built on top of the
-official [MongoDB Reactive Streams Java Driver](https://mongodb.github.io/mongo-java-driver/4.2/driver-reactive/).
+official [MongoDB Reactive Streams Java Driver](https://mongodb.github.io/mongo-java-driver/4.3/driver-reactive/).
 
 
 
@@ -18,7 +18,7 @@ Installation
 
 ```kotlin
 dependencies {
-    implementation("io.fluidsonic.mongo:fluid-mongo:1.3.0")
+    implementation("io.fluidsonic.mongo:fluid-mongo:1.4.0")
 }
 ```
 
