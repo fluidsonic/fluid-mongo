@@ -1,7 +1,7 @@
 import io.fluidsonic.gradle.*
 
 plugins {
-	id("io.fluidsonic.gradle") version "1.1.24"
+	id("io.fluidsonic.gradle") version "1.1.25"
 }
 
 fluidLibrary(name = "mongo", version = "1.4.0")
@@ -10,10 +10,10 @@ fluidLibraryModule(description = "Kotlin coroutine support for MongoDB built on 
 	targets {
 		jvm {
 			dependencies {
-				api(kotlinx("coroutines-core", "1.5.1"))
+				api(kotlinx("coroutines-core", "1.6.0"))
 				api(mongodb("driver-core"))
 
-				implementation(kotlinx("coroutines-reactive", "1.5.1"))
+				implementation(kotlinx("coroutines-reactive", "1.6.0"))
 				implementation(mongodb("driver-reactivestreams"))
 			}
 		}
@@ -21,5 +21,5 @@ fluidLibraryModule(description = "Kotlin coroutine support for MongoDB built on 
 }
 
 
-fun mongodb(name: String, version: String = "4.3.1") =
+fun mongodb(name: String, version: String = "4.4.1") =
 	"org.mongodb:mongodb-$name:$version"

@@ -181,7 +181,6 @@ public interface ChangeStreamFlow<out TResult : Any> : Flow<ChangeStreamDocument
 			null
 
 
-		@InternalCoroutinesApi
 		override suspend fun collect(collector: FlowCollector<ChangeStreamDocument<out Nothing>>) =
 			Unit
 	}

@@ -82,7 +82,6 @@ public interface ListIndexesFlow<out TResult : Any> : Flow<TResult> {
 			null
 
 
-		@InternalCoroutinesApi
 		override suspend fun collect(collector: FlowCollector<Nothing>) =
 			Unit
 	}
