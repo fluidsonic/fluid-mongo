@@ -18,7 +18,7 @@ Installation
 
 ```kotlin
 dependencies {
-    implementation("io.fluidsonic.mongo:fluid-mongo:1.4.0")
+    implementation("io.fluidsonic.mongo:fluid-mongo:1.5.0")
 }
 ```
 
