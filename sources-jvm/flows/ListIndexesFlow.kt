@@ -16,10 +16,9 @@
 
 package io.fluidsonic.mongo
 
-import kotlinx.coroutines.*
+import java.util.concurrent.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.Flow
-import java.util.concurrent.*
 
 /**
  * Flow for ListIndexes.

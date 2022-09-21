@@ -24,6 +24,8 @@ import kotlinx.coroutines.reactive.*
 import org.bson.conversions.*
 
 
+@Deprecated(message = "Deprecated in Java driver.")
+@Suppress("DEPRECATION")
 internal class ReactiveCoroutineMapReduceFlow<out TResult : Any>(
 	private val source: MapReducePublisher<out TResult>,
 ) : MapReduceFlow<TResult>, Flow<TResult> by source.asFlow() {
@@ -73,6 +75,8 @@ internal class ReactiveCoroutineMapReduceFlow<out TResult : Any>(
 	}
 
 
+	@Deprecated(message = "Deprecated in Java driver.")
+	@Suppress("DEPRECATION")
 	override fun action(action: MapReduceAction) = apply {
 		source.action(action)
 	}
@@ -122,5 +126,7 @@ internal class ReactiveCoroutineMapReduceFlow<out TResult : Any>(
 }
 
 
+@Deprecated(message = "Deprecated in Java driver.")
+@Suppress("DEPRECATION")
 internal fun <TResult : Any> MapReducePublisher<out TResult>.wrap() =
 	ReactiveCoroutineMapReduceFlow(source = this)

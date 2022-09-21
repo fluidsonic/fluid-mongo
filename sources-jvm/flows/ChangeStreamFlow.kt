@@ -18,12 +18,11 @@ package io.fluidsonic.mongo
 
 import com.mongodb.client.model.*
 import com.mongodb.client.model.changestream.*
-import kotlinx.coroutines.*
+import java.util.concurrent.*
+import kotlin.reflect.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.Flow
 import org.bson.*
-import java.util.concurrent.*
-import kotlin.reflect.*
 
 /**
  * Flow for change streams.

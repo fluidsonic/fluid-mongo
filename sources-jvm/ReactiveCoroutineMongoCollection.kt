@@ -198,18 +198,26 @@ internal class ReactiveCoroutineMongoCollection<TDocument : Any>(
 		source.watch(clientSession.unwrap(), pipeline, resultClass.java).wrap()
 
 
+	@Deprecated(message = "Deprecated in Java driver.")
+	@Suppress("DEPRECATION")
 	override fun mapReduce(mapFunction: String, reduceFunction: String) =
 		source.mapReduce(mapFunction, reduceFunction).wrap()
 
 
+	@Deprecated(message = "Deprecated in Java driver.")
+	@Suppress("DEPRECATION")
 	override fun <TResult : Any> mapReduce(mapFunction: String, reduceFunction: String, resultClass: KClass<out TResult>) =
 		source.mapReduce(mapFunction, reduceFunction, resultClass.java).wrap()
 
 
+	@Deprecated(message = "Deprecated in Java driver.")
+	@Suppress("DEPRECATION")
 	override fun mapReduce(clientSession: ClientSession, mapFunction: String, reduceFunction: String) =
 		source.mapReduce(clientSession.unwrap(), mapFunction, reduceFunction).wrap()
 
 
+	@Deprecated(message = "Deprecated in Java driver.")
+	@Suppress("DEPRECATION")
 	override fun <TResult : Any> mapReduce(clientSession: ClientSession, mapFunction: String, reduceFunction: String, resultClass: KClass<out TResult>) =
 		source.mapReduce(clientSession.unwrap(), mapFunction, reduceFunction, resultClass.java).wrap()
 

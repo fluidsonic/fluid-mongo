@@ -17,11 +17,10 @@
 package io.fluidsonic.mongo
 
 import com.mongodb.client.model.*
-import kotlinx.coroutines.*
+import java.util.concurrent.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.Flow
 import org.bson.conversions.*
-import java.util.concurrent.*
 
 /**
  * Flow for map reduce.
@@ -121,6 +120,8 @@ public interface MapReduceFlow<out TResult : Any> : Flow<TResult> {
 	 * @param action an [com.mongodb.client.model.MapReduceAction] to perform on the collection
 	 * @return this
 	 */
+	@Deprecated(message = "Deprecated in Java driver.")
+	@Suppress("DEPRECATION")
 	public fun action(action: MapReduceAction): MapReduceFlow<TResult>
 
 	/**
@@ -254,6 +255,8 @@ public interface MapReduceFlow<out TResult : Any> : Flow<TResult> {
 			this
 
 
+		@Deprecated(message = "Deprecated in Java driver.")
+		@Suppress("DEPRECATION")
 		override fun action(action: MapReduceAction) =
 			this
 

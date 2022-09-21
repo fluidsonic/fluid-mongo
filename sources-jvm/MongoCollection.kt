@@ -21,11 +21,11 @@ import com.mongodb.annotations.*
 import com.mongodb.bulk.*
 import com.mongodb.client.model.*
 import com.mongodb.client.result.*
+import kotlin.reflect.*
 import kotlinx.coroutines.flow.*
 import org.bson.*
 import org.bson.codecs.configuration.*
 import org.bson.conversions.*
-import kotlin.reflect.*
 
 /**
  * The MongoCollection interface.
@@ -618,8 +618,10 @@ public interface MongoCollection<TDocument : Any> {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	public fun <TResult : Any> mapReduce(clientSession: ClientSession, mapFunction: String, reduceFunction: String,
-	                                     resultClass: KClass<out TResult>): MapReduceFlow<TResult>
+	public fun <TResult : Any> mapReduce(
+		clientSession: ClientSession, mapFunction: String, reduceFunction: String,
+		resultClass: KClass<out TResult>,
+	): MapReduceFlow<TResult>
 
 	/**
 	 * Executes a mix of inserts, updates, replaces, and deletes.

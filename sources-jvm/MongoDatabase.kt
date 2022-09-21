@@ -19,11 +19,11 @@ package io.fluidsonic.mongo
 import com.mongodb.*
 import com.mongodb.annotations.*
 import com.mongodb.client.model.*
+import kotlin.reflect.*
 import kotlinx.coroutines.flow.*
 import org.bson.*
 import org.bson.codecs.configuration.*
 import org.bson.conversions.*
-import kotlin.reflect.*
 
 /**
  * The MongoDatabase interface.
@@ -206,7 +206,12 @@ public interface MongoDatabase {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	public suspend fun <TResult : Any> runCommand(clientSession: ClientSession, command: Bson, readPreference: ReadPreference, resultClass: KClass<out TResult>): TResult
+	public suspend fun <TResult : Any> runCommand(
+		clientSession: ClientSession,
+		command: Bson,
+		readPreference: ReadPreference,
+		resultClass: KClass<out TResult>,
+	): TResult
 
 	/**
 	 * Drops this database.
@@ -374,8 +379,10 @@ public interface MongoDatabase {
 	 * @since 3.6
 	 * @mongodb.server.release 3.6
 	 */
-	public suspend fun createView(clientSession: ClientSession, viewName: String, viewOn: String, pipeline: List<Bson>,
-	                              createViewOptions: CreateViewOptions)
+	public suspend fun createView(
+		clientSession: ClientSession, viewName: String, viewOn: String, pipeline: List<Bson>,
+		createViewOptions: CreateViewOptions,
+	)
 
 	/**
 	 * Creates a change stream for this database.

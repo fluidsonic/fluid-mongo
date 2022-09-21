@@ -16,11 +16,10 @@
 
 package io.fluidsonic.mongo
 
-import kotlinx.coroutines.*
+import java.util.concurrent.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.Flow
 import org.bson.conversions.*
-import java.util.concurrent.*
 
 /**
  * Flow for ListCollections.
