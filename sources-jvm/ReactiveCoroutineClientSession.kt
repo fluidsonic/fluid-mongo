@@ -32,12 +32,12 @@ internal class ReactiveCoroutineClientSession(
 	}
 
 
-	override fun advanceClusterTime(clusterTime: BsonDocument) {
+	override fun advanceClusterTime(clusterTime: BsonDocument?) {
 		source.advanceClusterTime(clusterTime)
 	}
 
 
-	override fun advanceOperationTime(operationTime: BsonTimestamp) {
+	override fun advanceOperationTime(operationTime: BsonTimestamp?) {
 		source.advanceOperationTime(operationTime)
 	}
 
@@ -106,7 +106,7 @@ internal class ReactiveCoroutineClientSession(
 	}
 
 
-	override fun setSnapshotTimestamp(snapshotTimestamp: BsonTimestamp) {
+	override fun setSnapshotTimestamp(snapshotTimestamp: BsonTimestamp?) {
 		source.snapshotTimestamp = snapshotTimestamp
 	}
 
