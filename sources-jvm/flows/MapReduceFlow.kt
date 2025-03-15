@@ -134,26 +134,6 @@ public interface MapReduceFlow<out TResult : Any> : Flow<TResult> {
 	public fun databaseName(databaseName: String?): MapReduceFlow<TResult>
 
 	/**
-	 * Sets if the output database is sharded
-	 *
-	 * @param sharded if the output database is sharded
-	 * @return this
-	 * @mongodb.driver.manual reference/command/mapReduce/#output-to-a-collection-with-an-action output with an action
-	 */
-	public fun sharded(sharded: Boolean): MapReduceFlow<TResult>
-
-	/**
-	 * Sets if the post-processing step will prevent MongoDB from locking the database.
-	 *
-	 * Valid only with the `MapReduceAction.MERGE` or `MapReduceAction.REDUCE` actions.
-	 *
-	 * @param nonAtomic if the post-processing step will prevent MongoDB from locking the database.
-	 * @return this
-	 * @mongodb.driver.manual reference/command/mapReduce/#output-to-a-collection-with-an-action output with an action
-	 */
-	public fun nonAtomic(nonAtomic: Boolean): MapReduceFlow<TResult>
-
-	/**
 	 * Sets the bypass document level validation flag.
 	 *
 	 *
@@ -262,14 +242,6 @@ public interface MapReduceFlow<out TResult : Any> : Flow<TResult> {
 
 
 		override fun databaseName(databaseName: String?) =
-			this
-
-
-		override fun sharded(sharded: Boolean) =
-			this
-
-
-		override fun nonAtomic(nonAtomic: Boolean) =
 			this
 
 

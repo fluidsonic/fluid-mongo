@@ -19,6 +19,7 @@ package io.fluidsonic.mongo
 import com.mongodb.reactivestreams.client.ClientSession as ReactiveClientSession
 import com.mongodb.session.ClientSession as BaseClientSession
 import com.mongodb.*
+import com.mongodb.internal.*
 import com.mongodb.session.*
 import org.bson.*
 
@@ -87,6 +88,10 @@ internal class ReactiveCoroutineClientSession(
 
 	override fun getSnapshotTimestamp(): BsonTimestamp? =
 		source.snapshotTimestamp
+
+
+	override fun getTimeoutContext(): TimeoutContext? =
+		source.timeoutContext
 
 
 	override fun getTransactionContext(): Any? =

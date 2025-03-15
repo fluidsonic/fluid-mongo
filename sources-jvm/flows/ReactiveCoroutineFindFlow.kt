@@ -69,13 +69,6 @@ internal class ReactiveCoroutineFindFlow<out TResult : Any>(
 	}
 
 
-	@Deprecated("oplogReplay has been deprecated in MongoDB 4.4.")
-	@Suppress("DEPRECATION")
-	override fun oplogReplay(oplogReplay: Boolean) = apply {
-		source.oplogReplay(oplogReplay)
-	}
-
-
 	override fun partial(partial: Boolean) = apply {
 		source.partial(partial)
 	}

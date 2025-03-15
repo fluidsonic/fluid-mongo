@@ -21,5 +21,5 @@ fluidLibraryModule(description = "Kotlin coroutine support for MongoDB built on 
 }
 
 
-fun mongodb(name: String, version: String = "4.10.0") =
+fun mongodb(name: String, version: String = "5.3.1") =
 	"org.mongodb:mongodb-$name:$version"

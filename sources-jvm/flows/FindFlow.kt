@@ -116,14 +116,6 @@ public interface FindFlow<out TResult : Any> : Flow<TResult> {
 	public fun noCursorTimeout(noCursorTimeout: Boolean): FindFlow<TResult>
 
 	/**
-	 * Users should not set this under normal circumstances.
-	 *
-	 * @param oplogReplay if oplog replay is enabled
-	 * @return this
-	 */
-	public fun oplogReplay(oplogReplay: Boolean): FindFlow<TResult>
-
-	/**
 	 * Get partial results from a sharded cluster if one or more shards are unreachable (instead of throwing an error).
 	 *
 	 * @param partial if partial results for sharded clusters is enabled
@@ -265,10 +257,6 @@ public interface FindFlow<out TResult : Any> : Flow<TResult> {
 
 
 		override fun noCursorTimeout(noCursorTimeout: Boolean) =
-			this
-
-
-		override fun oplogReplay(oplogReplay: Boolean) =
 			this
 
 
