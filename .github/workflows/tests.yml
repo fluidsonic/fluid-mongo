@@ -1,0 +1,19 @@
+name: Tests
+
+on: [push]
+
+jobs:
+  jdk:
+    name: JDK ${{ matrix.java_version }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java_version: ['21']
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: ${{ matrix.java_version }}
+      - uses: gradle/actions/setup-gradle@v5
+      - run: ./gradlew jvmTest
